@@ -1,0 +1,6 @@
+# Source customer data - not for version control
+*.pdf
+call_report*.html
+
+# Excel lock files
+~$*.xlsx
