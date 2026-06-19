@@ -1,6 +1,13 @@
 # Source customer data - not for version control
 *.pdf
 call_report*.html
+*.wav
+*-transcript.txt
+*.log
+QA Evaluation*.xlsx
+# Case-specific scripts that embed transcript quotes / device serials / phone numbers
+fill_evaluation.py
+transcribe_call.py
 
 # Excel lock files
 ~$*.xlsx
