@@ -1,0 +1,89 @@
+QA SCORING WEIGHT JUSTIFICATION
+=================================
+
+
+RESOLUTION / PROGRESS TOWARD RESOLUTION — 30%
+
+The highest weight because it is the entire point of a support interaction. Every other
+category exists in service of this one. An agent can communicate beautifully, document
+thoroughly, and escalate correctly — but if the customer leaves without progress toward
+a solution, the interaction failed at its core purpose. The 30% weight signals that
+outcomes, not process compliance, define quality.
+
+
+TECHNICAL ACCURACY — 20%
+
+The second-highest weight because resolution is impossible without it. Correct diagnosis,
+logical troubleshooting, and accurate technical guidance are the tools that make resolution
+achievable. Poor technical accuracy doesn't just fail the customer in the moment — it often
+compounds the problem and extends the case life. It outweighs communication and ownership
+because a technically sound interaction that is imperfectly communicated can still resolve
+an issue; the reverse is rarely true.
+
+
+COMMUNICATION & CALL CONTROL — 15%
+
+Tied with Ownership because communication is the medium through which all support is
+delivered. Even technically correct guidance fails if the customer cannot understand or
+follow it. This weight reflects that how an agent manages the interaction — setting
+expectations, controlling flow, adapting to the customer's level — directly affects whether
+good technical work translates into a good outcome. It does not outweigh technical accuracy
+because communication skill cannot substitute for correct diagnosis.
+
+
+CUSTOMER OWNERSHIP — 15%
+
+Tied with Communication because ownership is what separates agents who resolve cases from
+agents who process tickets. Follow-through on commitments, disconnect follow-up, and
+accountability for the customer's outcome are what prevent cases from falling through the
+cracks between touches. The equal weight with Communication reflects that ownership failures
+(missed callbacks, premature closure, no follow-up) are just as damaging to the customer
+experience as poor communication — but neither defines quality on its own.
+
+
+ESCALATION JUDGMENT — 10%
+
+Lower than the top four because escalation is situational — most interactions do not require
+it. However, when it is relevant, poor judgment in either direction (escalating prematurely
+to avoid work, or failing to escalate a legitimate management or legal-risk request) can have
+outsized consequences. The 10% weight ensures it is taken seriously without penalizing agents
+whose cases never warranted escalation.
+
+
+CUSTOMER EXPERIENCE — 5%
+
+Weighted lowest alongside Documentation because it is largely a derivative outcome of the
+four categories above. When an agent resolves the issue accurately, communicates clearly, and
+owns the interaction, a good customer experience typically follows. The 5% weight acknowledges
+that professionalism, empathy, and effort-reduction matter — especially for vulnerable
+customers — but ensures QA does not become a personality contest or mistake a pleasant-but-
+ineffective interaction as high quality.
+
+
+DOCUMENTATION & NOTES — 5%
+
+Equal to Customer Experience because documentation is a continuity tool, not a quality signal
+in itself. Good notes support the next agent and protect the customer's history — but thorough
+notes do not compensate for poor troubleshooting or missed ownership. The 5% weight reflects
+the principle that documentation should not outweigh actual support quality. It is scored to
+drive the right behavior without inflating scores for agents who write well but help poorly.
+
+
+---
+
+SUMMARY
+
+The weights descend in proportion to how directly each category drives customer resolution.
+Resolution first, the skills that enable it next (Technical Accuracy, Communication,
+Ownership), then the situational safeguards (Escalation Judgment), then the experiential
+and administrative layers that matter but do not define the outcome on their own.
+
+  Resolution / Progress Toward Resolution    30%
+  Technical Accuracy                         20%
+  Communication & Call Control               15%
+  Customer Ownership                         15%
+  Escalation Judgment                        10%
+  Customer Experience                         5%
+  Documentation & Notes                       5%
+                                           -----
+  Total                                     100%
