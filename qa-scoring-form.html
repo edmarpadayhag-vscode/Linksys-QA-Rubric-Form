@@ -3,223 +3,297 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Linksys Support — QA Scoring Form</title>
+<title>Linksys Support — QA Platform</title>
 <style>
-:root {
-  --primary: #003087;
-  --primary-light: #e8eef7;
-  --accent: #0066cc;
-  --met: #1b6e2a;
-  --met-bg: #e8f5e9;
-  --partial: #b84c00;
-  --partial-bg: #fff3e0;
-  --missed: #b91c1c;
-  --missed-bg: #ffebee;
-  --na: #4a5568;
-  --na-bg: #f1f5f9;
-  --warn-bg: #fffbeb;
-  --warn-border: #d97706;
-  --border: #d1d5db;
-  --text: #111827;
-  --muted: #6b7280;
-  --section-bg: #f9fafb;
-  --radius: 8px;
-  --shadow: 0 1px 3px rgba(0,0,0,.10), 0 1px 2px rgba(0,0,0,.06);
+/* ── Variables ── */
+:root{
+  --primary:#003087;--primary-light:#e8eef7;--accent:#0066cc;
+  --met:#1b6e2a;--met-bg:#e8f5e9;
+  --partial:#b84c00;--partial-bg:#fff3e0;
+  --missed:#b91c1c;--missed-bg:#ffebee;
+  --na:#4a5568;--na-bg:#f1f5f9;
+  --warn-bg:#fffbeb;--warn-border:#d97706;
+  --border:#d1d5db;--text:#111827;--muted:#6b7280;
+  --sec-bg:#f9fafb;--radius:8px;
+  --shadow:0 1px 3px rgba(0,0,0,.10),0 1px 2px rgba(0,0,0,.06);
+  --red:#dc2626;--amber:#d97706;--green:#16a34a;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 13.5px; color: var(--text); background: #e5e7eb; line-height: 1.5; }
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:13.5px;color:var(--text);background:#e5e7eb;line-height:1.5;}
 
-/* ── Layout ── */
-#app { max-width: 1120px; margin: 0 auto; padding: 16px; }
+/* ── App Shell ── */
+#app{max-width:1180px;margin:0 auto;padding:16px;}
 
-/* ── Header ── */
-.form-header { background: var(--primary); color: #fff; padding: 18px 24px 14px; border-radius: var(--radius) var(--radius) 0 0; }
-.form-header h1 { font-size: 17px; font-weight: 800; letter-spacing: .6px; margin-bottom: 3px; }
-.form-header p { font-size: 12px; opacity: .82; }
+/* ── App Header ── */
+.app-header{background:var(--primary);color:#fff;padding:14px 24px 10px;border-radius:var(--radius) var(--radius) 0 0;}
+.app-header h1{font-size:16px;font-weight:800;letter-spacing:.6px;margin-bottom:2px;}
+.app-header p{font-size:11.5px;opacity:.8;}
+
+/* ── Tab Nav ── */
+.tab-nav{display:flex;background:#fff;border:1px solid var(--border);border-top:none;border-bottom:none;}
+.tab-btn{padding:10px 22px;border:none;background:transparent;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;transition:all .15s;white-space:nowrap;}
+.tab-btn:hover{color:var(--primary);background:var(--primary-light);}
+.tab-btn.active{color:var(--primary);border-bottom-color:var(--primary);background:#fff;}
+.tab-panel{display:none;padding-top:14px;}
+.tab-panel.active{display:block;}
 
 /* ── Toolbar ── */
-.toolbar { background: #fff; border: 1px solid var(--border); border-top: none; padding: 8px 16px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-bottom: 14px; border-radius: 0 0 var(--radius) var(--radius); }
-.toolbar button { padding: 5px 13px; border-radius: 5px; border: 1px solid var(--border); background: #fff; color: var(--primary); font-size: 12.5px; cursor: pointer; font-weight: 600; transition: all .15s; }
-.toolbar button:hover { background: var(--primary-light); border-color: var(--accent); }
-.toolbar .btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
-.toolbar .btn-primary:hover { background: var(--accent); }
-.toolbar .btn-danger { color: #991b1b; border-color: #fca5a5; }
-.toolbar .btn-danger:hover { background: #fef2f2; }
-.toolbar .spacer { flex: 1; }
-.save-status { font-size: 11px; color: var(--muted); }
+.toolbar{background:#fff;border:1px solid var(--border);padding:8px 14px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:14px;border-radius:0 0 var(--radius) var(--radius);}
+.btn{padding:5px 13px;border-radius:5px;border:1px solid var(--border);background:#fff;color:var(--primary);font-size:12.5px;cursor:pointer;font-weight:600;transition:all .15s;font-family:inherit;}
+.btn:hover{background:var(--primary-light);border-color:var(--accent);}
+.btn-primary{background:var(--primary);color:#fff;border-color:var(--primary);}
+.btn-primary:hover{background:var(--accent);}
+.btn-success{background:#16a34a;color:#fff;border-color:#16a34a;}
+.btn-success:hover{background:#15803d;}
+.btn-danger{color:#991b1b;border-color:#fca5a5;}
+.btn-danger:hover{background:#fef2f2;}
+.btn-sm{padding:3px 9px;font-size:11.5px;}
+.spacer{flex:1;}
+.save-status{font-size:11px;color:var(--muted);}
 
 /* ── Card ── */
-.card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 10px; overflow: hidden; box-shadow: var(--shadow); }
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden;box-shadow:var(--shadow);}
+.sec-hdr{background:var(--sec-bg);border-bottom:1px solid var(--border);padding:9px 16px;display:flex;align-items:center;gap:10px;}
+.sec-num{background:var(--primary);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.sec-title{font-weight:700;font-size:12.5px;text-transform:uppercase;letter-spacing:.5px;flex:1;}
+.sec-badge{background:var(--primary-light);color:var(--primary);border-radius:12px;padding:2px 10px;font-size:11.5px;font-weight:700;}
+.sec-body{padding:14px 16px;}
 
-/* ── Section Headers ── */
-.sec-hdr { background: var(--section-bg); border-bottom: 1px solid var(--border); padding: 9px 16px; display: flex; align-items: center; gap: 10px; }
-.sec-num { background: var(--primary); color: #fff; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0; }
-.sec-title { font-weight: 700; font-size: 12.5px; text-transform: uppercase; letter-spacing: .5px; flex: 1; }
-.sec-badge { background: var(--primary-light); color: var(--primary); border-radius: 12px; padding: 2px 10px; font-size: 11.5px; font-weight: 700; }
-.sec-body { padding: 14px 16px; }
+/* ── Form Fields ── */
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.info-field{display:flex;flex-direction:column;gap:3px;}
+.info-field.full{grid-column:1/-1;}
+.info-field label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;}
+.info-field input,.info-field select,.info-field textarea,.fi-input{border:1px solid var(--border);border-radius:5px;padding:6px 9px;font-size:13px;font-family:inherit;color:var(--text);transition:border-color .15s;background:#fff;}
+.info-field input:focus,.info-field select:focus,.info-field textarea:focus,.fi-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,102,204,.1);}
+.info-field textarea{resize:vertical;min-height:58px;}
 
-/* ── Case Info ── */
-.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
-.info-field { display: flex; flex-direction: column; gap: 3px; }
-.info-field.full { grid-column: 1 / -1; }
-.info-field label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .4px; }
-.info-field input, .info-field select, .info-field textarea { border: 1px solid var(--border); border-radius: 5px; padding: 6px 9px; font-size: 13px; font-family: inherit; color: var(--text); transition: border-color .15s; background: #fff; }
-.info-field input:focus, .info-field select:focus, .info-field textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,102,204,.1); }
-.info-field textarea { resize: vertical; min-height: 58px; }
-
-/* ── Score Summary ── */
-.score-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-.score-table th { background: var(--primary); color: #fff; padding: 8px 12px; text-align: left; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; }
-.score-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-.score-table tr:last-child td { border-bottom: none; font-weight: 700; background: var(--primary-light); }
-.score-table td.center { text-align: center; }
-.score-total-row { background: var(--primary-light); font-weight: 700; font-size: 14px; }
-.weighted-total-display { font-size: 22px; font-weight: 900; color: var(--primary); }
+/* ── Score Summary Table ── */
+.score-table{width:100%;border-collapse:collapse;font-size:13px;}
+.score-table th{background:var(--primary);color:#fff;padding:8px 12px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;}
+.score-table td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.score-table tr:last-child td{border-bottom:none;}
+.score-table td.center{text-align:center;}
+.score-total-row{background:var(--primary-light);font-weight:700;}
+.weighted-total-display{font-size:22px;font-weight:900;color:var(--primary);}
 
 /* ── Category Sections ── */
-.cat-hdr { background: var(--primary); color: #fff; padding: 9px 16px; display: flex; justify-content: space-between; align-items: center; }
-.cat-hdr-title { font-weight: 700; font-size: 13px; }
-.cat-hdr-weight { font-size: 12px; opacity: .85; }
-.cat-obj { padding: 7px 16px; background: var(--primary-light); font-size: 12px; color: #1e3a6e; font-style: italic; border-bottom: 1px solid var(--border); }
-
-/* ── Indicators Table ── */
-.ind-table { width: 100%; border-collapse: collapse; }
-.ind-table thead th { background: var(--section-bg); padding: 6px 12px; text-align: left; font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .4px; border-bottom: 1px solid var(--border); }
-.ind-table thead th.col-assess { width: 130px; }
-.ind-table thead th.col-evidence { width: 38%; }
-.ind-table tbody tr { border-bottom: 1px solid #f0f0f0; }
-.ind-table tbody tr:last-child { border-bottom: none; }
-.ind-table tbody td { padding: 8px 12px; vertical-align: top; font-size: 13px; line-height: 1.4; }
-
-/* ── Assessment Select ── */
-.asmnt { width: 120px; padding: 4px 7px; border: 1px solid var(--border); border-radius: 5px; font-size: 12.5px; font-family: inherit; cursor: pointer; font-weight: 700; transition: all .15s; background: #fff; }
-.asmnt:focus { outline: none; box-shadow: 0 0 0 3px rgba(0,102,204,.1); }
-.asmnt.v-met { background: var(--met-bg); color: var(--met); border-color: #86efac; }
-.asmnt.v-partial { background: var(--partial-bg); color: var(--partial); border-color: #fdba74; }
-.asmnt.v-missed { background: var(--missed-bg); color: var(--missed); border-color: #fca5a5; }
-.asmnt.v-na { background: var(--na-bg); color: var(--na); border-color: #cbd5e1; }
-
-.evid { width: 100%; padding: 4px 7px; border: 1px solid var(--border); border-radius: 5px; font-size: 12px; font-family: inherit; resize: vertical; min-height: 34px; line-height: 1.4; }
-.evid:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,102,204,.1); }
-
-/* ── Warning Note ── */
-.warn-note { background: var(--warn-bg); border-left: 3px solid var(--warn-border); padding: 7px 12px; font-size: 12px; color: #78350f; margin: 6px 16px 10px; border-radius: 0 4px 4px 0; }
-
-/* ── Category Footer ── */
-.cat-footer { padding: 11px 16px; background: var(--section-bg); border-top: 1px solid var(--border); }
-.score-controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
-.score-label { font-size: 12px; font-weight: 600; color: var(--muted); }
-.auto-score-box { background: var(--primary-light); border: 1px solid #93c5fd; border-radius: 5px; padding: 3px 12px; font-size: 14px; font-weight: 800; color: var(--primary); min-width: 52px; text-align: center; }
-.final-score-inp { width: 58px; padding: 3px 7px; border: 2px solid var(--accent); border-radius: 5px; font-size: 14px; font-weight: 800; text-align: center; color: var(--primary); font-family: inherit; }
-.final-score-inp:focus { outline: none; box-shadow: 0 0 0 3px rgba(0,102,204,.1); }
-.override-inp { flex: 1; min-width: 200px; padding: 4px 8px; border: 1px solid var(--border); border-radius: 5px; font-size: 12px; font-family: inherit; }
-.comments-inp { width: 100%; padding: 5px 8px; border: 1px solid var(--border); border-radius: 5px; font-size: 12.5px; font-family: inherit; resize: vertical; min-height: 46px; }
-.comments-inp:focus, .override-inp:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,102,204,.1); }
+.cat-hdr{background:var(--primary);color:#fff;padding:9px 16px;display:flex;justify-content:space-between;align-items:center;}
+.cat-hdr-title{font-weight:700;font-size:13px;}
+.cat-hdr-weight{font-size:12px;opacity:.85;}
+.cat-obj{padding:7px 16px;background:var(--primary-light);font-size:12px;color:#1e3a6e;font-style:italic;border-bottom:1px solid var(--border);}
+.ind-table{width:100%;border-collapse:collapse;}
+.ind-table thead th{background:var(--sec-bg);padding:6px 12px;text-align:left;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid var(--border);}
+.ind-table thead th.col-assess{width:130px;}
+.ind-table thead th.col-evidence{width:38%;}
+.ind-table tbody tr{border-bottom:1px solid #f0f0f0;}
+.ind-table tbody tr:last-child{border-bottom:none;}
+.ind-table tbody td{padding:8px 12px;vertical-align:top;font-size:13px;line-height:1.4;}
+.asmnt{width:120px;padding:4px 7px;border:1px solid var(--border);border-radius:5px;font-size:12.5px;font-family:inherit;cursor:pointer;font-weight:700;transition:all .15s;background:#fff;}
+.asmnt:focus{outline:none;box-shadow:0 0 0 3px rgba(0,102,204,.1);}
+.asmnt.v-met{background:var(--met-bg);color:var(--met);border-color:#86efac;}
+.asmnt.v-partial{background:var(--partial-bg);color:var(--partial);border-color:#fdba74;}
+.asmnt.v-missed{background:var(--missed-bg);color:var(--missed);border-color:#fca5a5;}
+.asmnt.v-na{background:var(--na-bg);color:var(--na);border-color:#cbd5e1;}
+.evid{width:100%;padding:4px 7px;border:1px solid var(--border);border-radius:5px;font-size:12px;font-family:inherit;resize:vertical;min-height:34px;line-height:1.4;}
+.evid:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,102,204,.1);}
+.warn-note{background:var(--warn-bg);border-left:3px solid var(--warn-border);padding:7px 12px;font-size:12px;color:#78350f;margin:6px 16px 10px;border-radius:0 4px 4px 0;}
+.cat-footer{padding:11px 16px;background:var(--sec-bg);border-top:1px solid var(--border);}
+.score-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px;}
+.score-label{font-size:12px;font-weight:600;color:var(--muted);}
+.auto-score-box{background:var(--primary-light);border:1px solid #93c5fd;border-radius:5px;padding:3px 12px;font-size:14px;font-weight:800;color:var(--primary);min-width:52px;text-align:center;}
+.final-score-inp{width:58px;padding:3px 7px;border:2px solid var(--accent);border-radius:5px;font-size:14px;font-weight:800;text-align:center;color:var(--primary);font-family:inherit;}
+.final-score-inp:focus{outline:none;box-shadow:0 0 0 3px rgba(0,102,204,.1);}
+.override-inp{flex:1;min-width:200px;padding:4px 8px;border:1px solid var(--border);border-radius:5px;font-size:12px;font-family:inherit;}
+.comments-inp{width:100%;padding:5px 8px;border:1px solid var(--border);border-radius:5px;font-size:12.5px;font-family:inherit;resize:vertical;min-height:46px;}
+.comments-inp:focus,.override-inp:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,102,204,.1);}
 
 /* ── Band Badges ── */
-.band { display: inline-block; border-radius: 20px; padding: 2px 10px; font-size: 11.5px; font-weight: 700; white-space: nowrap; }
-.band-excellent { background: #dcfce7; color: #14532d; }
-.band-strong { background: #dbeafe; color: #1e3a8a; }
-.band-developing { background: #fef9c3; color: #713f12; }
-.band-needs-improvement { background: #ffedd5; color: #7c2d12; }
-.band-needs-focus { background: #fee2e2; color: #7f1d1d; }
-.band-critical { background: #7f1d1d; color: #fff; }
-.band-na { background: var(--na-bg); color: var(--na); }
+.band{display:inline-block;border-radius:20px;padding:2px 10px;font-size:11.5px;font-weight:700;white-space:nowrap;}
+.band-excellent{background:#dcfce7;color:#14532d;}
+.band-strong{background:#dbeafe;color:#1e3a8a;}
+.band-developing{background:#fef9c3;color:#713f12;}
+.band-ni{background:#ffedd5;color:#7c2d12;}
+.band-nf{background:#fee2e2;color:#7f1d1d;}
+.band-critical{background:#7f1d1d;color:#fff;}
+.band-na{background:var(--na-bg);color:var(--na);}
+.band-az{background:#7f1d1d;color:#fff;}
 
 /* ── Auto-Zero ── */
-.az-section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); padding: 10px 0 6px; margin-top: 8px; border-top: 1px solid var(--border); }
-.az-row { display: flex; align-items: center; gap: 12px; padding: 6px 0; border-bottom: 1px solid #f0f0f0; }
-.az-letter { font-weight: 800; color: var(--muted); width: 22px; flex-shrink: 0; }
-.az-text { flex: 1; font-size: 13px; }
-.az-radios { display: flex; gap: 10px; }
-.az-radios label { display: flex; align-items: center; gap: 4px; font-size: 12.5px; font-weight: 600; cursor: pointer; }
-.az-result { margin-top: 10px; border-radius: 6px; padding: 10px 14px; font-weight: 700; font-size: 13.5px; }
-.az-result.ok { background: var(--met-bg); color: var(--met); }
-.az-result.triggered { background: var(--missed-bg); color: var(--missed); }
+.az-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);padding:10px 0 6px;margin-top:8px;border-top:1px solid var(--border);}
+.az-row{display:flex;align-items:center;gap:12px;padding:6px 0;border-bottom:1px solid #f0f0f0;}
+.az-letter{font-weight:800;color:var(--muted);width:22px;flex-shrink:0;}
+.az-text{flex:1;font-size:13px;}
+.az-radios{display:flex;gap:10px;}
+.az-radios label{display:flex;align-items:center;gap:4px;font-size:12.5px;font-weight:600;cursor:pointer;}
+.az-result{margin-top:10px;border-radius:6px;padding:10px 14px;font-weight:700;font-size:13.5px;}
+.az-result.ok{background:var(--met-bg);color:var(--met);}
+.az-result.triggered{background:var(--missed-bg);color:var(--missed);}
 
 /* ── Coaching Flags ── */
-.flags-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
-.flags-table thead th { background: var(--section-bg); padding: 6px 12px; text-align: left; font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; border-bottom: 1px solid var(--border); }
-.flags-table tbody td { padding: 7px 12px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
-.flag-on { color: var(--missed); font-weight: 700; }
-.flag-off { color: var(--met); font-weight: 600; }
-.flags-note { font-size: 12px; color: var(--muted); padding: 8px 12px; border-top: 1px solid var(--border); }
+.flags-table{width:100%;border-collapse:collapse;font-size:12.5px;}
+.flags-table thead th{background:var(--sec-bg);padding:6px 12px;text-align:left;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;border-bottom:1px solid var(--border);}
+.flags-table tbody td{padding:7px 12px;border-bottom:1px solid #f0f0f0;vertical-align:top;}
+.flag-on{color:var(--missed);font-weight:700;}
+.flag-off{color:var(--met);font-weight:600;}
+.flags-note{font-size:12px;color:var(--muted);padding:8px 12px;border-top:1px solid var(--border);}
 
 /* ── Coaching & Feedback ── */
-.qa-question { font-weight: 700; font-size: 13px; color: var(--primary); margin: 12px 0 4px; }
-.qa-question:first-child { margin-top: 0; }
-.textarea-lg { width: 100%; padding: 7px 9px; border: 1px solid var(--border); border-radius: 5px; font-size: 13px; font-family: inherit; resize: vertical; min-height: 70px; line-height: 1.5; }
-.textarea-lg:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,102,204,.1); }
-.subfield-title { font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .4px; margin: 8px 0 4px; }
-.numbered-list { display: flex; flex-direction: column; gap: 5px; }
-.numbered-item { display: flex; gap: 8px; align-items: flex-start; }
-.numbered-item .num { font-weight: 700; color: var(--muted); padding-top: 6px; min-width: 14px; font-size: 12px; }
-.numbered-item input { flex: 1; padding: 5px 8px; border: 1px solid var(--border); border-radius: 5px; font-size: 13px; font-family: inherit; }
-.numbered-item input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,102,204,.1); }
+.qa-question{font-weight:700;font-size:13px;color:var(--primary);margin:12px 0 4px;}
+.qa-question:first-child{margin-top:0;}
+.textarea-lg{width:100%;padding:7px 9px;border:1px solid var(--border);border-radius:5px;font-size:13px;font-family:inherit;resize:vertical;min-height:70px;line-height:1.5;}
+.textarea-lg:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,102,204,.1);}
+.subfield-title{font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin:8px 0 4px;}
+.numbered-list{display:flex;flex-direction:column;gap:5px;}
+.numbered-item{display:flex;gap:8px;align-items:flex-start;}
+.numbered-item .num{font-weight:700;color:var(--muted);padding-top:6px;min-width:14px;font-size:12px;}
+.numbered-item input{flex:1;padding:5px 8px;border:1px solid var(--border);border-radius:5px;font-size:13px;font-family:inherit;}
+.numbered-item input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,102,204,.1);}
+.outcome-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.outcome-grid .full{grid-column:1/-1;}
+.dc-row{display:flex;align-items:center;gap:12px;}
+.dc-row label{font-size:12px;font-weight:600;display:flex;align-items:center;gap:5px;cursor:pointer;}
+.esf-field{margin-bottom:10px;}
+.esf-field label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;}
 
-/* ── Resolution Outcome ── */
-.outcome-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
-.outcome-grid .full { grid-column: 1/-1; }
+/* ── CASE TRACKER ── */
+.tracker-wrap{overflow-x:auto;}
+.tracker-table{width:100%;border-collapse:collapse;font-size:12px;min-width:1100px;}
+.tracker-table th{background:var(--primary);color:#fff;padding:7px 8px;text-align:left;font-size:11px;font-weight:700;white-space:nowrap;position:sticky;top:0;z-index:2;}
+.tracker-table th.center{text-align:center;}
+.tracker-table td{padding:3px 5px;border-bottom:1px solid #f0f0f0;vertical-align:middle;}
+.tracker-table tbody tr:hover{background:#f8faff;}
+.tracker-table tbody tr.avg-row{background:var(--primary-light);font-weight:700;}
+.tracker-table tbody tr.avg-row td{padding:7px 8px;}
+.tr-inp{width:100%;border:1px solid transparent;border-radius:4px;padding:4px 6px;font-size:12px;font-family:inherit;background:transparent;transition:border-color .15s;}
+.tr-inp:hover{border-color:var(--border);}
+.tr-inp:focus{outline:none;border-color:var(--accent);background:#fff;box-shadow:0 0 0 2px rgba(0,102,204,.1);}
+.tr-score{width:52px;text-align:center;}
+.tr-date{width:100px;}
+.tr-caseid{width:130px;}
+.tr-agent{width:130px;}
+.tr-touch{width:60px;text-align:center;}
+.tr-level{width:70px;}
+.tr-hq{width:55px;text-align:center;}
+.tr-auto{text-align:center;font-weight:700;padding:4px 8px !important;}
+.tr-del{width:30px;text-align:center;}
+.del-btn{background:none;border:none;color:#d1d5db;cursor:pointer;font-size:16px;line-height:1;padding:2px;}
+.del-btn:hover{color:var(--red);}
+.contr-badge{display:inline-block;border-radius:10px;padding:2px 8px;font-size:10.5px;font-weight:700;white-space:nowrap;}
+.contr-resolver{background:#dcfce7;color:#14532d;}
+.contr-progress{background:#dbeafe;color:#1e3a8a;}
+.contr-maintainer{background:#fef9c3;color:#713f12;}
+.contr-regression{background:#fee2e2;color:#7f1d1d;}
 
-/* ── Disconnected Call ── */
-.dc-row { display: flex; align-items: center; gap: 12px; }
-.dc-row label { font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 5px; cursor: pointer; }
+/* Journey Scores */
+.journey-table{width:100%;border-collapse:collapse;font-size:12.5px;}
+.journey-table th{background:var(--primary);color:#fff;padding:7px 12px;text-align:left;font-size:11px;font-weight:700;}
+.journey-table td{padding:5px 8px;border-bottom:1px solid #f0f0f0;vertical-align:middle;}
+.journey-table tbody tr:hover{background:#f8faff;}
+.jrny-inp{width:100%;border:1px solid transparent;border-radius:4px;padding:4px 7px;font-size:12.5px;font-family:inherit;background:transparent;}
+.jrny-inp:focus{outline:none;border:1px solid var(--accent);background:#fff;}
+.jrny-score{width:65px;text-align:center;}
+.jrny-auto{font-weight:800;text-align:center;color:var(--primary);}
+.tracker-footer{padding:10px 16px;display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid var(--border);background:var(--sec-bg);}
 
-/* ── Escalation Follow-up ── */
-.esf-field { margin-bottom: 10px; }
-.esf-field label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .4px; display: block; margin-bottom: 3px; }
+/* ── TEAM SCORING ── */
+.team-scorecard{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;}
+.ts-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;text-align:center;box-shadow:var(--shadow);}
+.ts-card.highlight{background:var(--primary);color:#fff;border-color:var(--primary);}
+.ts-card .ts-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;opacity:.75;margin-bottom:4px;}
+.ts-card .ts-value{font-size:28px;font-weight:900;line-height:1.1;}
+.ts-card .ts-sub{font-size:11px;opacity:.7;margin-top:2px;}
+.ts-card.highlight .ts-label{opacity:.8;}
+
+.heatmap-table{width:100%;border-collapse:collapse;font-size:13px;}
+.heatmap-table th{background:var(--sec-bg);padding:7px 14px;text-align:left;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;border-bottom:1px solid var(--border);}
+.heatmap-table td{padding:8px 14px;border-bottom:1px solid #f0f0f0;}
+.heat-bar-wrap{display:flex;align-items:center;gap:8px;}
+.heat-bar-bg{flex:1;height:8px;background:#f0f0f0;border-radius:4px;overflow:hidden;}
+.heat-bar-fill{height:100%;border-radius:4px;transition:width .3s;}
+.heat-red{background:#ef4444;}
+.heat-amber{background:#f59e0b;}
+.heat-green{background:#22c55e;}
+.heat-val{font-weight:800;min-width:32px;text-align:right;font-size:13px;}
+.heat-badge{font-size:11px;font-weight:700;padding:1px 8px;border-radius:10px;min-width:90px;text-align:center;}
+.heat-badge.red{background:#fee2e2;color:#7f1d1d;}
+.heat-badge.amber{background:#fef9c3;color:#713f12;}
+.heat-badge.green{background:#dcfce7;color:#14532d;}
+
+.opps-table{width:100%;border-collapse:collapse;font-size:13px;}
+.opps-table th{background:var(--sec-bg);padding:7px 12px;text-align:left;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;border-bottom:1px solid var(--border);}
+.opps-table td{padding:5px 8px;border-bottom:1px solid #f0f0f0;vertical-align:top;}
+.opps-table .opp-inp{width:100%;border:1px solid transparent;border-radius:4px;padding:4px 7px;font-size:12.5px;font-family:inherit;background:transparent;}
+.opps-table .opp-inp:focus{outline:none;border:1px solid var(--accent);background:#fff;}
+
+.gap-diagnosis{border-radius:var(--radius);padding:12px 16px;margin-bottom:10px;font-size:13px;line-height:1.6;}
+.gap-diagnosis.neutral{background:#f9fafb;border:1px solid var(--border);}
+.gap-diagnosis.positive{background:#dcfce7;border:1px solid #86efac;}
+.gap-diagnosis.negative{background:#fee2e2;border:1px solid #fca5a5;}
+.gap-diagnosis strong{display:block;font-size:13.5px;margin-bottom:3px;}
+
+.breakdown-table{width:100%;border-collapse:collapse;font-size:12.5px;}
+.breakdown-table th{background:var(--sec-bg);padding:6px 12px;text-align:left;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;border-bottom:1px solid var(--border);}
+.breakdown-table td{padding:7px 12px;border-bottom:1px solid #f0f0f0;vertical-align:middle;}
+
+.journey-selector{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border);background:var(--sec-bg);}
+.journey-selector label{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;white-space:nowrap;}
+.journey-selector select{padding:6px 10px;border:1px solid var(--border);border-radius:5px;font-size:13px;font-family:inherit;min-width:220px;}
+.journey-selector select:focus{outline:none;border-color:var(--accent);}
 
 /* ── Print ── */
-@media print {
-  body { background: #fff; font-size: 11pt; }
-  #app { max-width: none; padding: 0; }
-  .toolbar { display: none !important; }
-  .card { box-shadow: none; break-inside: avoid; }
-  .cat-hdr { background: var(--primary) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .form-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .sec-num { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .score-table th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .asmnt { border: 1px solid #999; appearance: none; -webkit-appearance: none; }
-  .asmnt.v-met { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .asmnt.v-partial { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .asmnt.v-missed { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+@media print{
+  body{background:#fff;}#app{max-width:none;padding:0;}
+  .toolbar,.tab-nav,.tracker-footer,.del-btn{display:none!important;}
+  .tab-panel{display:block!important;}
+  .card{box-shadow:none;break-inside:avoid;}
+  .cat-hdr,.score-table th,.app-header{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
 }
-@media (max-width: 700px) {
-  .info-grid { grid-template-columns: 1fr; }
-  .outcome-grid { grid-template-columns: 1fr; }
-  .ind-table thead th.col-evidence { display: none; }
-  .ind-table tbody td.td-evidence { display: none; }
+@media(max-width:700px){
+  .info-grid,.outcome-grid{grid-template-columns:1fr;}
+  .team-scorecard{grid-template-columns:1fr 1fr;}
+  .ind-table thead th.col-evidence,.ind-table tbody td.td-evidence{display:none;}
 }
 </style>
 </head>
 <body>
 <div id="app">
 
-<!-- Header -->
-<header class="form-header">
-  <h1>SUPPORT QUALITY ASSURANCE — SCORING FORM</h1>
-  <p>Resolution-Focused Coaching &amp; Performance Framework &nbsp;|&nbsp; Rate each behavior: Met / Partial / Missed / N.A. — then assign the 0–5 category score (suggested score is advisory).</p>
+<!-- App Header -->
+<header class="app-header">
+  <h1>LINKSYS SUPPORT — QA PLATFORM</h1>
+  <p>Resolution-Focused Coaching &amp; Performance Framework &nbsp;|&nbsp; Scoring Form · Case Tracker · Team Scoring</p>
 </header>
 
-<!-- Toolbar -->
+<!-- Tab Nav -->
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('scoring',this)">📋 Scoring Form</button>
+  <button class="tab-btn" onclick="switchTab('tracker',this)">📊 Case Tracker</button>
+  <button class="tab-btn" onclick="switchTab('team',this)">👥 Team Scoring</button>
+  <div class="spacer"></div>
+  <button class="tab-btn" onclick="exportAll()">⬇ Export All</button>
+  <button class="tab-btn" onclick="importAll()">⬆ Import</button>
+</nav>
+<input type="file" id="importFile" accept=".json" style="display:none" onchange="handleImport(event)">
+
+<!-- ════════════════════════════════════════════
+     TAB 1: SCORING FORM
+════════════════════════════════════════════ -->
+<div id="tab-scoring" class="tab-panel active">
 <div class="toolbar">
-  <button class="btn-primary" onclick="saveToLocal()">💾 Save</button>
-  <button onclick="loadFromLocal()">📂 Load Saved</button>
-  <button onclick="downloadJSON()">⬇ Export JSON</button>
-  <button onclick="importJSON()">⬆ Import JSON</button>
-  <button onclick="window.print()">🖨 Print / PDF</button>
+  <button class="btn btn-primary" onclick="saveForm()">💾 Save Form</button>
+  <button class="btn" onclick="loadLastForm()">📂 Load Last</button>
+  <button class="btn btn-success" onclick="logToTracker()">➕ Log to Case Tracker</button>
+  <button class="btn" onclick="downloadFormJSON()">⬇ Export Form</button>
+  <button class="btn" onclick="window.print()">🖨 Print / PDF</button>
   <div class="spacer"></div>
   <span class="save-status" id="saveStatus"></span>
-  <button class="btn-danger" onclick="clearForm()">✕ New Form</button>
+  <button class="btn btn-danger" onclick="clearForm()">✕ New Form</button>
 </div>
-<input type="file" id="importFile" accept=".json" style="display:none" onchange="handleImport(event)">
 
 <!-- §1 Case Information -->
 <div class="card">
-  <div class="sec-hdr">
-    <div class="sec-num">1</div>
-    <div class="sec-title">Case Information</div>
-  </div>
+  <div class="sec-hdr"><div class="sec-num">1</div><div class="sec-title">Case Information</div></div>
   <div class="sec-body">
     <div class="info-grid">
       <div class="info-field"><label>Agent Name</label><input id="f_agentName" placeholder="Full name" oninput="autoSave()"></div>
@@ -239,793 +313,1026 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-
       <div class="info-field"><label>FCR / Total Contacts</label><input id="f_fcr" placeholder="e.g. FCR — 1 contact" oninput="autoSave()"></div>
       <div class="info-field"><label>Total Case Time</label><input id="f_totalTime" placeholder="e.g. 2 hr 15 min" oninput="autoSave()"></div>
       <div class="info-field"><label>SLA Status</label><select id="f_sla" onchange="autoSave()"><option value="">— Select —</option><option>Within SLA</option><option>Breached</option><option>N.A.</option></select></div>
-      <div class="info-field full"><label>Case Summary (customer issue &amp; goal)</label><textarea id="f_caseSummary" placeholder="Brief description of what the customer was experiencing and what they needed resolved…" oninput="autoSave()"></textarea></div>
-      <div class="info-field full"><label>Inherited Context (what this agent received from prior touches)</label><textarea id="f_inheritedContext" placeholder="What prior documentation, context, or state was this agent handed?" oninput="autoSave()"></textarea></div>
+      <div class="info-field full"><label>Case Summary (customer issue &amp; goal)</label><textarea id="f_caseSummary" oninput="autoSave()" placeholder="Brief description of what the customer was experiencing…"></textarea></div>
+      <div class="info-field full"><label>Inherited Context (what this agent received from prior touches)</label><textarea id="f_inheritedContext" oninput="autoSave()" placeholder="What prior documentation, context, or state was this agent handed?"></textarea></div>
     </div>
   </div>
 </div>
 
 <!-- §2 Score Summary -->
 <div class="card">
-  <div class="sec-hdr">
-    <div class="sec-num">2</div>
-    <div class="sec-title">Score Summary</div>
-    <div class="sec-badge" id="summaryTotalBadge">—</div>
-  </div>
-  <div class="sec-body" style="padding:0">
+  <div class="sec-hdr"><div class="sec-num">2</div><div class="sec-title">Score Summary</div><div class="sec-badge" id="summaryTotalBadge">—</div></div>
+  <div style="padding:0">
     <table class="score-table">
-      <thead>
-        <tr>
-          <th>Category</th>
-          <th class="center" style="width:80px">Weight</th>
-          <th class="center" style="width:90px">Score (0–5)</th>
-          <th class="center" style="width:100px">Weighted %</th>
-          <th class="center" style="width:140px">Band</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Category</th><th class="center" style="width:80px">Weight</th><th class="center" style="width:90px">Score (0–5)</th><th class="center" style="width:100px">Weighted %</th><th class="center" style="width:140px">Band</th></tr></thead>
       <tbody id="summaryBody"></tbody>
-      <tfoot>
-        <tr class="score-total-row">
-          <td><strong>WEIGHTED TOTAL SCORE</strong></td>
-          <td class="center">100%</td>
-          <td class="center">—</td>
-          <td class="center"><span class="weighted-total-display" id="totalPct">—</span></td>
-          <td class="center"><span id="totalBand">—</span></td>
-        </tr>
-      </tfoot>
+      <tfoot><tr class="score-total-row"><td><strong>WEIGHTED TOTAL SCORE</strong></td><td class="center">100%</td><td class="center">—</td><td class="center"><span class="weighted-total-display" id="totalPct">—</span></td><td class="center"><span id="totalBand">—</span></td></tr></tfoot>
     </table>
   </div>
 </div>
 
-<!-- §3 Category Assessments — generated by JS -->
+<!-- §3 Category Assessments -->
 <div id="catSections"></div>
 
 <!-- §4 Resolution Outcome -->
 <div class="card">
-  <div class="sec-hdr">
-    <div class="sec-num">4</div>
-    <div class="sec-title">Resolution Outcome</div>
-  </div>
+  <div class="sec-hdr"><div class="sec-num">4</div><div class="sec-title">Resolution Outcome</div></div>
   <div class="sec-body">
     <div class="outcome-grid">
-      <div class="info-field">
-        <label>Outcome Classification</label>
-        <select id="f_outcomeClass" onchange="autoSave()">
-          <option value="">— Select —</option>
-          <option>Successful Resolution</option>
-          <option>Partial Resolution</option>
-          <option>Appropriate Escalation</option>
-          <option>Ownership Gap</option>
-          <option>Unresolved</option>
-        </select>
-      </div>
-      <div class="info-field">
-        <label>Primary Positive Outcome Achieved</label>
-        <select id="f_primaryOutcome" onchange="autoSave()">
-          <option value="">— Select —</option>
-          <option>Issue resolved</option>
-          <option>Proper RMA initiated</option>
-          <option>Valid escalation submitted</option>
-          <option>Known limitation explained accurately</option>
-          <option>Customer educated — valid next steps</option>
-          <option>Customer declined further troubleshooting (reasonable effort made)</option>
-          <option>Valid self-help content provided (OOW)</option>
-          <option>Upgrade recommendation provided (OOW)</option>
-          <option>None achieved</option>
-        </select>
-      </div>
-      <div class="info-field full">
-        <label>Justification</label>
-        <textarea id="f_outcomeJustification" style="min-height:70px" placeholder="Explain the outcome classification in the context of the case…" oninput="autoSave()"></textarea>
-      </div>
+      <div class="info-field"><label>Outcome Classification</label><select id="f_outcomeClass" onchange="autoSave()"><option value="">— Select —</option><option>Successful Resolution</option><option>Partial Resolution</option><option>Appropriate Escalation</option><option>Ownership Gap</option><option>Unresolved</option></select></div>
+      <div class="info-field"><label>Primary Positive Outcome Achieved</label><select id="f_primaryOutcome" onchange="autoSave()"><option value="">— Select —</option><option>Issue resolved</option><option>Proper RMA initiated</option><option>Valid escalation submitted</option><option>Known limitation explained accurately</option><option>Customer educated — valid next steps</option><option>Customer declined further troubleshooting</option><option>Valid self-help content provided (OOW)</option><option>Upgrade recommendation provided (OOW)</option><option>None achieved</option></select></div>
+      <div class="info-field full"><label>Justification</label><textarea id="f_outcomeJustification" style="min-height:70px" oninput="autoSave()"></textarea></div>
     </div>
   </div>
 </div>
 
-<!-- §5 Disconnected Call Follow-Up -->
+<!-- §5 Disconnected Call -->
 <div class="card">
-  <div class="sec-hdr">
-    <div class="sec-num">5</div>
-    <div class="sec-title">Disconnected Call Follow-Up</div>
-  </div>
+  <div class="sec-hdr"><div class="sec-num">5</div><div class="sec-title">Disconnected Call Follow-Up</div></div>
   <div class="sec-body">
     <div class="info-grid">
-      <div class="info-field">
-        <label>Did the interaction disconnect before completion?</label>
-        <div class="dc-row" style="margin-top:4px">
-          <label><input type="radio" name="disconnect" value="No" onchange="autoSave()" checked> No</label>
-          <label><input type="radio" name="disconnect" value="Yes" onchange="autoSave()"> Yes</label>
-        </div>
-      </div>
-      <div class="info-field">
-        <label>Follow-Up Action Taken</label>
-        <select id="f_followupAction" onchange="autoSave()">
-          <option value="N.A. — no disconnect">N.A. — no disconnect</option>
-          <option value="Callback attempt documented">Callback attempt documented</option>
-          <option value="Follow-up email sent">Follow-up email sent</option>
-          <option value="Private note documenting disconnect">Private note documenting disconnect</option>
-          <option value="No follow-up documented">No follow-up documented</option>
-        </select>
-      </div>
+      <div class="info-field"><label>Did the interaction disconnect?</label><div class="dc-row" style="margin-top:4px"><label><input type="radio" name="disconnect" value="No" onchange="autoSave()" checked> No</label><label><input type="radio" name="disconnect" value="Yes" onchange="autoSave()"> Yes</label></div></div>
+      <div class="info-field"><label>Follow-Up Action Taken</label><select id="f_followupAction" onchange="autoSave()"><option value="N.A. — no disconnect">N.A. — no disconnect</option><option value="Callback attempt documented">Callback attempt documented</option><option value="Follow-up email sent">Follow-up email sent</option><option value="Private note documenting disconnect">Private note documenting disconnect</option><option value="No follow-up documented">No follow-up documented</option></select></div>
     </div>
   </div>
 </div>
 
 <!-- §6 Coaching Flags -->
 <div class="card">
-  <div class="sec-hdr">
-    <div class="sec-num">6</div>
-    <div class="sec-title">Coaching Flags</div>
-    <div class="sec-badge" id="flagsBadge">Auto-populated from ratings</div>
-  </div>
+  <div class="sec-hdr"><div class="sec-num">6</div><div class="sec-title">Coaching Flags</div><div class="sec-badge" id="flagsBadge">Auto-populated</div></div>
   <div style="overflow:hidden">
     <table class="flags-table">
-      <thead>
-        <tr>
-          <th style="width:35%">Flag Condition</th>
-          <th style="width:90px">Status</th>
-          <th>Coaching Focus / Required Action</th>
-        </tr>
-      </thead>
+      <thead><tr><th style="width:35%">Flag Condition</th><th style="width:90px">Status</th><th>Coaching Focus / Required Action</th></tr></thead>
       <tbody id="flagsBody"></tbody>
     </table>
-    <div class="flags-note">⚠ Survey / CSAT manipulation cannot be auto-detected — flag manually in §8 Coaching &amp; Feedback if suspected.</div>
+    <div class="flags-note">⚠ Survey / CSAT manipulation cannot be auto-detected — flag manually in §8 if suspected.</div>
   </div>
 </div>
 
 <!-- §7 Auto-Zero -->
 <div class="card">
-  <div class="sec-hdr">
-    <div class="sec-num">7</div>
-    <div class="sec-title">Auto-Zero</div>
-  </div>
+  <div class="sec-hdr"><div class="sec-num">7</div><div class="sec-title">Auto-Zero</div></div>
   <div class="sec-body">
-    <p style="font-size:12px;color:var(--muted);margin-bottom:10px">A Compliance Gate marked <strong>No</strong>, or any A–K item marked <strong>Yes</strong>, forces the Weighted Quality Score to <strong>0%</strong>. Category scores remain for coaching purposes.</p>
-
+    <p style="font-size:12px;color:var(--muted);margin-bottom:10px">A Compliance Gate marked <strong>No</strong>, or any A–K item marked <strong>Yes</strong>, forces the Weighted Quality Score to <strong>0%</strong>. Category scores remain for coaching.</p>
     <div class="az-section-title">Compliance Gates — mark Yes if adhered to</div>
     <div id="azGates"></div>
-
     <div class="az-section-title">Auto-Zero List (A–K) — mark Yes if it occurred</div>
     <div id="azItems"></div>
-
     <div class="az-result" id="azResult">Checking…</div>
   </div>
 </div>
 
 <!-- §8 Coaching & Feedback -->
 <div class="card">
-  <div class="sec-hdr">
-    <div class="sec-num">8</div>
-    <div class="sec-title">Coaching &amp; Feedback</div>
-  </div>
+  <div class="sec-hdr"><div class="sec-num">8</div><div class="sec-title">Coaching &amp; Feedback</div></div>
   <div class="sec-body">
     <div class="qa-question">Q1 · Did we help the customer as effectively as we reasonably could?</div>
-    <textarea class="textarea-lg" id="f_q1" placeholder="Answer this question with specific reference to the case outcome…" oninput="autoSave()"></textarea>
-
+    <textarea class="textarea-lg" id="f_q1" oninput="autoSave()"></textarea>
     <div class="qa-question">Q2 · Did the agent demonstrate strong technical and communication behavior?</div>
-    <div class="subfield-title">What Went Well — behaviors to repeat</div>
+    <div class="subfield-title">What Went Well</div>
     <div class="numbered-list">
-      <div class="numbered-item"><span class="num">1.</span><input id="f_well1" placeholder="" oninput="autoSave()"></div>
-      <div class="numbered-item"><span class="num">2.</span><input id="f_well2" placeholder="" oninput="autoSave()"></div>
-      <div class="numbered-item"><span class="num">3.</span><input id="f_well3" placeholder="" oninput="autoSave()"></div>
+      <div class="numbered-item"><span class="num">1.</span><input id="f_well1" oninput="autoSave()"></div>
+      <div class="numbered-item"><span class="num">2.</span><input id="f_well2" oninput="autoSave()"></div>
+      <div class="numbered-item"><span class="num">3.</span><input id="f_well3" oninput="autoSave()"></div>
     </div>
-    <div class="subfield-title" style="margin-top:10px">Improvement Opportunities — behaviors to improve</div>
+    <div class="subfield-title" style="margin-top:10px">Improvement Opportunities</div>
     <div class="numbered-list">
-      <div class="numbered-item"><span class="num">1.</span><input id="f_improve1" placeholder="" oninput="autoSave()"></div>
-      <div class="numbered-item"><span class="num">2.</span><input id="f_improve2" placeholder="" oninput="autoSave()"></div>
-      <div class="numbered-item"><span class="num">3.</span><input id="f_improve3" placeholder="" oninput="autoSave()"></div>
+      <div class="numbered-item"><span class="num">1.</span><input id="f_improve1" oninput="autoSave()"></div>
+      <div class="numbered-item"><span class="num">2.</span><input id="f_improve2" oninput="autoSave()"></div>
+      <div class="numbered-item"><span class="num">3.</span><input id="f_improve3" oninput="autoSave()"></div>
     </div>
-    <div class="subfield-title" style="margin-top:10px">Coaching Recommendation — specific actions the agent should apply going forward</div>
-    <textarea class="textarea-lg" id="f_coachingRec" placeholder="SMART actions (who does what by when)…" oninput="autoSave()"></textarea>
-
-    <div class="subfield-title" style="margin-top:10px">Next Session Focus — specific behaviors to practice before the next review</div>
+    <div class="subfield-title" style="margin-top:10px">Coaching Recommendation</div>
+    <textarea class="textarea-lg" id="f_coachingRec" oninput="autoSave()"></textarea>
+    <div class="subfield-title" style="margin-top:10px">Next Session Focus</div>
     <div class="numbered-list">
-      <div class="numbered-item"><span class="num">1.</span><input id="f_focus1" placeholder="" oninput="autoSave()"></div>
-      <div class="numbered-item"><span class="num">2.</span><input id="f_focus2" placeholder="" oninput="autoSave()"></div>
-      <div class="numbered-item"><span class="num">3.</span><input id="f_focus3" placeholder="" oninput="autoSave()"></div>
+      <div class="numbered-item"><span class="num">1.</span><input id="f_focus1" oninput="autoSave()"></div>
+      <div class="numbered-item"><span class="num">2.</span><input id="f_focus2" oninput="autoSave()"></div>
+      <div class="numbered-item"><span class="num">3.</span><input id="f_focus3" oninput="autoSave()"></div>
     </div>
-
-    <div class="qa-question" style="margin-top:14px">Q3 · What does this interaction tell us about training, process, or knowledge gaps across the team?</div>
-    <div class="subfield-title">Organizational Insights — training / process / KB / chatbot / tooling / product gaps</div>
-    <textarea class="textarea-lg" id="f_orgInsights" placeholder="Systemic observations that affect more than this one agent…" oninput="autoSave()"></textarea>
-
-    <div class="subfield-title" style="margin-top:10px">Multi-Touch / Journey Notes — handoff quality, continuity, where the chain succeeded or broke</div>
-    <textarea class="textarea-lg" id="f_journeyNotes" placeholder="Leave blank if single-touch case…" oninput="autoSave()"></textarea>
-
-    <div class="subfield-title" style="margin-top:10px">Final QA Assessment — overall customer outcome, support quality, and coaching value</div>
-    <textarea class="textarea-lg" id="f_finalAssessment" style="min-height:80px" placeholder="Concise overall assessment…" oninput="autoSave()"></textarea>
+    <div class="qa-question" style="margin-top:14px">Q3 · What does this interaction tell us about training, process, or knowledge gaps?</div>
+    <div class="subfield-title">Organizational Insights</div>
+    <textarea class="textarea-lg" id="f_orgInsights" oninput="autoSave()"></textarea>
+    <div class="subfield-title" style="margin-top:10px">Multi-Touch / Journey Notes</div>
+    <textarea class="textarea-lg" id="f_journeyNotes" oninput="autoSave()"></textarea>
+    <div class="subfield-title" style="margin-top:10px">Final QA Assessment</div>
+    <textarea class="textarea-lg" id="f_finalAssessment" style="min-height:80px" oninput="autoSave()"></textarea>
   </div>
 </div>
 
 <!-- Escalation Follow-Up -->
 <div class="card">
-  <div class="sec-hdr">
-    <div class="sec-num" style="background:#6b7280">+</div>
-    <div class="sec-title">Escalation Follow-Up</div>
-    <div class="sec-badge">Complete only if an escalation was submitted</div>
-  </div>
+  <div class="sec-hdr"><div class="sec-num" style="background:#6b7280">+</div><div class="sec-title">Escalation Follow-Up</div><div class="sec-badge">Complete only if an escalation was submitted</div></div>
   <div class="sec-body">
-    <div class="esf-field">
-      <label>What did the receiving agent / Level 2 do to resolve or advance this case?</label>
-      <textarea class="textarea-lg" id="f_esf_outcome" oninput="autoSave()"></textarea>
+    <div class="esf-field"><label>What did the receiving agent / Level 2 do?</label><textarea class="textarea-lg" id="f_esf_outcome" oninput="autoSave()"></textarea></div>
+    <div class="esf-field"><label>L1 Learning Points</label><div class="numbered-list"><div class="numbered-item"><span class="num">1.</span><input id="f_esf_l1" oninput="autoSave()"></div><div class="numbered-item"><span class="num">2.</span><input id="f_esf_l2" oninput="autoSave()"></div><div class="numbered-item"><span class="num">3.</span><input id="f_esf_l3" oninput="autoSave()"></div></div></div>
+  </div>
+</div>
+</div><!-- /tab-scoring -->
+
+<!-- ════════════════════════════════════════════
+     TAB 2: CASE TRACKER
+════════════════════════════════════════════ -->
+<div id="tab-tracker" class="tab-panel">
+<div class="toolbar">
+  <button class="btn btn-primary" onclick="addTrackerRow()">+ Add Touch Row</button>
+  <button class="btn btn-success" onclick="logToTracker()">➕ Log Current Form</button>
+  <button class="btn" onclick="addJourneyRow()">+ Add Journey</button>
+  <div class="spacer"></div>
+  <button class="btn btn-danger" onclick="clearTracker()">✕ Clear Tracker</button>
+</div>
+
+<!-- Touch Log -->
+<div class="card">
+  <div class="sec-hdr"><div class="sec-num">A</div><div class="sec-title">Touch Log — One Row Per Interaction</div><div class="sec-badge" id="touchCount">0 touches</div></div>
+  <div class="tracker-wrap">
+    <table class="tracker-table">
+      <thead>
+        <tr>
+          <th style="width:30px"></th>
+          <th class="tr-date">Date</th>
+          <th class="tr-caseid">Case ID</th>
+          <th class="tr-agent">Agent</th>
+          <th class="tr-touch center">Touch #</th>
+          <th class="tr-level center">Level</th>
+          <th class="center" title="Resolution 30%">Res<br>30%</th>
+          <th class="center" title="Technical Accuracy 20%">Tech<br>20%</th>
+          <th class="center" title="Communication 15%">Comm<br>15%</th>
+          <th class="center" title="Customer Ownership 15%">Own<br>15%</th>
+          <th class="center" title="Escalation 10%">Esc<br>10%</th>
+          <th class="center" title="Customer Experience 5%">CX<br>5%</th>
+          <th class="center" title="Documentation 5%">Doc<br>5%</th>
+          <th class="center" style="width:75px">Wtd %</th>
+          <th class="center" style="width:120px">Band</th>
+          <th class="center" style="width:130px">Contribution</th>
+          <th class="tr-hq center">HQ<br>0–5</th>
+          <th style="min-width:120px">Notes / Outcome</th>
+          <th class="center" style="width:30px">CF?</th>
+        </tr>
+      </thead>
+      <tbody id="trackerBody"></tbody>
+      <tbody id="trackerAvgRow"></tbody>
+    </table>
+  </div>
+  <div class="tracker-footer">
+    <span style="font-size:12px;color:var(--muted)">Res=Resolution, Tech=Technical Accuracy, Comm=Communication, Own=Ownership, Esc=Escalation, CX=Customer Experience, Doc=Documentation, HQ=Handoff Quality, CF=Critical Failure</span>
+  </div>
+</div>
+
+<!-- Journey / Team Scores -->
+<div class="card">
+  <div class="sec-hdr"><div class="sec-num">B</div><div class="sec-title">Journey / Team Scores — Multi-Touch Cases</div></div>
+  <p style="padding:10px 16px 0;font-size:12px;color:var(--muted)">Team Score = 20% × L1 avg touch + 30% × L2 avg touch + 30% × (Outcome ÷ 5) × 100 + 20% × (Continuity ÷ 5) × 100. Enter the Case ID to auto-pull touch data, then judge Outcome and Continuity (0–5).</p>
+  <div style="overflow-x:auto">
+    <table class="journey-table">
+      <thead><tr>
+        <th style="width:30px"></th>
+        <th style="width:160px">Journey / Case ID(s)</th>
+        <th class="center" style="width:70px">Touches</th>
+        <th class="center" style="width:90px">Avg Touch %</th>
+        <th class="center" style="width:100px">Outcome (0–5)</th>
+        <th class="center" style="width:100px">Continuity (0–5)</th>
+        <th class="center" style="width:90px">Team Score</th>
+        <th class="center" style="width:110px">Band</th>
+        <th>Journey Notes</th>
+      </tr></thead>
+      <tbody id="journeyBody"></tbody>
+    </table>
+  </div>
+  <div class="tracker-footer">
+    <button class="btn" onclick="addJourneyRow()">+ Add Journey Row</button>
+  </div>
+</div>
+</div><!-- /tab-tracker -->
+
+<!-- ════════════════════════════════════════════
+     TAB 3: TEAM SCORING
+════════════════════════════════════════════ -->
+<div id="tab-team" class="tab-panel">
+<div class="card">
+  <div class="journey-selector">
+    <label>Analyzing Journey:</label>
+    <select id="teamJourneySelect" onchange="renderTeamScoring()"><option value="">— Select a Case ID from the tracker —</option></select>
+    <button class="btn btn-sm" onclick="refreshJourneyList()">↻ Refresh</button>
+    <span style="font-size:12px;color:var(--muted);margin-left:8px" id="teamJourneyMeta"></span>
+  </div>
+
+  <!-- Live Scorecard -->
+  <div style="padding:14px 16px 0">
+    <div class="team-scorecard">
+      <div class="ts-card"><div class="ts-label">Execution (L1+L2)</div><div class="ts-value" id="ts_exec">—</div><div class="ts-sub">avg touch weighted %</div></div>
+      <div class="ts-card"><div class="ts-label">Journey Outcome</div><div class="ts-value" id="ts_outcome">—</div><div class="ts-sub">evaluator-judged 0–5</div></div>
+      <div class="ts-card"><div class="ts-label">Continuity</div><div class="ts-value" id="ts_cont">—</div><div class="ts-sub">handoff quality 0–5</div></div>
+      <div class="ts-card highlight"><div class="ts-label">Team Score</div><div class="ts-value" id="ts_total">—</div><div class="ts-sub" id="ts_band">—</div></div>
     </div>
-    <div class="esf-field">
-      <label>L1 Learning Points from this escalation outcome</label>
-      <div class="numbered-list">
-        <div class="numbered-item"><span class="num">1.</span><input id="f_esf_l1" oninput="autoSave()"></div>
-        <div class="numbered-item"><span class="num">2.</span><input id="f_esf_l2" oninput="autoSave()"></div>
-        <div class="numbered-item"><span class="num">3.</span><input id="f_esf_l3" oninput="autoSave()"></div>
-      </div>
+  </div>
+
+  <!-- Gap Diagnosis -->
+  <div style="padding:0 16px 14px"><div class="gap-diagnosis neutral" id="gapDiagnosis">Select a journey above to load team analysis.</div></div>
+</div>
+
+<!-- Category Heatmap -->
+<div class="card">
+  <div class="sec-hdr"><div class="sec-num">1</div><div class="sec-title">Category Heatmap — Where the Team Is Weak</div></div>
+  <p style="padding:8px 16px;font-size:12px;color:var(--muted)">Average of each category across all touches. Red (&lt;2.75) = team coaching theme · Amber (2.75–3.49) = monitor &amp; spot-coach · Green (≥3.5) = team strength.</p>
+  <table class="heatmap-table">
+    <thead><tr><th>Category (Weight)</th><th class="center" style="width:70px">Team Avg</th><th style="width:220px">Score</th><th class="center" style="width:130px">Signal</th><th>Theme / Action</th></tr></thead>
+    <tbody id="heatmapBody"></tbody>
+  </table>
+</div>
+
+<!-- Per-Touch Breakdown -->
+<div class="card">
+  <div class="sec-hdr"><div class="sec-num">2</div><div class="sec-title">Per-Touch Contribution Breakdown</div></div>
+  <p style="padding:8px 16px;font-size:12px;color:var(--muted)">Shows where the chain held and where it broke. A long run of Regression Contributor / low Handoff Quality rows is a process problem, not an individual one.</p>
+  <div style="overflow-x:auto">
+    <table class="breakdown-table">
+      <thead><tr><th>Touch</th><th>Agent</th><th>Level</th><th class="center">Wtd %</th><th class="center">Band</th><th class="center">Contribution</th><th class="center">Handoff Q</th><th>Notes</th></tr></thead>
+      <tbody id="breakdownBody"></tbody>
+    </table>
+  </div>
+  <div style="padding:8px 16px;font-size:12px;color:var(--muted)" id="contribMix">—</div>
+</div>
+
+<!-- Team Opportunities -->
+<div class="card">
+  <div class="sec-hdr"><div class="sec-num">3</div><div class="sec-title">Team Opportunities — Action Plan</div></div>
+  <p style="padding:8px 16px;font-size:12px;color:var(--muted)">Every opportunity needs an action, a named owner, and a date. Individual feedback comes only from each agent's own touch form — never from the team score.</p>
+  <div style="overflow-x:auto">
+    <table class="opps-table">
+      <thead><tr><th style="width:30px"></th><th style="width:180px">Category / Area</th><th>Evidence Across Touches (why it's a TEAM issue)</th><th>Team Action &amp; Suggested Owner</th></tr></thead>
+      <tbody id="oppsBody"></tbody>
+    </table>
+  </div>
+  <div class="tracker-footer"><button class="btn" onclick="addOppRow()">+ Add Opportunity</button></div>
+</div>
+
+<!-- Score Anchors Reference -->
+<div class="card">
+  <div class="sec-hdr"><div class="sec-num">4</div><div class="sec-title">Journey Outcome &amp; Continuity Anchors</div></div>
+  <div class="sec-body" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div>
+      <div style="font-weight:700;font-size:12px;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Journey Outcome (0–5)</div>
+      <div style="font-size:12.5px;line-height:1.8"><strong>5</strong> — Resolved AND confirmed, positive close<br><strong>4</strong> — Resolved, minor friction<br><strong>3</strong> — Partial / accepted workaround with clear path<br><strong>2</strong> — Unresolved but customer holds a valid, owned next step<br><strong>1</strong> — Unresolved, customer disengaged<br><strong>0</strong> — Customer harmed, churned, or left with legal/compliance exposure</div>
+    </div>
+    <div>
+      <div style="font-weight:700;font-size:12px;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Continuity &amp; Handoffs (0–5)</div>
+      <div style="font-size:12.5px;line-height:1.8"><strong>5</strong> — Seamless<br><strong>4</strong> — Minor gaps, quickly recovered<br><strong>3</strong> — Some repeated work, thread held<br><strong>2</strong> — Significant rework from thin notes / wrong statuses<br><strong>1</strong> — Chain repeatedly broke<br><strong>0</strong> — Continuity collapse itself drove the complaint</div>
     </div>
   </div>
 </div>
+</div><!-- /tab-team -->
 
 </div><!-- /#app -->
 
 <script>
+'use strict';
 // ════════════════════════════════════════════════════════
-//  DATA MODEL
+//  CONSTANTS
 // ════════════════════════════════════════════════════════
+const CAT_WEIGHTS = [30,20,15,15,10,5,5];
+const CAT_NAMES   = ['Resolution / Progress Toward Resolution','Technical Accuracy','Communication & Call Control','Customer Ownership','Escalation Judgment','Customer Experience','Documentation & Notes'];
+const CAT_SHORT   = ['Res 30%','Tech 20%','Comm 15%','Own 15%','Esc 10%','CX 5%','Doc 5%'];
+const STATE_KEY   = 'qa_platform_v2';
+
 const CATS = [
-  {
-    id:'cat1', n:'1',
-    name:'Resolution / Progress Toward Resolution',
-    weight:30,
-    obj:'Determine whether the interaction moved the customer meaningfully closer to resolution.',
-    inds:[
-      {t:'Resolved the issue or achieved the best possible outcome (RMA, valid escalation, limitation explained, education)', wt:3},
-      {t:'Completed reasonable troubleshooting before reaching a conclusion', wt:2},
-      {t:'Resolution path was appropriate for the situation and warranty status', wt:1},
-      {t:'Customer was moved meaningfully closer to a solution', wt:2},
-      {t:'Troubleshooting was conducted before any self-help content or KB articles were shared — generic self-help was not used as a substitute for investigation', wt:2},
-      {t:'For out-of-warranty products: provided best-effort troubleshooting, explained product limitations clearly, and did not use warranty status as a reason to stop helping — mark N.A. if product is in warranty', wt:2},
-    ],
-    warn:'⚠ Does NOT count: customer simply ends call; generic KB sent without troubleshooting; warranty used as reason to stop helping; escalation as shortcut; unsupported ISP blame; \'monitor & call back\' with no plan; ownership transferred without expectations or documentation.'
-  },
-  {
-    id:'cat2', n:'2',
-    name:'Technical Accuracy',
-    weight:20,
-    obj:'Evaluate the quality of troubleshooting and technical guidance.',
-    inds:[
-      {t:'Correctly identified the symptoms and asked relevant diagnostic questions', wt:3},
-      {t:'Identified the root cause (or likely cause) when possible', wt:3},
-      {t:'Followed a logical troubleshooting process', wt:1},
-      {t:'Available tools were used efficiently and appropriately', wt:1},
-      {t:'Gave technically accurate information; no unsupported conclusions', wt:2},
-    ],
-    warn:'⚠ Deduct for: incorrect technical information; skipped critical troubleshooting; misdiagnosis; unnecessary actions recommended; ISP or customer blamed without evidence; repeating basic steps the customer already completed.'
-  },
-  {
-    id:'cat3', n:'3',
-    name:'Communication & Call Control',
-    weight:15,
-    obj:'Evaluate how effectively the agent managed the interaction.',
-    inds:[
-      {t:'Expectations were set clearly from the start', wt:1},
-      {t:'Agent maintained call control and troubleshooting flow', wt:3},
-      {t:'Used language appropriate to the customer\'s level and confirmed understanding throughout', wt:2},
-      {t:'Actively listened and showed comprehension throughout the interaction/s', wt:3},
-      {t:'Managed time well, with clear transitions between steps', wt:1},
-      {t:'Handled difficult moments when needed to maintain call control', wt:1},
-      {t:'Adjusted communication for the customer\'s accessibility needs (hearing, vision, language barrier, age, cognitive)', wt:1},
-    ],
-    warn:'⚠ High performance: customer always knows what is happening and the agent drives the call confidently. One instruction at a time for customers who need it.'
-  },
-  {
-    id:'cat4', n:'4',
-    name:'Customer Ownership',
-    weight:15,
-    obj:'Measure the degree to which the agent accepted responsibility for moving the customer forward.',
-    inds:[
-      {t:'Took accountability for the customer\'s outcome and avoided unnecessary transfers', wt:3},
-      {t:'Followed through on all commitments made during the interaction', wt:2},
-      {t:'Clearly set customer expectations for next steps and realistic timelines', wt:2},
-      {t:'Completed required disconnect follow-up and met callback commitments within the agreed window', wt:1},
-      {t:'Recognized and acknowledged prior contact history; did not treat a repeat contact as a new case without reviewing previous interactions — mark N.A. if this is a confirmed first contact', wt:2},
-      {t:'If the case was handed off or escalated, the receiving agent was given sufficient context to continue without requiring the customer to repeat themselves — mark N.A. if no handoff occurred on this touch', wt:2},
-    ],
-    warn:'⚠ Automatic deductions: no documented follow-up after disconnect; unclear next steps; passing responsibility without context; failure to complete promised actions; missed or late callbacks without proactive renegotiation.'
-  },
-  {
-    id:'cat5', n:'5',
-    name:'Escalation Judgment',
-    weight:10,
-    obj:'Determine whether escalation decisions were appropriate — including UPWARD escalations the customer requested (management, complaint, legal). Mark all N.A. if no escalation was involved and none was warranted.',
-    inds:[
-      {t:'Completed reasonable troubleshooting before escalating', wt:3},
-      {t:'Escalation was triggered by a recognized condition: unresolved after reasonable L1 troubleshooting, customer complaint or management request, ISP/partner-supported product still unresolved, or agent stuck after documented effort — not used solely to transfer a difficult call or avoid ownership', wt:2},
-      {t:'Provided complete escalation details using the correct escalation path', wt:3},
-      {t:'Clearly explained why escalation was necessary and what would happen next', wt:1},
-    ],
-    warn:'⚠ Low score: premature, avoidable, poorly documented, used as a substitute for troubleshooting — or a warranted escalation (incl. a customer\'s management request) that was NOT made.'
-  },
-  {
-    id:'cat6', n:'6',
-    name:'Customer Experience',
-    weight:5,
-    obj:'Measure the overall customer experience delivered during the interaction.',
-    inds:[
-      {t:'Demonstrated empathy including for repeat-contact fatigue', wt:2},
-      {t:'Stayed professional throughout and maintained patience, even under pressure', wt:3},
-      {t:'Agent matched the customer\'s tone, pace, level, and energy', wt:1},
-      {t:'Minimized customer effort', wt:1},
-      {t:'Maintained customer understanding and engagement', wt:2},
-    ],
-    warn:'⚠ Negative indicators: dismissive responses; robotic interactions; frustration escalation caused by agent behavior; marathon sessions pushed onto vulnerable customers without offering to pause and resume.'
-  },
-  {
-    id:'cat7', n:'7',
-    name:'Documentation & Notes',
-    weight:5,
-    obj:'Ensure future agents can quickly understand the case. Purpose is continuity, not compliance.',
-    inds:[
-      {t:'Recorded customer issue summary', wt:3},
-      {t:'Documented troubleshooting steps', wt:3},
-      {t:'Noted key findings', wt:3},
-      {t:'Captured agent reasoning — escalation justification, offline recommendations provided by colleagues and other support POCs, and any guidance that informed the action taken', wt:3},
-      {t:'Documented next steps and follow-ups', wt:2},
-      {t:'Updated ticket status accurately', wt:1},
-    ],
-    warn:'⚠ Documentation supports outcomes but should not outweigh troubleshooting quality, communication, or ownership. Notes must carry the FULL history — including pre-ticket contacts — so no agent treats a long-running case as new.'
-  },
+  {id:'cat1',n:'1',name:'Resolution / Progress Toward Resolution',weight:30,
+   obj:'Determine whether the interaction moved the customer meaningfully closer to resolution.',
+   inds:[
+    {t:'Resolved the issue or achieved the best possible outcome (RMA, valid escalation, limitation explained, education)',wt:3},
+    {t:'Completed reasonable troubleshooting before reaching a conclusion',wt:2},
+    {t:'Resolution path was appropriate for the situation and warranty status',wt:1},
+    {t:'Customer was moved meaningfully closer to a solution',wt:2},
+    {t:'Troubleshooting was conducted before any self-help content or KB articles were shared — generic self-help was not used as a substitute for investigation',wt:2},
+    {t:'For out-of-warranty products: provided best-effort troubleshooting, explained product limitations clearly, and did not use warranty status as a reason to stop helping — mark N.A. if product is in warranty',wt:2},
+   ],warn:"⚠ Does NOT count: customer simply ends call; generic KB sent without troubleshooting; warranty used as reason to stop helping; escalation as shortcut; unsupported ISP blame; 'monitor & call back' with no plan; ownership transferred without expectations or documentation."},
+  {id:'cat2',n:'2',name:'Technical Accuracy',weight:20,
+   obj:'Evaluate the quality of troubleshooting and technical guidance.',
+   inds:[
+    {t:'Correctly identified the symptoms and asked relevant diagnostic questions',wt:3},
+    {t:'Identified the root cause (or likely cause) when possible',wt:3},
+    {t:'Followed a logical troubleshooting process',wt:1},
+    {t:'Available tools were used efficiently and appropriately',wt:1},
+    {t:'Gave technically accurate information; no unsupported conclusions',wt:2},
+   ],warn:'⚠ Deduct for: incorrect technical information; skipped critical troubleshooting; misdiagnosis; unnecessary actions recommended; ISP or customer blamed without evidence; repeating basic steps the customer already completed.'},
+  {id:'cat3',n:'3',name:'Communication & Call Control',weight:15,
+   obj:'Evaluate how effectively the agent managed the interaction.',
+   inds:[
+    {t:'Expectations were set clearly from the start',wt:1},
+    {t:"Agent maintained call control and troubleshooting flow",wt:3},
+    {t:"Used language appropriate to the customer's level and confirmed understanding throughout",wt:2},
+    {t:'Actively listened and showed comprehension throughout the interaction/s',wt:3},
+    {t:'Managed time well, with clear transitions between steps',wt:1},
+    {t:'Handled difficult moments when needed to maintain call control',wt:1},
+    {t:"Adjusted communication for the customer's accessibility needs (hearing, vision, language barrier, age, cognitive)",wt:1},
+   ],warn:'⚠ High performance: customer always knows what is happening and the agent drives the call confidently. One instruction at a time for customers who need it.'},
+  {id:'cat4',n:'4',name:'Customer Ownership',weight:15,
+   obj:'Measure the degree to which the agent accepted responsibility for moving the customer forward.',
+   inds:[
+    {t:"Took accountability for the customer's outcome and avoided unnecessary transfers",wt:3},
+    {t:'Followed through on all commitments made during the interaction',wt:2},
+    {t:'Clearly set customer expectations for next steps and realistic timelines',wt:2},
+    {t:'Completed required disconnect follow-up and met callback commitments within the agreed window',wt:1},
+    {t:'Recognized and acknowledged prior contact history; did not treat a repeat contact as a new case without reviewing previous interactions — mark N.A. if this is a confirmed first contact',wt:2},
+    {t:'If the case was handed off or escalated, the receiving agent was given sufficient context to continue without requiring the customer to repeat themselves — mark N.A. if no handoff occurred on this touch',wt:2},
+   ],warn:'⚠ Automatic deductions: no documented follow-up after disconnect; unclear next steps; passing responsibility without context; failure to complete promised actions; missed or late callbacks without proactive renegotiation.'},
+  {id:'cat5',n:'5',name:'Escalation Judgment',weight:10,
+   obj:'Determine whether escalation decisions were appropriate — including UPWARD escalations the customer requested (management, complaint, legal). Mark all N.A. if no escalation was involved and none was warranted.',
+   inds:[
+    {t:'Completed reasonable troubleshooting before escalating',wt:3},
+    {t:'Escalation was triggered by a recognized condition: unresolved after reasonable L1 troubleshooting, customer complaint or management request, ISP/partner-supported product still unresolved, or agent stuck after documented effort — not used solely to transfer a difficult call or avoid ownership',wt:2},
+    {t:'Provided complete escalation details using the correct escalation path',wt:3},
+    {t:'Clearly explained why escalation was necessary and what would happen next',wt:1},
+   ],warn:"⚠ Low score: premature, avoidable, poorly documented, used as a substitute for troubleshooting — or a warranted escalation (incl. a customer's management request) that was NOT made."},
+  {id:'cat6',n:'6',name:'Customer Experience',weight:5,
+   obj:'Measure the overall customer experience delivered during the interaction.',
+   inds:[
+    {t:'Demonstrated empathy including for repeat-contact fatigue',wt:2},
+    {t:'Stayed professional throughout and maintained patience, even under pressure',wt:3},
+    {t:"Agent matched the customer's tone, pace, level, and energy",wt:1},
+    {t:'Minimized customer effort',wt:1},
+    {t:'Maintained customer understanding and engagement',wt:2},
+   ],warn:'⚠ Negative indicators: dismissive responses; robotic interactions; frustration escalation caused by agent behavior; marathon sessions pushed onto vulnerable customers without offering to pause and resume.'},
+  {id:'cat7',n:'7',name:'Documentation & Notes',weight:5,
+   obj:'Ensure future agents can quickly understand the case. Purpose is continuity, not compliance.',
+   inds:[
+    {t:'Recorded customer issue summary',wt:3},
+    {t:'Documented troubleshooting steps',wt:3},
+    {t:'Noted key findings',wt:3},
+    {t:'Captured agent reasoning — escalation justification, offline recommendations provided by colleagues and other support POCs, and any guidance that informed the action taken',wt:3},
+    {t:'Documented next steps and follow-ups',wt:2},
+    {t:'Updated ticket status accurately',wt:1},
+   ],warn:'⚠ Documentation supports outcomes but should not outweigh troubleshooting quality, communication, or ownership. Notes must carry the FULL history — including pre-ticket contacts — so no agent treats a long-running case as new.'},
 ];
 
-const COACHING_FLAGS = [
-  {id:'cf1', cond:'Technical accuracy failure', trigger: s => catHasMissed('cat2', s), action:'Review for incorrect guidance, product misrepresentation, or unsupported root-cause conclusions'},
-  {id:'cf2', cond:'No follow-up after disconnected call', trigger: s => s.disconnect==='Yes' && s.followupAction==='No follow-up documented', action:'Mandatory callback attempt required; document outcome in case notes'},
-  {id:'cf3', cond:'Commitments not fulfilled / clear path forward missing', trigger: s => indMissed('cat4',1,s), action:'Review what was promised; confirm the customer was left with actionable next steps'},
-  {id:'cf4', cond:'Customer abandoned without a path forward', trigger: s => indMissed('cat1',0,s) && indMissed('cat1',3,s), action:'Review whether the customer had any defined next step at close; address in coaching session'},
-  {id:'cf5', cond:'Escalated without completing reasonable troubleshooting', trigger: s => indMissed('cat5',0,s), action:'Review L1 steps completed before escalation; identify gaps and add to troubleshooting playbook'},
-  {id:'cf6', cond:'Escalation criteria not met / complaint or legal-risk not escalated', trigger: s => indMissed('cat5',1,s), action:'Review whether a valid escalation trigger existed; coach on recognising escalation criteria'},
-  {id:'cf7', cond:'Professionalism concern', trigger: s => indMissed('cat6',1,s), action:'Mandatory review; assess tone, conduct, and whether a policy violation occurred'},
-  {id:'cf8', cond:'Ticket status inaccurate / premature closure', trigger: s => indMissed('cat7',5,s), action:'Review ticket state at close; verify status accurately reflected the case outcome'},
+const COACHING_FLAGS=[
+  {cond:'Technical accuracy failure',trigger:s=>catHasMissed('cat2',s),action:'Review for incorrect guidance, product misrepresentation, or unsupported root-cause conclusions'},
+  {cond:'No follow-up after disconnected call',trigger:s=>s.disconnect==='Yes'&&s.followupAction==='No follow-up documented',action:'Mandatory callback attempt required; document outcome in case notes'},
+  {cond:'Commitments not fulfilled / clear path forward missing',trigger:s=>indMissed('cat4',1,s),action:'Review what was promised; confirm the customer was left with actionable next steps'},
+  {cond:'Customer abandoned without a path forward',trigger:s=>indMissed('cat1',0,s)&&indMissed('cat1',3,s),action:'Review whether the customer had any defined next step at close; address in coaching session'},
+  {cond:'Escalated without completing reasonable troubleshooting',trigger:s=>indMissed('cat5',0,s),action:'Review L1 steps completed before escalation; identify gaps and add to troubleshooting playbook'},
+  {cond:'Escalation criteria not met / complaint or legal-risk not escalated',trigger:s=>indMissed('cat5',1,s),action:'Review whether a valid escalation trigger existed; coach on recognising escalation criteria'},
+  {cond:'Professionalism concern',trigger:s=>indMissed('cat6',1,s),action:'Mandatory review; assess tone, conduct, and whether a policy violation occurred'},
+  {cond:'Ticket status inaccurate / premature closure',trigger:s=>indMissed('cat7',5,s),action:'Review ticket state at close; verify status accurately reflected the case outcome'},
 ];
 
-const AZ_GATES = [
-  {id:'azg1', text:'Adherence to Callback Hours', defaultYes:true},
-  {id:'azg2', text:'Adherence to PCI & Information Security Standards', defaultYes:true},
-  {id:'azg3', text:'Sales', defaultYes:true},
+const AZ_GATES=[
+  {id:'azg1',text:'Adherence to Callback Hours'},
+  {id:'azg2',text:'Adherence to PCI & Information Security Standards'},
+  {id:'azg3',text:'Sales'},
 ];
-const AZ_ITEMS = [
-  {letter:'A', text:'Call / Session Abandonment'},
-  {letter:'B', text:'Call / Session Avoidance / Evasion'},
-  {letter:'C', text:'Discourtesy'},
-  {letter:'D', text:'Escalation'},
-  {letter:'E', text:'Failure to ask for the email address'},
-  {letter:'F', text:'Fraud'},
-  {letter:'G', text:'Hard-selling'},
-  {letter:'H', text:'Line Release'},
-  {letter:'I', text:'Non-Adherence to Callback Hours'},
-  {letter:'J', text:'Non-Adherence to PCI and Information Security Standards'},
-  {letter:'K', text:'Non-First Call Resolution'},
-];
-
-const SCORE_ANCHORS = [
-  {s:5, d:'Issue resolved or strongest available outcome achieved'},
-  {s:4, d:'Significant progress made with clear next steps'},
-  {s:3, d:'Partial progress made but opportunities missed'},
-  {s:2, d:'Limited progress despite available troubleshooting paths'},
-  {s:1, d:'Little or no meaningful progress'},
-  {s:0, d:'Agent actions delayed, prevented, or negatively impacted resolution'},
+const AZ_ITEMS=[
+  {l:'A',t:'Call / Session Abandonment'},{l:'B',t:'Call / Session Avoidance / Evasion'},
+  {l:'C',t:'Discourtesy'},{l:'D',t:'Escalation'},
+  {l:'E',t:'Failure to ask for the email address'},{l:'F',t:'Fraud'},
+  {l:'G',t:'Hard-selling'},{l:'H',t:'Line Release'},
+  {l:'I',t:'Non-Adherence to Callback Hours'},{l:'J',t:'Non-Adherence to PCI and Information Security Standards'},
+  {l:'K',t:'Non-First Call Resolution'},
 ];
 
 // ════════════════════════════════════════════════════════
-//  HELPERS
+//  STATE
 // ════════════════════════════════════════════════════════
-function getState() {
-  const s = { catRatings:{}, catEvidence:{}, catOverride:{}, catOverrideReason:{}, catComments:{} };
-  CATS.forEach(c => {
-    s.catRatings[c.id] = c.inds.map((_,i) => (document.getElementById(`${c.id}_r${i}`)?.value || ''));
-    s.catEvidence[c.id] = c.inds.map((_,i) => (document.getElementById(`${c.id}_e${i}`)?.value || ''));
-    s.catOverride[c.id] = document.getElementById(`${c.id}_override`)?.value || '';
-    s.catOverrideReason[c.id] = document.getElementById(`${c.id}_overrideReason`)?.value || '';
-    s.catComments[c.id] = document.getElementById(`${c.id}_comments`)?.value || '';
-  });
-  ['agentName','caseId','agentLevel','evaluator','product','channel','warranty','interactionDate','reviewDate',
-   'caseType','duration','touchNum','priorTouches','csat','fcr','totalTime','sla','caseSummary','inheritedContext',
-   'outcomeClass','primaryOutcome','outcomeJustification','followupAction',
-   'q1','well1','well2','well3','improve1','improve2','improve3','coachingRec','focus1','focus2','focus3',
-   'orgInsights','journeyNotes','finalAssessment','esf_outcome','esf_l1','esf_l2','esf_l3'
-  ].forEach(k => { s[k] = document.getElementById('f_'+k)?.value || ''; });
-  s.disconnect = document.querySelector('input[name="disconnect"]:checked')?.value || 'No';
-  AZ_GATES.forEach(g => { s[g.id] = document.querySelector(`input[name="${g.id}"]:checked`)?.value || 'Yes'; });
-  AZ_ITEMS.forEach(it => { s[it.letter] = document.querySelector(`input[name="az_${it.letter}"]:checked`)?.value || 'No'; });
-  return s;
+let STATE = {tracker:[],journeys:[],opportunities:[]};
+
+function loadPlatformState(){
+  try{const r=localStorage.getItem(STATE_KEY);if(r)STATE=JSON.parse(r);}catch(e){}
+  if(!Array.isArray(STATE.tracker))STATE.tracker=[];
+  if(!Array.isArray(STATE.journeys))STATE.journeys=[];
+  if(!Array.isArray(STATE.opportunities))STATE.opportunities=[];
+}
+function savePlatformState(){
+  try{localStorage.setItem(STATE_KEY,JSON.stringify(STATE));}catch(e){}
+}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+
+// ════════════════════════════════════════════════════════
+//  TAB SWITCHING
+// ════════════════════════════════════════════════════════
+function switchTab(name,btn){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  if(btn)btn.classList.add('active');
+  if(name==='tracker'){renderTracker();renderJourneys();}
+  if(name==='team'){refreshJourneyList();renderTeamScoring();}
 }
 
-function calcAutoScore(catId, ratings, weights) {
-  let met=0, partial=0, denom=0;
-  ratings.forEach((r,i) => {
-    const w = weights[i];
-    if(r==='Met')    { met+=w; denom+=w; }
-    else if(r==='Partial') { partial+=w; denom+=w; }
-    else if(r==='Missed')  { denom+=w; }
-  });
-  if(denom===0) return null;
-  return Math.round((5*met + 2.5*partial) / denom * 10) / 10;
+// ════════════════════════════════════════════════════════
+//  SCORING HELPERS
+// ════════════════════════════════════════════════════════
+function calcAutoScore(catId,ratings,weights){
+  let met=0,partial=0,denom=0;
+  ratings.forEach((r,i)=>{const w=weights[i];if(r==='Met'){met+=w;denom+=w;}else if(r==='Partial'){partial+=w;denom+=w;}else if(r==='Missed'){denom+=w;}});
+  if(denom===0)return null;
+  return Math.round((5*met+2.5*partial)/denom*10)/10;
 }
-
-function getFinalScore(catId, auto, override) {
-  const v = parseFloat(override);
-  if(!isNaN(v) && override.trim()!=='') return Math.min(5, Math.max(0, v));
+function getFinalScore(catId,auto,override){
+  const v=parseFloat(override);
+  if(!isNaN(v)&&override.trim()!=='')return Math.min(5,Math.max(0,v));
   return auto;
 }
-
-function scoreBand(s) {
-  if(s===null||s===undefined||isNaN(s)) return {label:'—', cls:'band-na'};
-  if(s>=5)   return {label:'Excellent',  cls:'band-excellent'};
-  if(s>=4)   return {label:'Strong',     cls:'band-strong'};
-  if(s>=3)   return {label:'Developing', cls:'band-developing'};
-  if(s>=2)   return {label:'Needs Improvement', cls:'band-needs-improvement'};
-  if(s>0)    return {label:'Needs Focus',cls:'band-needs-focus'};
-  return {label:'Critical', cls:'band-critical'};
+function calcWeightedPct(scores){
+  // scores = array of 7 values (0-5 or null)
+  let total=0,totalW=0;
+  scores.forEach((s,i)=>{if(s!==null&&!isNaN(s)){total+=(s/5)*CAT_WEIGHTS[i];totalW+=CAT_WEIGHTS[i];}});
+  if(totalW===0)return null;
+  return Math.round(total*10)/10;
 }
-
-function totalBand(pct) {
-  if(isNaN(pct)||pct===null) return {label:'—',cls:'band-na'};
-  if(pct>=90) return {label:'Excellent',  cls:'band-excellent'};
-  if(pct>=75) return {label:'Strong',     cls:'band-strong'};
-  if(pct>=65) return {label:'Developing', cls:'band-developing'};
-  if(pct>=50) return {label:'Needs Improvement', cls:'band-needs-improvement'};
-  return {label:'Needs Focus', cls:'band-needs-focus'};
+function scoreBand(s){
+  if(s===null||isNaN(s))return{label:'—',cls:'band-na'};
+  if(s>=5)return{label:'Excellent',cls:'band-excellent'};
+  if(s>=4)return{label:'Strong',cls:'band-strong'};
+  if(s>=3)return{label:'Developing',cls:'band-developing'};
+  if(s>=2)return{label:'Needs Improvement',cls:'band-ni'};
+  if(s>0)return{label:'Needs Focus',cls:'band-nf'};
+  return{label:'Critical',cls:'band-critical'};
 }
-
-function catHasMissed(catId, s) {
-  return (s.catRatings[catId]||[]).some(r=>r==='Missed');
+function totalBand(pct){
+  if(isNaN(pct)||pct===null)return{label:'—',cls:'band-na'};
+  if(pct>=90)return{label:'Excellent',cls:'band-excellent'};
+  if(pct>=75)return{label:'Strong',cls:'band-strong'};
+  if(pct>=65)return{label:'Developing',cls:'band-developing'};
+  if(pct>=50)return{label:'Needs Improvement',cls:'band-ni'};
+  return{label:'Needs Focus',cls:'band-nf'};
 }
-function indMissed(catId, idx, s) {
-  return (s.catRatings[catId]||[])[idx]==='Missed';
+function catHasMissed(catId,s){return(s.catRatings[catId]||[]).some(r=>r==='Missed');}
+function indMissed(catId,idx,s){return(s.catRatings[catId]||[])[idx]==='Missed';}
+function assessClass(v){if(v==='Met')return'v-met';if(v==='Partial')return'v-partial';if(v==='Missed')return'v-missed';if(v==='N.A.')return'v-na';return'';}
+function contrType(resScore){
+  if(resScore===null||resScore===undefined)return null;
+  if(resScore>=4)return'Resolver';
+  if(resScore>=3)return'Progress Builder';
+  if(resScore>=2)return'Maintainer';
+  return'Regression Contributor';
 }
-
-function assessClass(v) {
-  if(v==='Met') return 'v-met';
-  if(v==='Partial') return 'v-partial';
-  if(v==='Missed') return 'v-missed';
-  if(v==='N.A.') return 'v-na';
-  return '';
+function contrClass(ct){
+  if(ct==='Resolver')return'contr-resolver';
+  if(ct==='Progress Builder')return'contr-progress';
+  if(ct==='Maintainer')return'contr-maintainer';
+  if(ct==='Regression Contributor')return'contr-regression';
+  return'';
 }
 
 // ════════════════════════════════════════════════════════
-//  RENDER CATEGORIES
+//  FORM STATE
 // ════════════════════════════════════════════════════════
-function renderCategories() {
-  const container = document.getElementById('catSections');
-  container.innerHTML = '';
-  CATS.forEach(c => {
-    const div = document.createElement('div');
-    div.className = 'card';
-    div.id = `section_${c.id}`;
-    let indRows = c.inds.map((ind, i) => `
-      <tr>
-        <td class="td-text">${ind.t}</td>
-        <td>
-          <select class="asmnt" id="${c.id}_r${i}" onchange="onAssessChange('${c.id}',${i})">
-            <option value="">— Select —</option>
-            <option value="Met">Met</option>
-            <option value="Partial">Partial</option>
-            <option value="Missed">Missed</option>
-            <option value="N.A.">N.A.</option>
-          </select>
-        </td>
-        <td class="td-evidence">
-          <textarea class="evid" id="${c.id}_e${i}" placeholder="Evidence / observation…" oninput="autoSave()" rows="2"></textarea>
-        </td>
-      </tr>`).join('');
+const FORM_TEXT_FIELDS=['agentName','caseId','agentLevel','evaluator','product','channel','warranty',
+ 'interactionDate','reviewDate','caseType','duration','touchNum','priorTouches','csat','fcr',
+ 'totalTime','sla','caseSummary','inheritedContext','outcomeClass','primaryOutcome','outcomeJustification',
+ 'followupAction','q1','well1','well2','well3','improve1','improve2','improve3','coachingRec',
+ 'focus1','focus2','focus3','orgInsights','journeyNotes','finalAssessment','esf_outcome','esf_l1','esf_l2','esf_l3'];
 
-    let anchorList = SCORE_ANCHORS.map(a=>`<span style="font-size:11px;color:var(--muted)"><strong>${a.s}</strong> — ${a.d}</span>`).join('<br>');
+function getFormState(){
+  const s={catRatings:{},catEvidence:{},catOverride:{},catOverrideReason:{},catComments:{}};
+  CATS.forEach(c=>{
+    s.catRatings[c.id]=c.inds.map((_,i)=>document.getElementById(`${c.id}_r${i}`)?.value||'');
+    s.catEvidence[c.id]=c.inds.map((_,i)=>document.getElementById(`${c.id}_e${i}`)?.value||'');
+    s.catOverride[c.id]=document.getElementById(`${c.id}_override`)?.value||'';
+    s.catOverrideReason[c.id]=document.getElementById(`${c.id}_overrideReason`)?.value||'';
+    s.catComments[c.id]=document.getElementById(`${c.id}_comments`)?.value||'';
+  });
+  FORM_TEXT_FIELDS.forEach(k=>{s[k]=document.getElementById('f_'+k)?.value||'';});
+  s.disconnect=document.querySelector('input[name="disconnect"]:checked')?.value||'No';
+  AZ_GATES.forEach(g=>{s[g.id]=document.querySelector(`input[name="${g.id}"]:checked`)?.value||'Yes';});
+  AZ_ITEMS.forEach(it=>{s[it.l]=document.querySelector(`input[name="az_${it.l}"]:checked`)?.value||'No';});
+  return s;
+}
+function applyFormState(s){
+  CATS.forEach(c=>{
+    (s.catRatings?.[c.id]||[]).forEach((r,i)=>{const el=document.getElementById(`${c.id}_r${i}`);if(el){el.value=r;el.className='asmnt '+assessClass(r);}});
+    (s.catEvidence?.[c.id]||[]).forEach((r,i)=>{const el=document.getElementById(`${c.id}_e${i}`);if(el)el.value=r;});
+    const ov=document.getElementById(`${c.id}_override`);if(ov)ov.value=s.catOverride?.[c.id]||'';
+    const or=document.getElementById(`${c.id}_overrideReason`);if(or)or.value=s.catOverrideReason?.[c.id]||'';
+    const cm=document.getElementById(`${c.id}_comments`);if(cm)cm.value=s.catComments?.[c.id]||'';
+  });
+  FORM_TEXT_FIELDS.forEach(k=>{const el=document.getElementById('f_'+k);if(el&&s[k]!==undefined)el.value=s[k];});
+  if(s.disconnect){const r=document.querySelector(`input[name="disconnect"][value="${s.disconnect}"]`);if(r)r.checked=true;}
+  AZ_GATES.forEach(g=>{const v=s[g.id]||'Yes';const r=document.querySelector(`input[name="${g.id}"][value="${v}"]`);if(r)r.checked=true;});
+  AZ_ITEMS.forEach(it=>{const v=s[it.l]||'No';const r=document.querySelector(`input[name="az_${it.l}"][value="${v}"]`);if(r)r.checked=true;});
+  updateScores();updateAZ();
+}
 
-    div.innerHTML = `
-      <div class="cat-hdr">
-        <span class="cat-hdr-title">${c.n}. ${c.name}</span>
-        <span class="cat-hdr-weight">Weight: ${c.weight}%</span>
-      </div>
-      <div class="cat-obj">${c.obj}</div>
+function getFormFinalScores(){
+  const out=[];
+  CATS.forEach(c=>{
+    const ratings=c.inds.map((_,i)=>document.getElementById(`${c.id}_r${i}`)?.value||'');
+    const weights=c.inds.map(ind=>ind.wt);
+    const auto=calcAutoScore(c.id,ratings,weights);
+    const ov=document.getElementById(`${c.id}_override`)?.value||'';
+    out.push(getFinalScore(c.id,auto,ov));
+  });
+  return out;
+}
+
+// ════════════════════════════════════════════════════════
+//  RENDER SCORING FORM
+// ════════════════════════════════════════════════════════
+function renderCategories(){
+  const c=document.getElementById('catSections');c.innerHTML='';
+  CATS.forEach(cat=>{
+    const d=document.createElement('div');d.className='card';d.id='section_'+cat.id;
+    const anchors='<span style="font-size:11px;color:var(--muted)">5 — resolved/best outcome &nbsp;·&nbsp; 4 — significant progress &nbsp;·&nbsp; 3 — partial progress &nbsp;·&nbsp; 2 — limited progress &nbsp;·&nbsp; 1 — little/no progress &nbsp;·&nbsp; 0 — actions worsened outcome</span>';
+    d.innerHTML=`
+      <div class="cat-hdr"><span class="cat-hdr-title">${cat.n}. ${cat.name}</span><span class="cat-hdr-weight">Weight: ${cat.weight}%</span></div>
+      <div class="cat-obj">${cat.obj}</div>
       <table class="ind-table">
-        <thead>
+        <thead><tr><th>Behavioral Indicator</th><th class="col-assess">Assessment</th><th class="col-evidence">Evidence / Observation</th></tr></thead>
+        <tbody>${cat.inds.map((ind,i)=>`
           <tr>
-            <th>Behavioral Indicator</th>
-            <th class="col-assess">Assessment</th>
-            <th class="col-evidence">Evidence / Observation (quote or timestamp where possible)</th>
-          </tr>
-        </thead>
-        <tbody>${indRows}</tbody>
+            <td>${ind.t}</td>
+            <td><select class="asmnt" id="${cat.id}_r${i}" onchange="onAssessChange('${cat.id}',${i})">
+              <option value="">— Select —</option><option>Met</option><option>Partial</option><option>Missed</option><option>N.A.</option>
+            </select></td>
+            <td class="td-evidence"><textarea class="evid" id="${cat.id}_e${i}" rows="2" placeholder="Evidence…" oninput="autoSave()"></textarea></td>
+          </tr>`).join('')}</tbody>
       </table>
-      <div class="warn-note">${c.warn}</div>
+      <div class="warn-note">${cat.warn}</div>
       <div class="cat-footer">
         <div class="score-controls">
           <span class="score-label">Suggested score (auto):</span>
-          <span class="auto-score-box" id="${c.id}_auto">—</span>
-          <span class="score-label" style="margin-left:12px">Final Score (0–5 — leave blank to use auto):</span>
-          <input class="final-score-inp" id="${c.id}_override" type="number" min="0" max="5" step="0.5" placeholder="—" oninput="updateScores(); autoSave()">
-          <input class="override-inp" id="${c.id}_overrideReason" placeholder="Override reason (if overriding)…" oninput="autoSave()">
+          <span class="auto-score-box" id="${cat.id}_auto">—</span>
+          <span class="score-label" style="margin-left:12px">Final Score (leave blank = auto):</span>
+          <input class="final-score-inp" id="${cat.id}_override" type="number" min="0" max="5" step="0.5" placeholder="—" oninput="updateScores();autoSave()">
+          <input class="override-inp" id="${cat.id}_overrideReason" placeholder="Override reason…" oninput="autoSave()">
         </div>
         <div style="margin-top:6px">
           <label style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px">Category Comments / Coaching Notes</label>
-          <textarea class="comments-inp" id="${c.id}_comments" placeholder="Specific, actionable, coaching-oriented observations for this category…" oninput="autoSave()"></textarea>
+          <textarea class="comments-inp" id="${cat.id}_comments" oninput="autoSave()"></textarea>
         </div>
-        <div style="margin-top:8px;font-size:11px;color:var(--muted)">${anchorList}</div>
+        <div style="margin-top:6px">${anchors}</div>
       </div>`;
-    container.appendChild(div);
+    c.appendChild(d);
   });
 }
 
-// ════════════════════════════════════════════════════════
-//  RENDER AUTO-ZERO
-// ════════════════════════════════════════════════════════
-function renderAutoZero() {
-  const gDiv = document.getElementById('azGates');
-  gDiv.innerHTML = AZ_GATES.map(g => `
-    <div class="az-row">
-      <div class="az-text">${g.text}</div>
-      <div class="az-radios">
-        <label><input type="radio" name="${g.id}" value="Yes" onchange="updateAZ();autoSave()" checked> Yes (adhered)</label>
-        <label><input type="radio" name="${g.id}" value="No" onchange="updateAZ();autoSave()"> No</label>
-      </div>
-    </div>`).join('');
-
-  const iDiv = document.getElementById('azItems');
-  iDiv.innerHTML = AZ_ITEMS.map(it => `
-    <div class="az-row">
-      <div class="az-letter">${it.letter}.</div>
-      <div class="az-text">${it.text}</div>
-      <div class="az-radios">
-        <label><input type="radio" name="az_${it.letter}" value="No" onchange="updateAZ();autoSave()" checked> No</label>
-        <label><input type="radio" name="az_${it.letter}" value="Yes" onchange="updateAZ();autoSave()"> Yes</label>
-      </div>
-    </div>`).join('');
-}
-
-// ════════════════════════════════════════════════════════
-//  RENDER COACHING FLAGS
-// ════════════════════════════════════════════════════════
-function renderFlags() {
-  document.getElementById('flagsBody').innerHTML = COACHING_FLAGS.map(f => `
-    <tr id="flagrow_${f.id}">
-      <td>${f.cond}</td>
-      <td id="flagstatus_${f.id}"><span class="flag-off">✓ Clear</span></td>
-      <td>${f.action}</td>
-    </tr>`).join('');
-}
-
-// ════════════════════════════════════════════════════════
-//  RENDER SCORE SUMMARY TABLE
-// ════════════════════════════════════════════════════════
-function renderSummary() {
-  document.getElementById('summaryBody').innerHTML = CATS.map(c => `
+function renderSummary(){
+  document.getElementById('summaryBody').innerHTML=CATS.map(c=>`
     <tr>
-      <td>${c.name}</td>
-      <td class="center">${c.weight}%</td>
+      <td>${c.name}</td><td class="center">${c.weight}%</td>
       <td class="center" id="sum_score_${c.id}">—</td>
       <td class="center" id="sum_wpct_${c.id}">—</td>
       <td class="center" id="sum_band_${c.id}">—</td>
     </tr>`).join('');
 }
 
-// ════════════════════════════════════════════════════════
-//  UPDATE SCORES
-// ════════════════════════════════════════════════════════
-function onAssessChange(catId, idx) {
-  const sel = document.getElementById(`${catId}_r${idx}`);
-  sel.className = 'asmnt ' + assessClass(sel.value);
-  updateScores();
-  autoSave();
+function renderAutoZero(){
+  document.getElementById('azGates').innerHTML=AZ_GATES.map(g=>`
+    <div class="az-row"><div class="az-text">${g.text}</div><div class="az-radios">
+      <label><input type="radio" name="${g.id}" value="Yes" onchange="updateAZ();autoSave()" checked> Yes (adhered)</label>
+      <label><input type="radio" name="${g.id}" value="No" onchange="updateAZ();autoSave()"> No</label>
+    </div></div>`).join('');
+  document.getElementById('azItems').innerHTML=AZ_ITEMS.map(it=>`
+    <div class="az-row"><div class="az-letter">${it.l}.</div><div class="az-text">${it.t}</div><div class="az-radios">
+      <label><input type="radio" name="az_${it.l}" value="No" onchange="updateAZ();autoSave()" checked> No</label>
+      <label><input type="radio" name="az_${it.l}" value="Yes" onchange="updateAZ();autoSave()"> Yes</label>
+    </div></div>`).join('');
 }
 
-function updateScores() {
-  const s = getState();
-  let totalWeighted = 0, totalWeight = 0, anyScore = false;
+function renderFlags(){
+  document.getElementById('flagsBody').innerHTML=COACHING_FLAGS.map((f,i)=>`
+    <tr><td>${f.cond}</td><td id="flagstatus_${i}"><span class="flag-off">✓ Clear</span></td><td>${f.action}</td></tr>`).join('');
+}
 
-  CATS.forEach(c => {
-    const ratings = s.catRatings[c.id] || [];
-    const weights = c.inds.map(i=>i.wt);
-    const auto = calcAutoScore(c.id, ratings, weights);
-    const final = getFinalScore(c.id, auto, s.catOverride[c.id]);
+function onAssessChange(catId,idx){
+  const s=document.getElementById(`${catId}_r${idx}`);s.className='asmnt '+assessClass(s.value);
+  updateScores();autoSave();
+}
 
-    // Update auto-score display
-    const autoEl = document.getElementById(`${c.id}_auto`);
-    if(autoEl) autoEl.textContent = auto!==null ? auto.toFixed(1) : '—';
-
-    // Update summary table
-    const scoreEl = document.getElementById(`sum_score_${c.id}`);
-    const wpctEl  = document.getElementById(`sum_wpct_${c.id}`);
-    const bandEl  = document.getElementById(`sum_band_${c.id}`);
-    if(final!==null && !isNaN(final)) {
-      const wpct = (final/5)*c.weight;
-      const band = scoreBand(final);
-      if(scoreEl) scoreEl.textContent = final.toFixed(1);
-      if(wpctEl)  wpctEl.textContent  = wpct.toFixed(1)+'%';
-      if(bandEl)  bandEl.innerHTML    = `<span class="band ${band.cls}">${band.label}</span>`;
-      totalWeighted += wpct;
-      totalWeight += c.weight;
-      anyScore = true;
-    } else {
-      if(scoreEl) scoreEl.textContent = '—';
-      if(wpctEl)  wpctEl.textContent  = '—';
-      if(bandEl)  bandEl.innerHTML    = '<span class="band band-na">—</span>';
-    }
+function updateScores(){
+  const s=getFormState();
+  let totalW=0,anyScore=false;
+  const azTriggered=checkAutoZero(s);
+  CATS.forEach(c=>{
+    const ratings=s.catRatings[c.id]||[];
+    const weights=c.inds.map(i=>i.wt);
+    const auto=calcAutoScore(c.id,ratings,weights);
+    const final=getFinalScore(c.id,auto,s.catOverride[c.id]);
+    const autoEl=document.getElementById(`${c.id}_auto`);if(autoEl)autoEl.textContent=auto!==null?auto.toFixed(1):'—';
+    const sEl=document.getElementById(`sum_score_${c.id}`);
+    const wEl=document.getElementById(`sum_wpct_${c.id}`);
+    const bEl=document.getElementById(`sum_band_${c.id}`);
+    if(final!==null&&!isNaN(final)){
+      const wp=(final/5)*c.weight;
+      const bd=scoreBand(final);
+      if(sEl)sEl.textContent=final.toFixed(1);
+      if(wEl)wEl.textContent=wp.toFixed(1)+'%';
+      if(bEl)bEl.innerHTML=`<span class="band ${bd.cls}">${bd.label}</span>`;
+      totalW+=wp;anyScore=true;
+    }else{if(sEl)sEl.textContent='—';if(wEl)wEl.textContent='—';if(bEl)bEl.innerHTML='<span class="band band-na">—</span>';}
   });
-
-  // Check auto-zero
-  const azTriggered = checkAutoZero(s);
-
-  // Weighted total
-  const pctEl   = document.getElementById('totalPct');
-  const bandEl  = document.getElementById('totalBand');
-  const badgeEl = document.getElementById('summaryTotalBadge');
-
-  if(anyScore && azTriggered) {
-    if(pctEl)   pctEl.textContent  = '0% (AUTO-ZERO)';
-    if(bandEl)  bandEl.innerHTML   = '<span class="band band-critical">AUTO-ZERO</span>';
-    if(badgeEl) badgeEl.textContent = 'AUTO-ZERO TRIGGERED';
-  } else if(anyScore) {
-    const pct = totalWeighted;
-    const tb = totalBand(pct);
-    if(pctEl)   pctEl.textContent = pct.toFixed(1)+'%';
-    if(bandEl)  bandEl.innerHTML  = `<span class="band ${tb.cls}">${tb.label}</span>`;
-    if(badgeEl) badgeEl.textContent = pct.toFixed(1)+'%';
-  } else {
-    if(pctEl)   pctEl.textContent = '—';
-    if(bandEl)  bandEl.innerHTML  = '—';
-    if(badgeEl) badgeEl.textContent = '—';
-  }
-
+  const pEl=document.getElementById('totalPct');
+  const tbEl=document.getElementById('totalBand');
+  const badgeEl=document.getElementById('summaryTotalBadge');
+  if(anyScore&&azTriggered){
+    if(pEl)pEl.textContent='0% (AUTO-ZERO)';if(tbEl)tbEl.innerHTML='<span class="band band-az">AUTO-ZERO</span>';if(badgeEl)badgeEl.textContent='AUTO-ZERO';
+  }else if(anyScore){
+    const tb=totalBand(totalW);
+    if(pEl)pEl.textContent=totalW.toFixed(1)+'%';if(tbEl)tbEl.innerHTML=`<span class="band ${tb.cls}">${tb.label}</span>`;if(badgeEl)badgeEl.textContent=totalW.toFixed(1)+'%';
+  }else{if(pEl)pEl.textContent='—';if(tbEl)tbEl.innerHTML='—';if(badgeEl)badgeEl.textContent='—';}
   updateFlags(s);
 }
 
-// ════════════════════════════════════════════════════════
-//  AUTO-ZERO
-// ════════════════════════════════════════════════════════
-function checkAutoZero(s) {
-  const gateTripped = AZ_GATES.some(g => (s[g.id]||'Yes')==='No');
-  const itemTripped = AZ_ITEMS.some(it => (s[it.letter]||'No')==='Yes');
-  return gateTripped || itemTripped;
+function checkAutoZero(s){
+  return AZ_GATES.some(g=>(s[g.id]||'Yes')==='No')||AZ_ITEMS.some(it=>(s[it.l]||'No')==='Yes');
 }
-
-function updateAZ() {
-  const s = getState();
-  const triggered = checkAutoZero(s);
-  const el = document.getElementById('azResult');
-  if(triggered) {
-    el.className = 'az-result triggered';
-    el.textContent = '⚠ AUTO-ZERO TRIGGERED — Weighted Quality Score is forced to 0%. Category scores are preserved for coaching.';
-  } else {
-    el.className = 'az-result ok';
-    el.textContent = '✓ No Auto-Zero condition triggered — Quality Score is valid.';
-  }
+function updateAZ(){
+  const s=getFormState();
+  const triggered=checkAutoZero(s);
+  const el=document.getElementById('azResult');
+  el.className='az-result '+(triggered?'triggered':'ok');
+  el.textContent=triggered?'⚠ AUTO-ZERO TRIGGERED — Weighted Quality Score is forced to 0%. Category scores preserved for coaching.':'✓ No Auto-Zero condition triggered — Quality Score is valid.';
   updateScores();
 }
-
-// ════════════════════════════════════════════════════════
-//  COACHING FLAGS
-// ════════════════════════════════════════════════════════
-function updateFlags(s) {
-  let flagCount = 0;
-  // supplement s with disconnect info
-  s.disconnect = document.querySelector('input[name="disconnect"]:checked')?.value || 'No';
-  s.followupAction = document.getElementById('f_followupAction')?.value || '';
-
-  COACHING_FLAGS.forEach(f => {
-    const fired = f.trigger(s);
-    const el = document.getElementById(`flagstatus_${f.id}`);
-    if(el) {
-      el.innerHTML = fired
-        ? '<span class="flag-on">⚑ Triggered</span>'
-        : '<span class="flag-off">✓ Clear</span>';
-    }
-    if(fired) flagCount++;
+function updateFlags(s){
+  s.disconnect=document.querySelector('input[name="disconnect"]:checked')?.value||'No';
+  s.followupAction=document.getElementById('f_followupAction')?.value||'';
+  let cnt=0;
+  COACHING_FLAGS.forEach((f,i)=>{
+    const fired=f.trigger(s);
+    const el=document.getElementById(`flagstatus_${i}`);
+    if(el)el.innerHTML=fired?'<span class="flag-on">⚑ Triggered</span>':'<span class="flag-off">✓ Clear</span>';
+    if(fired)cnt++;
   });
-  const badge = document.getElementById('flagsBadge');
-  if(badge) badge.textContent = flagCount > 0 ? `${flagCount} flag${flagCount>1?'s':''} triggered` : 'No flags triggered';
+  const b=document.getElementById('flagsBadge');if(b)b.textContent=cnt>0?`${cnt} flag${cnt>1?'s':''} triggered`:'No flags triggered';
 }
 
 // ════════════════════════════════════════════════════════
-//  SAVE / LOAD
+//  FORM SAVE / LOAD
 // ════════════════════════════════════════════════════════
-let autoSaveTimer = null;
-function autoSave() {
-  clearTimeout(autoSaveTimer);
-  autoSaveTimer = setTimeout(saveToLocal, 1500);
+let autoSaveTimer=null;
+function autoSave(){clearTimeout(autoSaveTimer);autoSaveTimer=setTimeout(saveForm,1500);}
+function saveForm(){
+  try{
+    const s=getFormState();const key='qa_form_'+(s.caseId||'draft');
+    localStorage.setItem(key,JSON.stringify(s));localStorage.setItem('qa_form_last_key',key);
+    const el=document.getElementById('saveStatus');if(el){el.textContent='Saved '+new Date().toLocaleTimeString();setTimeout(()=>el.textContent='',4000);}
+  }catch(e){}
 }
-
-function saveToLocal() {
-  try {
-    const s = getState();
-    const caseId = s.caseId || 'unsaved';
-    localStorage.setItem(`qa_form_${caseId}`, JSON.stringify(s));
-    localStorage.setItem('qa_form_last_key', `qa_form_${caseId}`);
-    const el = document.getElementById('saveStatus');
-    if(el) { el.textContent = `Saved — ${new Date().toLocaleTimeString()}`; setTimeout(()=>el.textContent='',4000); }
-  } catch(e) { console.error('Save failed', e); }
+function loadLastForm(){
+  const key=localStorage.getItem('qa_form_last_key');if(!key){alert('No saved form found.');return;}
+  const raw=localStorage.getItem(key);if(!raw){alert('No data found.');return;}
+  try{applyFormState(JSON.parse(raw));}catch(e){alert('Failed to load.');}
 }
-
-function loadFromLocal() {
-  const key = localStorage.getItem('qa_form_last_key');
-  if(!key) { alert('No saved form found.'); return; }
-  const raw = localStorage.getItem(key);
-  if(!raw) { alert('No saved data found.'); return; }
-  try { applyState(JSON.parse(raw)); } catch(e) { alert('Failed to load saved form.'); }
-}
-
-function downloadJSON() {
-  const s = getState();
-  const blob = new Blob([JSON.stringify(s, null, 2)], {type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `QA_${s.caseId||'form'}_${new Date().toISOString().slice(0,10)}.json`;
+function downloadFormJSON(){
+  const s=getFormState();
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(s,null,2)],{type:'application/json'}));
+  a.download=`QA_Form_${s.caseId||'draft'}_${new Date().toISOString().slice(0,10)}.json`;
   a.click();
 }
-
-function importJSON() { document.getElementById('importFile').click(); }
-function handleImport(e) {
-  const file = e.target.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = ev => { try { applyState(JSON.parse(ev.target.result)); } catch(x) { alert('Invalid JSON file.'); } };
-  reader.readAsText(file);
-  e.target.value = '';
-}
-
-function clearForm() {
-  if(!confirm('Clear all form data? This cannot be undone.')) return;
-  CATS.forEach(c => {
-    c.inds.forEach((_,i) => {
-      const r=document.getElementById(`${c.id}_r${i}`); if(r){r.value='';r.className='asmnt';}
-      const ev=document.getElementById(`${c.id}_e${i}`); if(ev) ev.value='';
-    });
-    const ov=document.getElementById(`${c.id}_override`); if(ov) ov.value='';
-    const or=document.getElementById(`${c.id}_overrideReason`); if(or) or.value='';
-    const cm=document.getElementById(`${c.id}_comments`); if(cm) cm.value='';
+function clearForm(){
+  if(!confirm('Clear all form data?'))return;
+  CATS.forEach(c=>{
+    c.inds.forEach((_,i)=>{const r=document.getElementById(`${c.id}_r${i}`);if(r){r.value='';r.className='asmnt';}const e=document.getElementById(`${c.id}_e${i}`);if(e)e.value='';});
+    ['override','overrideReason','comments'].forEach(k=>{const el=document.getElementById(`${c.id}_${k}`);if(el)el.value='';});
   });
-  ['agentName','caseId','agentLevel','evaluator','product','channel','warranty','interactionDate','reviewDate',
-   'caseType','duration','touchNum','priorTouches','csat','fcr','totalTime','sla','caseSummary','inheritedContext',
-   'outcomeClass','primaryOutcome','outcomeJustification','followupAction',
-   'q1','well1','well2','well3','improve1','improve2','improve3','coachingRec','focus1','focus2','focus3',
-   'orgInsights','journeyNotes','finalAssessment','esf_outcome','esf_l1','esf_l2','esf_l3'
-  ].forEach(k => { const el=document.getElementById('f_'+k); if(el) el.value=''; });
-  document.querySelector('input[name="disconnect"][value="No"]').checked = true;
-  AZ_GATES.forEach(g => document.querySelector(`input[name="${g.id}"][value="Yes"]`).checked = true);
-  AZ_ITEMS.forEach(it => document.querySelector(`input[name="az_${it.letter}"][value="No"]`).checked = true);
-  updateScores();
-  updateAZ();
-  document.getElementById('f_reviewDate').value = new Date().toISOString().slice(0,10);
+  FORM_TEXT_FIELDS.forEach(k=>{const el=document.getElementById('f_'+k);if(el)el.value='';});
+  document.querySelector('input[name="disconnect"][value="No"]').checked=true;
+  AZ_GATES.forEach(g=>document.querySelector(`input[name="${g.id}"][value="Yes"]`).checked=true);
+  AZ_ITEMS.forEach(it=>document.querySelector(`input[name="az_${it.l}"][value="No"]`).checked=true);
+  document.getElementById('f_reviewDate').value=new Date().toISOString().slice(0,10);
+  updateScores();updateAZ();
 }
 
-function applyState(s) {
-  CATS.forEach(c => {
-    (s.catRatings?.[c.id]||[]).forEach((r,i) => {
-      const el = document.getElementById(`${c.id}_r${i}`);
-      if(el) { el.value=r; el.className='asmnt '+assessClass(r); }
-    });
-    (s.catEvidence?.[c.id]||[]).forEach((r,i) => {
-      const el = document.getElementById(`${c.id}_e${i}`); if(el) el.value=r;
-    });
-    const ov=document.getElementById(`${c.id}_override`); if(ov) ov.value=s.catOverride?.[c.id]||'';
-    const or=document.getElementById(`${c.id}_overrideReason`); if(or) or.value=s.catOverrideReason?.[c.id]||'';
-    const cm=document.getElementById(`${c.id}_comments`); if(cm) cm.value=s.catComments?.[c.id]||'';
-  });
-  ['agentName','caseId','agentLevel','evaluator','product','channel','warranty','interactionDate','reviewDate',
-   'caseType','duration','touchNum','priorTouches','csat','fcr','totalTime','sla','caseSummary','inheritedContext',
-   'outcomeClass','primaryOutcome','outcomeJustification','followupAction',
-   'q1','well1','well2','well3','improve1','improve2','improve3','coachingRec','focus1','focus2','focus3',
-   'orgInsights','journeyNotes','finalAssessment','esf_outcome','esf_l1','esf_l2','esf_l3'
-  ].forEach(k => { const el=document.getElementById('f_'+k); if(el && s[k]!==undefined) el.value=s[k]; });
-  if(s.disconnect) { const r=document.querySelector(`input[name="disconnect"][value="${s.disconnect}"]`); if(r) r.checked=true; }
-  AZ_GATES.forEach(g => { const v=s[g.id]||'Yes'; const r=document.querySelector(`input[name="${g.id}"][value="${v}"]`); if(r) r.checked=true; });
-  AZ_ITEMS.forEach(it => { const v=s[it.letter]||'No'; const r=document.querySelector(`input[name="az_${it.letter}"][value="${v}"]`); if(r) r.checked=true; });
-  updateScores();
-  updateAZ();
+// ════════════════════════════════════════════════════════
+//  LOG TO TRACKER
+// ════════════════════════════════════════════════════════
+function logToTracker(){
+  const s=getFormState();
+  const scores=getFormFinalScores();
+  const wpct=calcWeightedPct(scores);
+  const agentLevel=(s.agentLevel||'').toLowerCase().includes('2')?'L2':'L1';
+  const row={
+    id:uid(),
+    date:s.interactionDate||new Date().toISOString().slice(0,10),
+    caseId:s.caseId||'',
+    agent:s.agentName||'',
+    touchNum:s.touchNum||'',
+    level:agentLevel,
+    scores:scores,
+    weightedPct:wpct,
+    criticalFailure:checkAutoZero(s)?'Yes':'No',
+    handoffQuality:'',
+    notes:s.outcomeClass||'',
+  };
+  STATE.tracker.push(row);
+  savePlatformState();
+  alert(`✓ Touch logged to Case Tracker.\nCase: ${row.caseId||'—'} · Agent: ${row.agent||'—'} · Score: ${wpct!==null?wpct.toFixed(1)+'%':'—'}`);
+  switchTab('tracker',document.querySelectorAll('.tab-btn')[1]);
 }
+
+// ════════════════════════════════════════════════════════
+//  CASE TRACKER RENDER
+// ════════════════════════════════════════════════════════
+function addTrackerRow(){
+  STATE.tracker.push({id:uid(),date:new Date().toISOString().slice(0,10),caseId:'',agent:'',touchNum:'',level:'L1',scores:[null,null,null,null,null,null,null],weightedPct:null,criticalFailure:'No',handoffQuality:'',notes:''});
+  savePlatformState();renderTracker();
+}
+function deleteTrackerRow(id){
+  STATE.tracker=STATE.tracker.filter(r=>r.id!==id);
+  savePlatformState();renderTracker();
+}
+function updateTrackerRow(id,field,value){
+  const row=STATE.tracker.find(r=>r.id===id);if(!row)return;
+  if(field.startsWith('score_')){
+    const idx=parseInt(field.split('_')[1]);
+    const v=value===''?null:parseFloat(value);
+    row.scores[idx]=isNaN(v)?null:Math.min(5,Math.max(0,v));
+    row.weightedPct=calcWeightedPct(row.scores);
+  }else{row[field]=value;}
+  savePlatformState();
+  // Re-render just the auto cells for this row
+  const wpEl=document.getElementById(`tr_wpct_${id}`);
+  const bandEl=document.getElementById(`tr_band_${id}`);
+  const contrEl=document.getElementById(`tr_contr_${id}`);
+  if(wpEl){const wp=row.weightedPct;wpEl.textContent=wp!==null?wp.toFixed(1)+'%':'—';}
+  if(bandEl){const bd=totalBand(row.weightedPct);bandEl.innerHTML=`<span class="band ${bd.cls}" style="font-size:10.5px">${bd.label}</span>`;}
+  if(contrEl){const ct=contrType(row.scores[0]);contrEl.innerHTML=ct?`<span class="contr-badge ${contrClass(ct)}">${ct}</span>`:'—';}
+  renderAvgRow();
+  if(document.getElementById('tab-team').classList.contains('active'))renderTeamScoring();
+}
+
+function renderTracker(){
+  const tbody=document.getElementById('trackerBody');
+  tbody.innerHTML=STATE.tracker.map(row=>{
+    const wpct=row.weightedPct;
+    const bd=totalBand(wpct);
+    const ct=contrType(row.scores?.[0]);
+    return`<tr>
+      <td class="tr-del"><button class="del-btn" onclick="deleteTrackerRow('${row.id}')" title="Delete">✕</button></td>
+      <td><input class="tr-inp tr-date" value="${row.date||''}" type="date" onchange="updateTrackerRow('${row.id}','date',this.value)"></td>
+      <td><input class="tr-inp tr-caseid" value="${esc(row.caseId||'')}" placeholder="Case ID" oninput="updateTrackerRow('${row.id}','caseId',this.value)"></td>
+      <td><input class="tr-inp tr-agent" value="${esc(row.agent||'')}" placeholder="Agent" oninput="updateTrackerRow('${row.id}','agent',this.value)"></td>
+      <td><input class="tr-inp tr-touch" value="${esc(row.touchNum||'')}" placeholder="#" oninput="updateTrackerRow('${row.id}','touchNum',this.value)"></td>
+      <td><select class="tr-inp tr-level" onchange="updateTrackerRow('${row.id}','level',this.value)">
+        <option ${row.level==='L1'?'selected':''}>L1</option>
+        <option ${row.level==='L2'?'selected':''}>L2</option>
+        <option ${row.level==='L2 / CAT'?'selected':''}>L2 / CAT</option>
+      </select></td>
+      ${[0,1,2,3,4,5,6].map(i=>`<td><input class="tr-inp tr-score" type="number" min="0" max="5" step="0.5" value="${row.scores?.[i]??''}" placeholder="—" oninput="updateTrackerRow('${row.id}','score_${i}',this.value)"></td>`).join('')}
+      <td class="tr-auto" id="tr_wpct_${row.id}">${wpct!==null?wpct.toFixed(1)+'%':'—'}</td>
+      <td class="tr-auto" id="tr_band_${row.id}"><span class="band ${bd.cls}" style="font-size:10.5px">${bd.label}</span></td>
+      <td class="tr-auto" id="tr_contr_${row.id}">${ct?`<span class="contr-badge ${contrClass(ct)}">${ct}</span>`:'—'}</td>
+      <td><input class="tr-inp tr-hq" type="number" min="0" max="5" step="0.5" value="${row.handoffQuality??''}" placeholder="—" oninput="updateTrackerRow('${row.id}','handoffQuality',this.value)"></td>
+      <td><input class="tr-inp" value="${esc(row.notes||'')}" placeholder="Notes…" oninput="updateTrackerRow('${row.id}','notes',this.value)"></td>
+      <td class="center" style="font-size:12px">${row.criticalFailure==='Yes'?'<span style="color:var(--red);font-weight:700">YES</span>':'<span style="color:#aaa">—</span>'}</td>
+    </tr>`;}).join('');
+  const cnt=document.getElementById('touchCount');if(cnt)cnt.textContent=`${STATE.tracker.length} touch${STATE.tracker.length!==1?'es':''}`;
+  renderAvgRow();
+}
+
+function renderAvgRow(){
+  const tbody=document.getElementById('trackerAvgRow');
+  if(!STATE.tracker.length){tbody.innerHTML='';return;}
+  const avgs=CAT_WEIGHTS.map((_,i)=>{
+    const vals=STATE.tracker.map(r=>r.scores?.[i]).filter(v=>v!==null&&v!==undefined&&!isNaN(v));
+    return vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:null;
+  });
+  const wtd=calcWeightedPct(avgs);
+  tbody.innerHTML=`<tr class="avg-row">
+    <td></td><td colspan="5" style="font-weight:800;color:var(--primary)">TEAM AVERAGE (all touches)</td>
+    ${avgs.map(v=>`<td class="center">${v!==null?v.toFixed(1):'—'}</td>`).join('')}
+    <td class="center" style="font-weight:900;color:var(--primary)">${wtd!==null?wtd.toFixed(1)+'%':'—'}</td>
+    <td colspan="4"></td>
+  </tr>`;
+}
+
+// ════════════════════════════════════════════════════════
+//  JOURNEY ROWS
+// ════════════════════════════════════════════════════════
+function addJourneyRow(){
+  STATE.journeys.push({id:uid(),caseId:'',outcome:'',continuity:'',notes:''});
+  savePlatformState();renderJourneys();
+}
+function deleteJourneyRow(id){
+  STATE.journeys=STATE.journeys.filter(r=>r.id!==id);
+  savePlatformState();renderJourneys();
+}
+function updateJourneyRow(id,field,value){
+  const row=STATE.journeys.find(r=>r.id===id);if(!row)return;
+  row[field]=value;
+  savePlatformState();
+  // Recompute team score for this journey
+  const {teamScore,exec,touches}=computeJourneyScore(row);
+  const tsEl=document.getElementById(`jrny_ts_${id}`);
+  const bdEl=document.getElementById(`jrny_bd_${id}`);
+  const tcEl=document.getElementById(`jrny_tc_${id}`);
+  const avEl=document.getElementById(`jrny_av_${id}`);
+  if(tcEl)tcEl.textContent=touches;
+  if(avEl)avEl.textContent=exec!==null?exec.toFixed(1)+'%':'—';
+  if(tsEl)tsEl.textContent=teamScore!==null?teamScore.toFixed(1)+'%':'—';
+  if(bdEl){const bd=totalBand(teamScore);bdEl.innerHTML=teamScore!==null?`<span class="band ${bd.cls}">${bd.label}</span>`:'—';}
+}
+function computeJourneyScore(jrny){
+  const cid=(jrny.caseId||'').trim().toLowerCase();
+  const touches=cid?STATE.tracker.filter(r=>(r.caseId||'').trim().toLowerCase()===cid):[];
+  const l1rows=touches.filter(r=>!r.level||r.level==='L1');
+  const l2rows=touches.filter(r=>r.level&&r.level.startsWith('L2'));
+  const l1avg=l1rows.length?l1rows.filter(r=>r.weightedPct!==null).reduce((a,b)=>a+(b.weightedPct||0),0)/(l1rows.filter(r=>r.weightedPct!==null).length||1):null;
+  const l2avg=l2rows.length?l2rows.filter(r=>r.weightedPct!==null).reduce((a,b)=>a+(b.weightedPct||0),0)/(l2rows.filter(r=>r.weightedPct!==null).length||1):null;
+  // Execution component
+  let exec=null;
+  if(l1avg!==null&&l2avg!==null){exec=0.4*l1avg+0.6*l2avg;} // weighted blend
+  else if(l1avg!==null){exec=l1avg;}
+  else if(l2avg!==null){exec=l2avg;}
+  const outcome=parseFloat(jrny.outcome);
+  const continuity=parseFloat(jrny.continuity);
+  let teamScore=null;
+  if(exec!==null&&!isNaN(outcome)&&!isNaN(continuity)){
+    teamScore=0.50*exec+0.30*(outcome/5*100)+0.20*(continuity/5*100);
+    teamScore=Math.round(teamScore*10)/10;
+  }
+  const execDisplay=exec;
+  return{teamScore,exec:execDisplay,touches:touches.length};
+}
+function renderJourneys(){
+  const tbody=document.getElementById('journeyBody');
+  tbody.innerHTML=STATE.journeys.map(jrny=>{
+    const {teamScore,exec,touches}=computeJourneyScore(jrny);
+    const bd=totalBand(teamScore);
+    return`<tr>
+      <td><button class="del-btn" onclick="deleteJourneyRow('${jrny.id}')" title="Delete">✕</button></td>
+      <td><input class="jrny-inp" value="${esc(jrny.caseId||'')}" placeholder="Case ID" oninput="updateJourneyRow('${jrny.id}','caseId',this.value)"></td>
+      <td class="center" id="jrny_tc_${jrny.id}">${touches}</td>
+      <td class="jrny-auto" id="jrny_av_${jrny.id}">${exec!==null?exec.toFixed(1)+'%':'—'}</td>
+      <td><input class="jrny-inp jrny-score" type="number" min="0" max="5" step="0.5" value="${jrny.outcome||''}" placeholder="0–5" oninput="updateJourneyRow('${jrny.id}','outcome',this.value)"></td>
+      <td><input class="jrny-inp jrny-score" type="number" min="0" max="5" step="0.5" value="${jrny.continuity||''}" placeholder="0–5" oninput="updateJourneyRow('${jrny.id}','continuity',this.value)"></td>
+      <td class="jrny-auto" id="jrny_ts_${jrny.id}">${teamScore!==null?teamScore.toFixed(1)+'%':'—'}</td>
+      <td class="center" id="jrny_bd_${jrny.id}">${teamScore!==null?`<span class="band ${bd.cls}" style="font-size:11px">${bd.label}</span>`:'—'}</td>
+      <td><input class="jrny-inp" value="${esc(jrny.notes||'')}" placeholder="Journey notes…" oninput="updateJourneyRow('${jrny.id}','notes',this.value)"></td>
+    </tr>`;}).join('');
+}
+function clearTracker(){
+  if(!confirm('Clear all Case Tracker data?'))return;
+  STATE.tracker=[];STATE.journeys=[];savePlatformState();renderTracker();renderJourneys();
+}
+
+// ════════════════════════════════════════════════════════
+//  TEAM SCORING
+// ════════════════════════════════════════════════════════
+function refreshJourneyList(){
+  const sel=document.getElementById('teamJourneySelect');
+  const cur=sel.value;
+  const ids=[...new Set(STATE.tracker.map(r=>r.caseId).filter(Boolean))];
+  sel.innerHTML='<option value="">— Select a Case ID —</option>'+ids.map(id=>`<option value="${esc(id)}" ${id===cur?'selected':''}>${esc(id)}</option>`).join('');
+}
+
+function renderTeamScoring(){
+  const cid=(document.getElementById('teamJourneySelect')?.value||'').trim();
+  const touches=cid?STATE.tracker.filter(r=>(r.caseId||'').trim()===cid):[];
+  const jrny=STATE.journeys.find(j=>(j.caseId||'').trim()===cid)||{outcome:'',continuity:''};
+
+  // Scorecard
+  const l1=touches.filter(r=>!r.level||r.level==='L1').filter(r=>r.weightedPct!==null);
+  const l2=touches.filter(r=>r.level&&r.level.startsWith('L2')).filter(r=>r.weightedPct!==null);
+  const l1avg=l1.length?l1.reduce((a,b)=>a+(b.weightedPct||0),0)/l1.length:null;
+  const l2avg=l2.length?l2.reduce((a,b)=>a+(b.weightedPct||0),0)/l2.length:null;
+  let exec=null;
+  if(l1avg!==null&&l2avg!==null)exec=0.4*l1avg+0.6*l2avg;
+  else if(l1avg!==null)exec=l1avg;
+  else if(l2avg!==null)exec=l2avg;
+
+  const outcome=parseFloat(jrny.outcome);const continuity=parseFloat(jrny.continuity);
+  let teamScore=null;
+  if(exec!==null&&!isNaN(outcome)&&!isNaN(continuity))
+    teamScore=Math.round((0.50*exec+0.30*(outcome/5*100)+0.20*(continuity/5*100))*10)/10;
+
+  document.getElementById('ts_exec').textContent=exec!==null?exec.toFixed(1)+'%':'—';
+  document.getElementById('ts_outcome').textContent=!isNaN(outcome)?outcome+'/5':'—';
+  document.getElementById('ts_cont').textContent=!isNaN(continuity)?continuity+'/5':'—';
+  document.getElementById('ts_total').textContent=teamScore!==null?teamScore.toFixed(1)+'%':'—';
+  const tb=totalBand(teamScore);
+  document.getElementById('ts_band').textContent=teamScore!==null?tb.label:'—';
+  document.getElementById('teamJourneyMeta').textContent=touches.length?`${touches.length} touch${touches.length>1?'es':''} · ${l1.length} L1 · ${l2.length} L2`:'No touches logged for this case ID';
+
+  // Gap Diagnosis
+  const diagEl=document.getElementById('gapDiagnosis');
+  if(!cid||!touches.length){diagEl.className='gap-diagnosis neutral';diagEl.innerHTML='Select a journey above to load team analysis.';}
+  else if(teamScore===null){diagEl.className='gap-diagnosis neutral';diagEl.innerHTML='<strong>Journey selected — enter Outcome and Continuity scores in the Case Tracker to compute the Team Score.</strong>';}
+  else{
+    const gap=exec!==null?teamScore-exec:null;
+    if(gap===null){diagEl.className='gap-diagnosis neutral';diagEl.innerHTML='<strong>Team Score computed.</strong>';}
+    else if(Math.abs(gap)<5){diagEl.className='gap-diagnosis neutral';diagEl.innerHTML=`<strong>Team Score ≈ Execution average (gap: ${gap>0?'+':''}${gap.toFixed(1)}%)</strong><br>The chain neither helped nor hurt. Coach individuals on their own findings; no major process action needed from the team review.`;}
+    else if(gap>5){diagEl.className='gap-diagnosis positive';diagEl.innerHTML=`<strong>Team Score WELL ABOVE Execution average (gap: +${gap.toFixed(1)}%)</strong><br>Strong outcome/continuity lifted ordinary touches — the process carried the team. Recognize the chain and the process owners; capture what worked as a standard.`;}
+    else{diagEl.className='gap-diagnosis negative';diagEl.innerHTML=`<strong>Team Score WELL BELOW Execution average (gap: ${gap.toFixed(1)}%)</strong><br>Individually acceptable agents, collectively a lost customer. The failure lives BETWEEN touches: handoffs, statuses, callbacks, ticket linking. Coaching individuals harder will NOT fix this — the action plan must target process, with named owners and dates.`;}
+  }
+
+  // Heatmap
+  const catAvgs=CATS.map((_,ci)=>{
+    const vals=touches.map(r=>r.scores?.[ci]).filter(v=>v!==null&&v!==undefined&&!isNaN(v));
+    return vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:null;
+  });
+  const heatmapActions=['Reinforce resolution-path standards and troubleshooting completion expectations',
+    'Coach technical diagnosis: structured symptom → root cause → validation sequence',
+    'Reinforce call control framing and active listening disciplines',
+    'Coach ownership: commit-calendar-follow-through loop; disconnect follow-up policy',
+    'Reinforce escalation criteria; distinguish complaint/management triggers from technical ones',
+    'Coach empathy, effort reduction, and accessibility awareness',
+    'Enforce documentation standard: what happened, what was found, what is next'];
+  document.getElementById('heatmapBody').innerHTML=CATS.map((c,i)=>{
+    const avg=catAvgs[i];
+    const cls=avg===null?'band-na':avg>=3.5?'heat-green':avg>=2.75?'heat-amber':'heat-red';
+    const badgeCls=avg===null?'band-na':avg>=3.5?'green':avg>=2.75?'amber':'red';
+    const label=avg===null?'—':avg>=3.5?'Team Strength ✓':avg>=2.75?'Monitor & Spot-Coach':'Team Coaching Theme ⚑';
+    const pct=avg!==null?avg/5*100:0;
+    return`<tr>
+      <td>${c.name} (${c.weight}%)</td>
+      <td class="center" style="font-weight:800">${avg!==null?avg.toFixed(2):'—'}</td>
+      <td><div class="heat-bar-wrap"><div class="heat-bar-bg"><div class="heat-bar-fill ${cls}" style="width:${pct}%"></div></div><span class="heat-val" style="color:${avg===null?'#999':avg>=3.5?'var(--green)':avg>=2.75?'var(--amber)':'var(--red)'}">${avg!==null?avg.toFixed(1):'—'}</span></div></td>
+      <td class="center"><span class="heat-badge ${badgeCls}">${label}</span></td>
+      <td style="font-size:12px;color:var(--muted)">${avg!==null&&avg<3.5?heatmapActions[i]:'—'}</td>
+    </tr>`;}).join('');
+
+  // Breakdown
+  document.getElementById('breakdownBody').innerHTML=touches.length?touches.map((row,idx)=>{
+    const wp=row.weightedPct;const bd=totalBand(wp);const ct=contrType(row.scores?.[0]);
+    const hq=row.handoffQuality!==undefined&&row.handoffQuality!==''?parseFloat(row.handoffQuality):null;
+    return`<tr>
+      <td style="color:var(--muted);font-size:12px">#${idx+1} ${row.touchNum||''}</td>
+      <td>${esc(row.agent||'—')}</td>
+      <td><span style="font-size:11.5px;font-weight:700;color:var(--muted)">${row.level||'L1'}</span></td>
+      <td class="center" style="font-weight:700">${wp!==null?wp.toFixed(1)+'%':'—'}</td>
+      <td class="center"><span class="band ${bd.cls}" style="font-size:11px">${bd.label}</span></td>
+      <td class="center">${ct?`<span class="contr-badge ${contrClass(ct)}">${ct}</span>`:'—'}</td>
+      <td class="center">${hq!==null?`${hq}/5`:'—'}</td>
+      <td style="font-size:12px">${esc(row.notes||'')}</td>
+    </tr>`;}).join(''):'<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:20px">No touches logged for this Case ID yet.</td></tr>';
+
+  if(touches.length){
+    const types=touches.map(r=>contrType(r.scores?.[0])).filter(Boolean);
+    const count={Resolver:0,'Progress Builder':0,Maintainer:0,'Regression Contributor':0};
+    types.forEach(t=>count[t]=(count[t]||0)+1);
+    document.getElementById('contribMix').textContent=`${touches.length} touches: ${Object.entries(count).map(([k,v])=>`${v} ${k}`).join(' · ')}`;
+  }else{document.getElementById('contribMix').textContent='—';}
+}
+
+// ════════════════════════════════════════════════════════
+//  TEAM OPPORTUNITIES
+// ════════════════════════════════════════════════════════
+function addOppRow(){
+  STATE.opportunities.push({id:uid(),category:'',evidence:'',action:''});
+  savePlatformState();renderOpps();
+}
+function deleteOppRow(id){
+  STATE.opportunities=STATE.opportunities.filter(r=>r.id!==id);
+  savePlatformState();renderOpps();
+}
+function updateOppRow(id,field,value){
+  const row=STATE.opportunities.find(r=>r.id===id);if(row)row[field]=value;
+  savePlatformState();
+}
+function renderOpps(){
+  document.getElementById('oppsBody').innerHTML=STATE.opportunities.map(opp=>`
+    <tr>
+      <td><button class="del-btn" onclick="deleteOppRow('${opp.id}')" title="Delete">✕</button></td>
+      <td><input class="opp-inp" value="${esc(opp.category||'')}" placeholder="e.g. Customer Ownership" oninput="updateOppRow('${opp.id}','category',this.value)"></td>
+      <td><textarea class="opp-inp" style="min-height:40px;resize:vertical" placeholder="Why it's a team issue…" oninput="updateOppRow('${opp.id}','evidence',this.value)">${esc(opp.evidence||'')}</textarea></td>
+      <td><textarea class="opp-inp" style="min-height:40px;resize:vertical" placeholder="Action + named owner + date…" oninput="updateOppRow('${opp.id}','action',this.value)">${esc(opp.action||'')}</textarea></td>
+    </tr>`).join('');
+}
+
+// ════════════════════════════════════════════════════════
+//  EXPORT / IMPORT ALL
+// ════════════════════════════════════════════════════════
+function exportAll(){
+  const all={platform:STATE,form:getFormState(),exportDate:new Date().toISOString()};
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(all,null,2)],{type:'application/json'}));
+  a.download=`QA_Platform_Export_${new Date().toISOString().slice(0,10)}.json`;a.click();
+}
+function importAll(){document.getElementById('importFile').click();}
+function handleImport(e){
+  const file=e.target.files[0];if(!file)return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    try{
+      const d=JSON.parse(ev.target.result);
+      if(d.platform){STATE=d.platform;savePlatformState();renderTracker();renderJourneys();renderOpps();}
+      if(d.form)applyFormState(d.form);
+      alert('Import successful.');
+    }catch(x){alert('Invalid file.');}
+  };
+  r.readAsText(file);e.target.value='';
+}
+
+// ════════════════════════════════════════════════════════
+//  UTILITY
+// ════════════════════════════════════════════════════════
+function esc(str){return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
 // ════════════════════════════════════════════════════════
 //  INIT
 // ════════════════════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded',()=>{
+  loadPlatformState();
   renderSummary();
   renderCategories();
   renderAutoZero();
   renderFlags();
-  document.getElementById('f_reviewDate').value = new Date().toISOString().slice(0,10);
+  renderTracker();
+  renderJourneys();
+  renderOpps();
+  document.getElementById('f_reviewDate').value=new Date().toISOString().slice(0,10);
   updateAZ();
   updateScores();
 });
