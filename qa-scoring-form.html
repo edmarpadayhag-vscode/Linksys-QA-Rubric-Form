@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linksys Support — QA Scoring Form</title>
+<style>
+:root {
+  --primary: #003087;
+  --primary-light: #e8eef7;
+  --accent: #0066cc;
+  --met: #1b6e2a;
+  --met-bg: #e8f5e9;
+  --partial: #b84c00;
+  --partial-bg: #fff3e0;
+  --missed: #b91c1c;
+  --missed-bg: #ffebee;
+  --na: #4a5568;
+  --na-bg: #f1f5f9;
+  --warn-bg: #fffbeb;
+  --warn-border: #d97706;
+  --border: #d1d5db;
+  --text: #111827;
+  --muted: #6b7280;
+  --section-bg: #f9fafb;
+  --radius: 8px;
+  --shadow: 0 1px 3px rgba(0,0,0,.10), 0 1px 2px rgba(0,0,0,.06);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 13.5px; color: var(--text); background: #e5e7eb; line-height: 1.5; }
+
+/* ── Layout ── */
+#app { max-width: 1120px; margin: 0 auto; padding: 16px; }
+
+/* ── Header ── */
+.form-header { background: var(--primary); color: #fff; padding: 18px 24px 14px; border-radius: var(--radius) var(--radius) 0 0; }
+.form-header h1 { font-size: 17px; font-weight: 800; letter-spacing: .6px; margin-bottom: 3px; }
+.form-header p { font-size: 12px; opacity: .82; }
+
+/* ── Toolbar ── */
+.toolbar { background: #fff; border: 1px solid var(--border); border-top: none; padding: 8px 16px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-bottom: 14px; border-radius: 0 0 var(--radius) var(--radius); }
+.toolbar button { padding: 5px 13px; border-radius: 5px; border: 1px solid var(--border); background: #fff; color: var(--primary); font-size: 12.5px; cursor: pointer; font-weight: 600; transition: all .15s; }
+.toolbar button:hover { background: var(--primary-light); border-color: var(--accent); }
+.toolbar .btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+.toolbar .btn-primary:hover { background: var(--accent); }
+.toolbar .btn-danger { color: #991b1b; border-color: #fca5a5; }
+.toolbar .btn-danger:hover { background: #fef2f2; }
+.toolbar .spacer { flex: 1; }
+.save-status { font-size: 11px; color: var(--muted); }
+
+/* ── Card ── */
+.card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 10px; overflow: hidden; box-shadow: var(--shadow); }
+
+/* ── Section Headers ── */
+.sec-hdr { background: var(--section-bg); border-bottom: 1px solid var(--border); padding: 9px 16px; display: flex; align-items: center; gap: 10px; }
+.sec-num { background: var(--primary); color: #fff; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0; }
+.sec-title { font-weight: 700; font-size: 12.5px; text-transform: uppercase; letter-spacing: .5px; flex: 1; }
+.sec-badge { background: var(--primary-light); color: var(--primary); border-radius: 12px; padding: 2px 10px; font-size: 11.5px; font-weight: 700; }
+.sec-body { padding: 14px 16px; }
+
+/* ── Case Info ── */
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+.info-field { display: flex; flex-direction: column; gap: 3px; }
+.info-field.full { grid-column: 1 / -1; }
+.info-field label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .4px; }
+.info-field input, .info-field select, .info-field textarea { border: 1px solid var(--border); border-radius: 5px; padding: 6px 9px; font-size: 13px; font-family: inherit; color: var(--text); transition: border-color .15s; background: #fff; }
+.info-field input:focus, .info-field select:focus, .info-field textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,102,204,.1); }
+.info-field textarea { resize: vertical; min-height: 58px; }
+
+/* ── Score Summary ── */
+.score-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.score-table th { background: var(--primary); color: #fff; padding: 8px 12px; text-align: left; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; }
+.score-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.score-table tr:last-child td { border-bottom: none; font-weight: 700; background: var(--primary-light); }
+.score-table td.center { text-align: center; }
+.score-total-row { background: var(--primary-light); font-weight: 700; font-size: 14px; }
+.weighted-total-display { font-size: 22px; font-weight: 900; color: var(--primary); }
+
+/* ── Category Sections ── */
+.cat-hdr { background: var(--primary); color: #fff; padding: 9px 16px; display: flex; justify-content: space-between; align-items: center; }
+.cat-hdr-title { font-weight: 700; font-size: 13px; }
+.cat-hdr-weight { font-size: 12px; opacity: .85; }
+.cat-obj { padding: 7px 16px; background: var(--primary-light); font-size: 12px; color: #1e3a6e; font-style: italic; border-bottom: 1px solid var(--border); }
+
+/* ── Indicators Table ── */
+.ind-table { width: 100%; border-collapse: collapse; }
+.ind-table thead th { background: var(--section-bg); padding: 6px 12px; text-align: left; font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .4px; border-bottom: 1px solid var(--border); }
+.ind-table thead th.col-assess { width: 130px; }
+.ind-table thead th.col-evidence { width: 38%; }
+.ind-table tbody tr { border-bottom: 1px solid #f0f0f0; }
+.ind-table tbody tr:last-child { border-bottom: none; }
+.ind-table tbody td { padding: 8px 12px; vertical-align: top; font-size: 13px; line-height: 1.4; }
+
+/* ── Assessment Select ── */
+.asmnt { width: 120px; padding: 4px 7px; border: 1px solid var(--border); border-radius: 5px; font-size: 12.5px; font-family: inherit; cursor: pointer; font-weight: 700; transition: all .15s; background: #fff; }
+.asmnt:focus { outline: none; box-shadow: 0 0 0 3px rgba(0,102,204,.1); }
+.asmnt.v-met { background: var(--met-bg); color: var(--met); border-color: #86efac; }
+.asmnt.v-partial { background: var(--partial-bg); color: var(--partial); border-color: #fdba74; }
+.asmnt.v-missed { background: var(--missed-bg); color: var(--missed); border-color: #fca5a5; }
+.asmnt.v-na { background: var(--na-bg); color: var(--na); border-color: #cbd5e1; }
+
+.evid { width: 100%; padding: 4px 7px; border: 1px solid var(--border); border-radius: 5px; font-size: 12px; font-family: inherit; resize: vertical; min-height: 34px; line-height: 1.4; }
+.evid:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,102,204,.1); }
+
+/* ── Warning Note ── */
+.warn-note { background: var(--warn-bg); border-left: 3px solid var(--warn-border); padding: 7px 12px; font-size: 12px; color: #78350f; margin: 6px 16px 10px; border-radius: 0 4px 4px 0; }
+
+/* ── Category Footer ── */
+.cat-footer { padding: 11px 16px; background: var(--section-bg); border-top: 1px solid var(--border); }
+.score-controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.score-label { font-size: 12px; font-weight: 600; color: var(--muted); }
+.auto-score-box { background: var(--primary-light); border: 1px solid #93c5fd; border-radius: 5px; padding: 3px 12px; font-size: 14px; font-weight: 800; color: var(--primary); min-width: 52px; text-align: center; }
+.final-score-inp { width: 58px; padding: 3px 7px; border: 2px solid var(--accent); border-radius: 5px; font-size: 14px; font-weight: 800; text-align: center; color: var(--primary); font-family: inherit; }
+.final-score-inp:focus { outline: none; box-shadow: 0 0 0 3px rgba(0,102,204,.1); }
+.override-inp { flex: 1; min-width: 200px; padding: 4px 8px; border: 1px solid var(--border); border-radius: 5px; font-size: 12px; font-family: inherit; }
+.comments-inp { width: 100%; padding: 5px 8px; border: 1px solid var(--border); border-radius: 5px; font-size: 12.5px; font-family: inherit; resize: vertical; min-height: 46px; }
+.comments-inp:focus, .override-inp:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,102,204,.1); }
+
+/* ── Band Badges ── */
+.band { display: inline-block; border-radius: 20px; padding: 2px 10px; font-size: 11.5px; font-weight: 700; white-space: nowrap; }
+.band-excellent { background: #dcfce7; color: #14532d; }
+.band-strong { background: #dbeafe; color: #1e3a8a; }
+.band-developing { background: #fef9c3; color: #713f12; }
+.band-needs-improvement { background: #ffedd5; color: #7c2d12; }
+.band-needs-focus { background: #fee2e2; color: #7f1d1d; }
+.band-critical { background: #7f1d1d; color: #fff; }
+.band-na { background: var(--na-bg); color: var(--na); }
+
+/* ── Auto-Zero ── */
+.az-section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); padding: 10px 0 6px; margin-top: 8px; border-top: 1px solid var(--border); }
+.az-row { display: flex; align-items: center; gap: 12px; padding: 6px 0; border-bottom: 1px solid #f0f0f0; }
+.az-letter { font-weight: 800; color: var(--muted); width: 22px; flex-shrink: 0; }
+.az-text { flex: 1; font-size: 13px; }
+.az-radios { display: flex; gap: 10px; }
+.az-radios label { display: flex; align-items: center; gap: 4px; font-size: 12.5px; font-weight: 600; cursor: pointer; }
+.az-result { margin-top: 10px; border-radius: 6px; padding: 10px 14px; font-weight: 700; font-size: 13.5px; }
+.az-result.ok { background: var(--met-bg); color: var(--met); }
+.az-result.triggered { background: var(--missed-bg); color: var(--missed); }
+
+/* ── Coaching Flags ── */
+.flags-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.flags-table thead th { background: var(--section-bg); padding: 6px 12px; text-align: left; font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; border-bottom: 1px solid var(--border); }
+.flags-table tbody td { padding: 7px 12px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
+.flag-on { color: var(--missed); font-weight: 700; }
+.flag-off { color: var(--met); font-weight: 600; }
+.flags-note { font-size: 12px; color: var(--muted); padding: 8px 12px; border-top: 1px solid var(--border); }
+
+/* ── Coaching & Feedback ── */
+.qa-question { font-weight: 700; font-size: 13px; color: var(--primary); margin: 12px 0 4px; }
+.qa-question:first-child { margin-top: 0; }
+.textarea-lg { width: 100%; padding: 7px 9px; border: 1px solid var(--border); border-radius: 5px; font-size: 13px; font-family: inherit; resize: vertical; min-height: 70px; line-height: 1.5; }
+.textarea-lg:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,102,204,.1); }
+.subfield-title { font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .4px; margin: 8px 0 4px; }
+.numbered-list { display: flex; flex-direction: column; gap: 5px; }
+.numbered-item { display: flex; gap: 8px; align-items: flex-start; }
+.numbered-item .num { font-weight: 700; color: var(--muted); padding-top: 6px; min-width: 14px; font-size: 12px; }
+.numbered-item input { flex: 1; padding: 5px 8px; border: 1px solid var(--border); border-radius: 5px; font-size: 13px; font-family: inherit; }
+.numbered-item input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,102,204,.1); }
+
+/* ── Resolution Outcome ── */
+.outcome-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+.outcome-grid .full { grid-column: 1/-1; }
+
+/* ── Disconnected Call ── */
+.dc-row { display: flex; align-items: center; gap: 12px; }
+.dc-row label { font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 5px; cursor: pointer; }
+
+/* ── Escalation Follow-up ── */
+.esf-field { margin-bottom: 10px; }
+.esf-field label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .4px; display: block; margin-bottom: 3px; }
+
+/* ── Print ── */
+@media print {
+  body { background: #fff; font-size: 11pt; }
+  #app { max-width: none; padding: 0; }
+  .toolbar { display: none !important; }
+  .card { box-shadow: none; break-inside: avoid; }
+  .cat-hdr { background: var(--primary) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .form-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .sec-num { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .score-table th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .asmnt { border: 1px solid #999; appearance: none; -webkit-appearance: none; }
+  .asmnt.v-met { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .asmnt.v-partial { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .asmnt.v-missed { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+@media (max-width: 700px) {
+  .info-grid { grid-template-columns: 1fr; }
+  .outcome-grid { grid-template-columns: 1fr; }
+  .ind-table thead th.col-evidence { display: none; }
+  .ind-table tbody td.td-evidence { display: none; }
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- Header -->
+<header class="form-header">
+  <h1>SUPPORT QUALITY ASSURANCE — SCORING FORM</h1>
+  <p>Resolution-Focused Coaching &amp; Performance Framework &nbsp;|&nbsp; Rate each behavior: Met / Partial / Missed / N.A. — then assign the 0–5 category score (suggested score is advisory).</p>
+</header>
+
+<!-- Toolbar -->
+<div class="toolbar">
+  <button class="btn-primary" onclick="saveToLocal()">💾 Save</button>
+  <button onclick="loadFromLocal()">📂 Load Saved</button>
+  <button onclick="downloadJSON()">⬇ Export JSON</button>
+  <button onclick="importJSON()">⬆ Import JSON</button>
+  <button onclick="window.print()">🖨 Print / PDF</button>
+  <div class="spacer"></div>
+  <span class="save-status" id="saveStatus"></span>
+  <button class="btn-danger" onclick="clearForm()">✕ New Form</button>
+</div>
+<input type="file" id="importFile" accept=".json" style="display:none" onchange="handleImport(event)">
+
+<!-- §1 Case Information -->
+<div class="card">
+  <div class="sec-hdr">
+    <div class="sec-num">1</div>
+    <div class="sec-title">Case Information</div>
+  </div>
+  <div class="sec-body">
+    <div class="info-grid">
+      <div class="info-field"><label>Agent Name</label><input id="f_agentName" placeholder="Full name" oninput="autoSave()"></div>
+      <div class="info-field"><label>Case / Ticket ID</label><input id="f_caseId" placeholder="e.g. TE00127492" oninput="autoSave()"></div>
+      <div class="info-field"><label>Agent Level</label><select id="f_agentLevel" onchange="autoSave()"><option value="">— Select —</option><option>L1</option><option>L2 / CAT</option><option>L2</option><option>L3</option></select></div>
+      <div class="info-field"><label>Evaluator (QA)</label><input id="f_evaluator" placeholder="QA specialist name" oninput="autoSave()"></div>
+      <div class="info-field"><label>Product</label><input id="f_product" placeholder="e.g. Linksys MX4200 Velop" oninput="autoSave()"></div>
+      <div class="info-field"><label>Channel</label><select id="f_channel" onchange="autoSave()"><option value="">— Select —</option><option>Phone</option><option>Chat</option><option>Email</option><option>Callback</option></select></div>
+      <div class="info-field"><label>Warranty Status</label><select id="f_warranty" onchange="autoSave()"><option value="">— Select —</option><option>In-Warranty</option><option>Out-of-Warranty</option><option>Unknown</option></select></div>
+      <div class="info-field"><label>Interaction Date</label><input id="f_interactionDate" type="date" oninput="autoSave()"></div>
+      <div class="info-field"><label>Review Date</label><input id="f_reviewDate" type="date" oninput="autoSave()"></div>
+      <div class="info-field"><label>Case Type</label><input id="f_caseType" placeholder="e.g. Connectivity, Setup" oninput="autoSave()"></div>
+      <div class="info-field"><label>Interaction Duration</label><input id="f_duration" placeholder="e.g. 45 min" oninput="autoSave()"></div>
+      <div class="info-field"><label>Touch # (multi-touch case)</label><input id="f_touchNum" placeholder="e.g. 1 of 1" oninput="autoSave()"></div>
+      <div class="info-field"><label>Prior Touches Reviewed?</label><select id="f_priorTouches" onchange="autoSave()"><option value="">— Select —</option><option>Yes</option><option>No</option><option>N.A. — first contact</option></select></div>
+      <div class="info-field"><label>CSAT / Survey Result</label><input id="f_csat" placeholder="e.g. 4/5 — Yes" oninput="autoSave()"></div>
+      <div class="info-field"><label>FCR / Total Contacts</label><input id="f_fcr" placeholder="e.g. FCR — 1 contact" oninput="autoSave()"></div>
+      <div class="info-field"><label>Total Case Time</label><input id="f_totalTime" placeholder="e.g. 2 hr 15 min" oninput="autoSave()"></div>
+      <div class="info-field"><label>SLA Status</label><select id="f_sla" onchange="autoSave()"><option value="">— Select —</option><option>Within SLA</option><option>Breached</option><option>N.A.</option></select></div>
+      <div class="info-field full"><label>Case Summary (customer issue &amp; goal)</label><textarea id="f_caseSummary" placeholder="Brief description of what the customer was experiencing and what they needed resolved…" oninput="autoSave()"></textarea></div>
+      <div class="info-field full"><label>Inherited Context (what this agent received from prior touches)</label><textarea id="f_inheritedContext" placeholder="What prior documentation, context, or state was this agent handed?" oninput="autoSave()"></textarea></div>
+    </div>
+  </div>
+</div>
+
+<!-- §2 Score Summary -->
+<div class="card">
+  <div class="sec-hdr">
+    <div class="sec-num">2</div>
+    <div class="sec-title">Score Summary</div>
+    <div class="sec-badge" id="summaryTotalBadge">—</div>
+  </div>
+  <div class="sec-body" style="padding:0">
+    <table class="score-table">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th class="center" style="width:80px">Weight</th>
+          <th class="center" style="width:90px">Score (0–5)</th>
+          <th class="center" style="width:100px">Weighted %</th>
+          <th class="center" style="width:140px">Band</th>
+        </tr>
+      </thead>
+      <tbody id="summaryBody"></tbody>
+      <tfoot>
+        <tr class="score-total-row">
+          <td><strong>WEIGHTED TOTAL SCORE</strong></td>
+          <td class="center">100%</td>
+          <td class="center">—</td>
+          <td class="center"><span class="weighted-total-display" id="totalPct">—</span></td>
+          <td class="center"><span id="totalBand">—</span></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+<!-- §3 Category Assessments — generated by JS -->
+<div id="catSections"></div>
+
+<!-- §4 Resolution Outcome -->
+<div class="card">
+  <div class="sec-hdr">
+    <div class="sec-num">4</div>
+    <div class="sec-title">Resolution Outcome</div>
+  </div>
+  <div class="sec-body">
+    <div class="outcome-grid">
+      <div class="info-field">
+        <label>Outcome Classification</label>
+        <select id="f_outcomeClass" onchange="autoSave()">
+          <option value="">— Select —</option>
+          <option>Successful Resolution</option>
+          <option>Partial Resolution</option>
+          <option>Appropriate Escalation</option>
+          <option>Ownership Gap</option>
+          <option>Unresolved</option>
+        </select>
+      </div>
+      <div class="info-field">
+        <label>Primary Positive Outcome Achieved</label>
+        <select id="f_primaryOutcome" onchange="autoSave()">
+          <option value="">— Select —</option>
+          <option>Issue resolved</option>
+          <option>Proper RMA initiated</option>
+          <option>Valid escalation submitted</option>
+          <option>Known limitation explained accurately</option>
+          <option>Customer educated — valid next steps</option>
+          <option>Customer declined further troubleshooting (reasonable effort made)</option>
+          <option>Valid self-help content provided (OOW)</option>
+          <option>Upgrade recommendation provided (OOW)</option>
+          <option>None achieved</option>
+        </select>
+      </div>
+      <div class="info-field full">
+        <label>Justification</label>
+        <textarea id="f_outcomeJustification" style="min-height:70px" placeholder="Explain the outcome classification in the context of the case…" oninput="autoSave()"></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- §5 Disconnected Call Follow-Up -->
+<div class="card">
+  <div class="sec-hdr">
+    <div class="sec-num">5</div>
+    <div class="sec-title">Disconnected Call Follow-Up</div>
+  </div>
+  <div class="sec-body">
+    <div class="info-grid">
+      <div class="info-field">
+        <label>Did the interaction disconnect before completion?</label>
+        <div class="dc-row" style="margin-top:4px">
+          <label><input type="radio" name="disconnect" value="No" onchange="autoSave()" checked> No</label>
+          <label><input type="radio" name="disconnect" value="Yes" onchange="autoSave()"> Yes</label>
+        </div>
+      </div>
+      <div class="info-field">
+        <label>Follow-Up Action Taken</label>
+        <select id="f_followupAction" onchange="autoSave()">
+          <option value="N.A. — no disconnect">N.A. — no disconnect</option>
+          <option value="Callback attempt documented">Callback attempt documented</option>
+          <option value="Follow-up email sent">Follow-up email sent</option>
+          <option value="Private note documenting disconnect">Private note documenting disconnect</option>
+          <option value="No follow-up documented">No follow-up documented</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- §6 Coaching Flags -->
+<div class="card">
+  <div class="sec-hdr">
+    <div class="sec-num">6</div>
+    <div class="sec-title">Coaching Flags</div>
+    <div class="sec-badge" id="flagsBadge">Auto-populated from ratings</div>
+  </div>
+  <div style="overflow:hidden">
+    <table class="flags-table">
+      <thead>
+        <tr>
+          <th style="width:35%">Flag Condition</th>
+          <th style="width:90px">Status</th>
+          <th>Coaching Focus / Required Action</th>
+        </tr>
+      </thead>
+      <tbody id="flagsBody"></tbody>
+    </table>
+    <div class="flags-note">⚠ Survey / CSAT manipulation cannot be auto-detected — flag manually in §8 Coaching &amp; Feedback if suspected.</div>
+  </div>
+</div>
+
+<!-- §7 Auto-Zero -->
+<div class="card">
+  <div class="sec-hdr">
+    <div class="sec-num">7</div>
+    <div class="sec-title">Auto-Zero</div>
+  </div>
+  <div class="sec-body">
+    <p style="font-size:12px;color:var(--muted);margin-bottom:10px">A Compliance Gate marked <strong>No</strong>, or any A–K item marked <strong>Yes</strong>, forces the Weighted Quality Score to <strong>0%</strong>. Category scores remain for coaching purposes.</p>
+
+    <div class="az-section-title">Compliance Gates — mark Yes if adhered to</div>
+    <div id="azGates"></div>
+
+    <div class="az-section-title">Auto-Zero List (A–K) — mark Yes if it occurred</div>
+    <div id="azItems"></div>
+
+    <div class="az-result" id="azResult">Checking…</div>
+  </div>
+</div>
+
+<!-- §8 Coaching & Feedback -->
+<div class="card">
+  <div class="sec-hdr">
+    <div class="sec-num">8</div>
+    <div class="sec-title">Coaching &amp; Feedback</div>
+  </div>
+  <div class="sec-body">
+    <div class="qa-question">Q1 · Did we help the customer as effectively as we reasonably could?</div>
+    <textarea class="textarea-lg" id="f_q1" placeholder="Answer this question with specific reference to the case outcome…" oninput="autoSave()"></textarea>
+
+    <div class="qa-question">Q2 · Did the agent demonstrate strong technical and communication behavior?</div>
+    <div class="subfield-title">What Went Well — behaviors to repeat</div>
+    <div class="numbered-list">
+      <div class="numbered-item"><span class="num">1.</span><input id="f_well1" placeholder="" oninput="autoSave()"></div>
+      <div class="numbered-item"><span class="num">2.</span><input id="f_well2" placeholder="" oninput="autoSave()"></div>
+      <div class="numbered-item"><span class="num">3.</span><input id="f_well3" placeholder="" oninput="autoSave()"></div>
+    </div>
+    <div class="subfield-title" style="margin-top:10px">Improvement Opportunities — behaviors to improve</div>
+    <div class="numbered-list">
+      <div class="numbered-item"><span class="num">1.</span><input id="f_improve1" placeholder="" oninput="autoSave()"></div>
+      <div class="numbered-item"><span class="num">2.</span><input id="f_improve2" placeholder="" oninput="autoSave()"></div>
+      <div class="numbered-item"><span class="num">3.</span><input id="f_improve3" placeholder="" oninput="autoSave()"></div>
+    </div>
+    <div class="subfield-title" style="margin-top:10px">Coaching Recommendation — specific actions the agent should apply going forward</div>
+    <textarea class="textarea-lg" id="f_coachingRec" placeholder="SMART actions (who does what by when)…" oninput="autoSave()"></textarea>
+
+    <div class="subfield-title" style="margin-top:10px">Next Session Focus — specific behaviors to practice before the next review</div>
+    <div class="numbered-list">
+      <div class="numbered-item"><span class="num">1.</span><input id="f_focus1" placeholder="" oninput="autoSave()"></div>
+      <div class="numbered-item"><span class="num">2.</span><input id="f_focus2" placeholder="" oninput="autoSave()"></div>
+      <div class="numbered-item"><span class="num">3.</span><input id="f_focus3" placeholder="" oninput="autoSave()"></div>
+    </div>
+
+    <div class="qa-question" style="margin-top:14px">Q3 · What does this interaction tell us about training, process, or knowledge gaps across the team?</div>
+    <div class="subfield-title">Organizational Insights — training / process / KB / chatbot / tooling / product gaps</div>
+    <textarea class="textarea-lg" id="f_orgInsights" placeholder="Systemic observations that affect more than this one agent…" oninput="autoSave()"></textarea>
+
+    <div class="subfield-title" style="margin-top:10px">Multi-Touch / Journey Notes — handoff quality, continuity, where the chain succeeded or broke</div>
+    <textarea class="textarea-lg" id="f_journeyNotes" placeholder="Leave blank if single-touch case…" oninput="autoSave()"></textarea>
+
+    <div class="subfield-title" style="margin-top:10px">Final QA Assessment — overall customer outcome, support quality, and coaching value</div>
+    <textarea class="textarea-lg" id="f_finalAssessment" style="min-height:80px" placeholder="Concise overall assessment…" oninput="autoSave()"></textarea>
+  </div>
+</div>
+
+<!-- Escalation Follow-Up -->
+<div class="card">
+  <div class="sec-hdr">
+    <div class="sec-num" style="background:#6b7280">+</div>
+    <div class="sec-title">Escalation Follow-Up</div>
+    <div class="sec-badge">Complete only if an escalation was submitted</div>
+  </div>
+  <div class="sec-body">
+    <div class="esf-field">
+      <label>What did the receiving agent / Level 2 do to resolve or advance this case?</label>
+      <textarea class="textarea-lg" id="f_esf_outcome" oninput="autoSave()"></textarea>
+    </div>
+    <div class="esf-field">
+      <label>L1 Learning Points from this escalation outcome</label>
+      <div class="numbered-list">
+        <div class="numbered-item"><span class="num">1.</span><input id="f_esf_l1" oninput="autoSave()"></div>
+        <div class="numbered-item"><span class="num">2.</span><input id="f_esf_l2" oninput="autoSave()"></div>
+        <div class="numbered-item"><span class="num">3.</span><input id="f_esf_l3" oninput="autoSave()"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /#app -->
+
+<script>
+// ════════════════════════════════════════════════════════
+//  DATA MODEL
+// ════════════════════════════════════════════════════════
+const CATS = [
+  {
+    id:'cat1', n:'1',
+    name:'Resolution / Progress Toward Resolution',
+    weight:30,
+    obj:'Determine whether the interaction moved the customer meaningfully closer to resolution.',
+    inds:[
+      {t:'Resolved the issue or achieved the best possible outcome (RMA, valid escalation, limitation explained, education)', wt:3},
+      {t:'Completed reasonable troubleshooting before reaching a conclusion', wt:2},
+      {t:'Resolution path was appropriate for the situation and warranty status', wt:1},
+      {t:'Customer was moved meaningfully closer to a solution', wt:2},
+      {t:'Troubleshooting was conducted before any self-help content or KB articles were shared — generic self-help was not used as a substitute for investigation', wt:2},
+      {t:'For out-of-warranty products: provided best-effort troubleshooting, explained product limitations clearly, and did not use warranty status as a reason to stop helping — mark N.A. if product is in warranty', wt:2},
+    ],
+    warn:'⚠ Does NOT count: customer simply ends call; generic KB sent without troubleshooting; warranty used as reason to stop helping; escalation as shortcut; unsupported ISP blame; \'monitor & call back\' with no plan; ownership transferred without expectations or documentation.'
+  },
+  {
+    id:'cat2', n:'2',
+    name:'Technical Accuracy',
+    weight:20,
+    obj:'Evaluate the quality of troubleshooting and technical guidance.',
+    inds:[
+      {t:'Correctly identified the symptoms and asked relevant diagnostic questions', wt:3},
+      {t:'Identified the root cause (or likely cause) when possible', wt:3},
+      {t:'Followed a logical troubleshooting process', wt:1},
+      {t:'Available tools were used efficiently and appropriately', wt:1},
+      {t:'Gave technically accurate information; no unsupported conclusions', wt:2},
+    ],
+    warn:'⚠ Deduct for: incorrect technical information; skipped critical troubleshooting; misdiagnosis; unnecessary actions recommended; ISP or customer blamed without evidence; repeating basic steps the customer already completed.'
+  },
+  {
+    id:'cat3', n:'3',
+    name:'Communication & Call Control',
+    weight:15,
+    obj:'Evaluate how effectively the agent managed the interaction.',
+    inds:[
+      {t:'Expectations were set clearly from the start', wt:1},
+      {t:'Agent maintained call control and troubleshooting flow', wt:3},
+      {t:'Used language appropriate to the customer\'s level and confirmed understanding throughout', wt:2},
+      {t:'Actively listened and showed comprehension throughout the interaction/s', wt:3},
+      {t:'Managed time well, with clear transitions between steps', wt:1},
+      {t:'Handled difficult moments when needed to maintain call control', wt:1},
+      {t:'Adjusted communication for the customer\'s accessibility needs (hearing, vision, language barrier, age, cognitive)', wt:1},
+    ],
+    warn:'⚠ High performance: customer always knows what is happening and the agent drives the call confidently. One instruction at a time for customers who need it.'
+  },
+  {
+    id:'cat4', n:'4',
+    name:'Customer Ownership',
+    weight:15,
+    obj:'Measure the degree to which the agent accepted responsibility for moving the customer forward.',
+    inds:[
+      {t:'Took accountability for the customer\'s outcome and avoided unnecessary transfers', wt:3},
+      {t:'Followed through on all commitments made during the interaction', wt:2},
+      {t:'Clearly set customer expectations for next steps and realistic timelines', wt:2},
+      {t:'Completed required disconnect follow-up and met callback commitments within the agreed window', wt:1},
+      {t:'Recognized and acknowledged prior contact history; did not treat a repeat contact as a new case without reviewing previous interactions — mark N.A. if this is a confirmed first contact', wt:2},
+      {t:'If the case was handed off or escalated, the receiving agent was given sufficient context to continue without requiring the customer to repeat themselves — mark N.A. if no handoff occurred on this touch', wt:2},
+    ],
+    warn:'⚠ Automatic deductions: no documented follow-up after disconnect; unclear next steps; passing responsibility without context; failure to complete promised actions; missed or late callbacks without proactive renegotiation.'
+  },
+  {
+    id:'cat5', n:'5',
+    name:'Escalation Judgment',
+    weight:10,
+    obj:'Determine whether escalation decisions were appropriate — including UPWARD escalations the customer requested (management, complaint, legal). Mark all N.A. if no escalation was involved and none was warranted.',
+    inds:[
+      {t:'Completed reasonable troubleshooting before escalating', wt:3},
+      {t:'Escalation was triggered by a recognized condition: unresolved after reasonable L1 troubleshooting, customer complaint or management request, ISP/partner-supported product still unresolved, or agent stuck after documented effort — not used solely to transfer a difficult call or avoid ownership', wt:2},
+      {t:'Provided complete escalation details using the correct escalation path', wt:3},
+      {t:'Clearly explained why escalation was necessary and what would happen next', wt:1},
+    ],
+    warn:'⚠ Low score: premature, avoidable, poorly documented, used as a substitute for troubleshooting — or a warranted escalation (incl. a customer\'s management request) that was NOT made.'
+  },
+  {
+    id:'cat6', n:'6',
+    name:'Customer Experience',
+    weight:5,
+    obj:'Measure the overall customer experience delivered during the interaction.',
+    inds:[
+      {t:'Demonstrated empathy including for repeat-contact fatigue', wt:2},
+      {t:'Stayed professional throughout and maintained patience, even under pressure', wt:3},
+      {t:'Agent matched the customer\'s tone, pace, level, and energy', wt:1},
+      {t:'Minimized customer effort', wt:1},
+      {t:'Maintained customer understanding and engagement', wt:2},
+    ],
+    warn:'⚠ Negative indicators: dismissive responses; robotic interactions; frustration escalation caused by agent behavior; marathon sessions pushed onto vulnerable customers without offering to pause and resume.'
+  },
+  {
+    id:'cat7', n:'7',
+    name:'Documentation & Notes',
+    weight:5,
+    obj:'Ensure future agents can quickly understand the case. Purpose is continuity, not compliance.',
+    inds:[
+      {t:'Recorded customer issue summary', wt:3},
+      {t:'Documented troubleshooting steps', wt:3},
+      {t:'Noted key findings', wt:3},
+      {t:'Captured agent reasoning — escalation justification, offline recommendations provided by colleagues and other support POCs, and any guidance that informed the action taken', wt:3},
+      {t:'Documented next steps and follow-ups', wt:2},
+      {t:'Updated ticket status accurately', wt:1},
+    ],
+    warn:'⚠ Documentation supports outcomes but should not outweigh troubleshooting quality, communication, or ownership. Notes must carry the FULL history — including pre-ticket contacts — so no agent treats a long-running case as new.'
+  },
+];
+
+const COACHING_FLAGS = [
+  {id:'cf1', cond:'Technical accuracy failure', trigger: s => catHasMissed('cat2', s), action:'Review for incorrect guidance, product misrepresentation, or unsupported root-cause conclusions'},
+  {id:'cf2', cond:'No follow-up after disconnected call', trigger: s => s.disconnect==='Yes' && s.followupAction==='No follow-up documented', action:'Mandatory callback attempt required; document outcome in case notes'},
+  {id:'cf3', cond:'Commitments not fulfilled / clear path forward missing', trigger: s => indMissed('cat4',1,s), action:'Review what was promised; confirm the customer was left with actionable next steps'},
+  {id:'cf4', cond:'Customer abandoned without a path forward', trigger: s => indMissed('cat1',0,s) && indMissed('cat1',3,s), action:'Review whether the customer had any defined next step at close; address in coaching session'},
+  {id:'cf5', cond:'Escalated without completing reasonable troubleshooting', trigger: s => indMissed('cat5',0,s), action:'Review L1 steps completed before escalation; identify gaps and add to troubleshooting playbook'},
+  {id:'cf6', cond:'Escalation criteria not met / complaint or legal-risk not escalated', trigger: s => indMissed('cat5',1,s), action:'Review whether a valid escalation trigger existed; coach on recognising escalation criteria'},
+  {id:'cf7', cond:'Professionalism concern', trigger: s => indMissed('cat6',1,s), action:'Mandatory review; assess tone, conduct, and whether a policy violation occurred'},
+  {id:'cf8', cond:'Ticket status inaccurate / premature closure', trigger: s => indMissed('cat7',5,s), action:'Review ticket state at close; verify status accurately reflected the case outcome'},
+];
+
+const AZ_GATES = [
+  {id:'azg1', text:'Adherence to Callback Hours', defaultYes:true},
+  {id:'azg2', text:'Adherence to PCI & Information Security Standards', defaultYes:true},
+  {id:'azg3', text:'Sales', defaultYes:true},
+];
+const AZ_ITEMS = [
+  {letter:'A', text:'Call / Session Abandonment'},
+  {letter:'B', text:'Call / Session Avoidance / Evasion'},
+  {letter:'C', text:'Discourtesy'},
+  {letter:'D', text:'Escalation'},
+  {letter:'E', text:'Failure to ask for the email address'},
+  {letter:'F', text:'Fraud'},
+  {letter:'G', text:'Hard-selling'},
+  {letter:'H', text:'Line Release'},
+  {letter:'I', text:'Non-Adherence to Callback Hours'},
+  {letter:'J', text:'Non-Adherence to PCI and Information Security Standards'},
+  {letter:'K', text:'Non-First Call Resolution'},
+];
+
+const SCORE_ANCHORS = [
+  {s:5, d:'Issue resolved or strongest available outcome achieved'},
+  {s:4, d:'Significant progress made with clear next steps'},
+  {s:3, d:'Partial progress made but opportunities missed'},
+  {s:2, d:'Limited progress despite available troubleshooting paths'},
+  {s:1, d:'Little or no meaningful progress'},
+  {s:0, d:'Agent actions delayed, prevented, or negatively impacted resolution'},
+];
+
+// ════════════════════════════════════════════════════════
+//  HELPERS
+// ════════════════════════════════════════════════════════
+function getState() {
+  const s = { catRatings:{}, catEvidence:{}, catOverride:{}, catOverrideReason:{}, catComments:{} };
+  CATS.forEach(c => {
+    s.catRatings[c.id] = c.inds.map((_,i) => (document.getElementById(`${c.id}_r${i}`)?.value || ''));
+    s.catEvidence[c.id] = c.inds.map((_,i) => (document.getElementById(`${c.id}_e${i}`)?.value || ''));
+    s.catOverride[c.id] = document.getElementById(`${c.id}_override`)?.value || '';
+    s.catOverrideReason[c.id] = document.getElementById(`${c.id}_overrideReason`)?.value || '';
+    s.catComments[c.id] = document.getElementById(`${c.id}_comments`)?.value || '';
+  });
+  ['agentName','caseId','agentLevel','evaluator','product','channel','warranty','interactionDate','reviewDate',
+   'caseType','duration','touchNum','priorTouches','csat','fcr','totalTime','sla','caseSummary','inheritedContext',
+   'outcomeClass','primaryOutcome','outcomeJustification','followupAction',
+   'q1','well1','well2','well3','improve1','improve2','improve3','coachingRec','focus1','focus2','focus3',
+   'orgInsights','journeyNotes','finalAssessment','esf_outcome','esf_l1','esf_l2','esf_l3'
+  ].forEach(k => { s[k] = document.getElementById('f_'+k)?.value || ''; });
+  s.disconnect = document.querySelector('input[name="disconnect"]:checked')?.value || 'No';
+  AZ_GATES.forEach(g => { s[g.id] = document.querySelector(`input[name="${g.id}"]:checked`)?.value || 'Yes'; });
+  AZ_ITEMS.forEach(it => { s[it.letter] = document.querySelector(`input[name="az_${it.letter}"]:checked`)?.value || 'No'; });
+  return s;
+}
+
+function calcAutoScore(catId, ratings, weights) {
+  let met=0, partial=0, denom=0;
+  ratings.forEach((r,i) => {
+    const w = weights[i];
+    if(r==='Met')    { met+=w; denom+=w; }
+    else if(r==='Partial') { partial+=w; denom+=w; }
+    else if(r==='Missed')  { denom+=w; }
+  });
+  if(denom===0) return null;
+  return Math.round((5*met + 2.5*partial) / denom * 10) / 10;
+}
+
+function getFinalScore(catId, auto, override) {
+  const v = parseFloat(override);
+  if(!isNaN(v) && override.trim()!=='') return Math.min(5, Math.max(0, v));
+  return auto;
+}
+
+function scoreBand(s) {
+  if(s===null||s===undefined||isNaN(s)) return {label:'—', cls:'band-na'};
+  if(s>=5)   return {label:'Excellent',  cls:'band-excellent'};
+  if(s>=4)   return {label:'Strong',     cls:'band-strong'};
+  if(s>=3)   return {label:'Developing', cls:'band-developing'};
+  if(s>=2)   return {label:'Needs Improvement', cls:'band-needs-improvement'};
+  if(s>0)    return {label:'Needs Focus',cls:'band-needs-focus'};
+  return {label:'Critical', cls:'band-critical'};
+}
+
+function totalBand(pct) {
+  if(isNaN(pct)||pct===null) return {label:'—',cls:'band-na'};
+  if(pct>=90) return {label:'Excellent',  cls:'band-excellent'};
+  if(pct>=75) return {label:'Strong',     cls:'band-strong'};
+  if(pct>=65) return {label:'Developing', cls:'band-developing'};
+  if(pct>=50) return {label:'Needs Improvement', cls:'band-needs-improvement'};
+  return {label:'Needs Focus', cls:'band-needs-focus'};
+}
+
+function catHasMissed(catId, s) {
+  return (s.catRatings[catId]||[]).some(r=>r==='Missed');
+}
+function indMissed(catId, idx, s) {
+  return (s.catRatings[catId]||[])[idx]==='Missed';
+}
+
+function assessClass(v) {
+  if(v==='Met') return 'v-met';
+  if(v==='Partial') return 'v-partial';
+  if(v==='Missed') return 'v-missed';
+  if(v==='N.A.') return 'v-na';
+  return '';
+}
+
+// ════════════════════════════════════════════════════════
+//  RENDER CATEGORIES
+// ════════════════════════════════════════════════════════
+function renderCategories() {
+  const container = document.getElementById('catSections');
+  container.innerHTML = '';
+  CATS.forEach(c => {
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.id = `section_${c.id}`;
+    let indRows = c.inds.map((ind, i) => `
+      <tr>
+        <td class="td-text">${ind.t}</td>
+        <td>
+          <select class="asmnt" id="${c.id}_r${i}" onchange="onAssessChange('${c.id}',${i})">
+            <option value="">— Select —</option>
+            <option value="Met">Met</option>
+            <option value="Partial">Partial</option>
+            <option value="Missed">Missed</option>
+            <option value="N.A.">N.A.</option>
+          </select>
+        </td>
+        <td class="td-evidence">
+          <textarea class="evid" id="${c.id}_e${i}" placeholder="Evidence / observation…" oninput="autoSave()" rows="2"></textarea>
+        </td>
+      </tr>`).join('');
+
+    let anchorList = SCORE_ANCHORS.map(a=>`<span style="font-size:11px;color:var(--muted)"><strong>${a.s}</strong> — ${a.d}</span>`).join('<br>');
+
+    div.innerHTML = `
+      <div class="cat-hdr">
+        <span class="cat-hdr-title">${c.n}. ${c.name}</span>
+        <span class="cat-hdr-weight">Weight: ${c.weight}%</span>
+      </div>
+      <div class="cat-obj">${c.obj}</div>
+      <table class="ind-table">
+        <thead>
+          <tr>
+            <th>Behavioral Indicator</th>
+            <th class="col-assess">Assessment</th>
+            <th class="col-evidence">Evidence / Observation (quote or timestamp where possible)</th>
+          </tr>
+        </thead>
+        <tbody>${indRows}</tbody>
+      </table>
+      <div class="warn-note">${c.warn}</div>
+      <div class="cat-footer">
+        <div class="score-controls">
+          <span class="score-label">Suggested score (auto):</span>
+          <span class="auto-score-box" id="${c.id}_auto">—</span>
+          <span class="score-label" style="margin-left:12px">Final Score (0–5 — leave blank to use auto):</span>
+          <input class="final-score-inp" id="${c.id}_override" type="number" min="0" max="5" step="0.5" placeholder="—" oninput="updateScores(); autoSave()">
+          <input class="override-inp" id="${c.id}_overrideReason" placeholder="Override reason (if overriding)…" oninput="autoSave()">
+        </div>
+        <div style="margin-top:6px">
+          <label style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px">Category Comments / Coaching Notes</label>
+          <textarea class="comments-inp" id="${c.id}_comments" placeholder="Specific, actionable, coaching-oriented observations for this category…" oninput="autoSave()"></textarea>
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:var(--muted)">${anchorList}</div>
+      </div>`;
+    container.appendChild(div);
+  });
+}
+
+// ════════════════════════════════════════════════════════
+//  RENDER AUTO-ZERO
+// ════════════════════════════════════════════════════════
+function renderAutoZero() {
+  const gDiv = document.getElementById('azGates');
+  gDiv.innerHTML = AZ_GATES.map(g => `
+    <div class="az-row">
+      <div class="az-text">${g.text}</div>
+      <div class="az-radios">
+        <label><input type="radio" name="${g.id}" value="Yes" onchange="updateAZ();autoSave()" checked> Yes (adhered)</label>
+        <label><input type="radio" name="${g.id}" value="No" onchange="updateAZ();autoSave()"> No</label>
+      </div>
+    </div>`).join('');
+
+  const iDiv = document.getElementById('azItems');
+  iDiv.innerHTML = AZ_ITEMS.map(it => `
+    <div class="az-row">
+      <div class="az-letter">${it.letter}.</div>
+      <div class="az-text">${it.text}</div>
+      <div class="az-radios">
+        <label><input type="radio" name="az_${it.letter}" value="No" onchange="updateAZ();autoSave()" checked> No</label>
+        <label><input type="radio" name="az_${it.letter}" value="Yes" onchange="updateAZ();autoSave()"> Yes</label>
+      </div>
+    </div>`).join('');
+}
+
+// ════════════════════════════════════════════════════════
+//  RENDER COACHING FLAGS
+// ════════════════════════════════════════════════════════
+function renderFlags() {
+  document.getElementById('flagsBody').innerHTML = COACHING_FLAGS.map(f => `
+    <tr id="flagrow_${f.id}">
+      <td>${f.cond}</td>
+      <td id="flagstatus_${f.id}"><span class="flag-off">✓ Clear</span></td>
+      <td>${f.action}</td>
+    </tr>`).join('');
+}
+
+// ════════════════════════════════════════════════════════
+//  RENDER SCORE SUMMARY TABLE
+// ════════════════════════════════════════════════════════
+function renderSummary() {
+  document.getElementById('summaryBody').innerHTML = CATS.map(c => `
+    <tr>
+      <td>${c.name}</td>
+      <td class="center">${c.weight}%</td>
+      <td class="center" id="sum_score_${c.id}">—</td>
+      <td class="center" id="sum_wpct_${c.id}">—</td>
+      <td class="center" id="sum_band_${c.id}">—</td>
+    </tr>`).join('');
+}
+
+// ════════════════════════════════════════════════════════
+//  UPDATE SCORES
+// ════════════════════════════════════════════════════════
+function onAssessChange(catId, idx) {
+  const sel = document.getElementById(`${catId}_r${idx}`);
+  sel.className = 'asmnt ' + assessClass(sel.value);
+  updateScores();
+  autoSave();
+}
+
+function updateScores() {
+  const s = getState();
+  let totalWeighted = 0, totalWeight = 0, anyScore = false;
+
+  CATS.forEach(c => {
+    const ratings = s.catRatings[c.id] || [];
+    const weights = c.inds.map(i=>i.wt);
+    const auto = calcAutoScore(c.id, ratings, weights);
+    const final = getFinalScore(c.id, auto, s.catOverride[c.id]);
+
+    // Update auto-score display
+    const autoEl = document.getElementById(`${c.id}_auto`);
+    if(autoEl) autoEl.textContent = auto!==null ? auto.toFixed(1) : '—';
+
+    // Update summary table
+    const scoreEl = document.getElementById(`sum_score_${c.id}`);
+    const wpctEl  = document.getElementById(`sum_wpct_${c.id}`);
+    const bandEl  = document.getElementById(`sum_band_${c.id}`);
+    if(final!==null && !isNaN(final)) {
+      const wpct = (final/5)*c.weight;
+      const band = scoreBand(final);
+      if(scoreEl) scoreEl.textContent = final.toFixed(1);
+      if(wpctEl)  wpctEl.textContent  = wpct.toFixed(1)+'%';
+      if(bandEl)  bandEl.innerHTML    = `<span class="band ${band.cls}">${band.label}</span>`;
+      totalWeighted += wpct;
+      totalWeight += c.weight;
+      anyScore = true;
+    } else {
+      if(scoreEl) scoreEl.textContent = '—';
+      if(wpctEl)  wpctEl.textContent  = '—';
+      if(bandEl)  bandEl.innerHTML    = '<span class="band band-na">—</span>';
+    }
+  });
+
+  // Check auto-zero
+  const azTriggered = checkAutoZero(s);
+
+  // Weighted total
+  const pctEl   = document.getElementById('totalPct');
+  const bandEl  = document.getElementById('totalBand');
+  const badgeEl = document.getElementById('summaryTotalBadge');
+
+  if(anyScore && azTriggered) {
+    if(pctEl)   pctEl.textContent  = '0% (AUTO-ZERO)';
+    if(bandEl)  bandEl.innerHTML   = '<span class="band band-critical">AUTO-ZERO</span>';
+    if(badgeEl) badgeEl.textContent = 'AUTO-ZERO TRIGGERED';
+  } else if(anyScore) {
+    const pct = totalWeighted;
+    const tb = totalBand(pct);
+    if(pctEl)   pctEl.textContent = pct.toFixed(1)+'%';
+    if(bandEl)  bandEl.innerHTML  = `<span class="band ${tb.cls}">${tb.label}</span>`;
+    if(badgeEl) badgeEl.textContent = pct.toFixed(1)+'%';
+  } else {
+    if(pctEl)   pctEl.textContent = '—';
+    if(bandEl)  bandEl.innerHTML  = '—';
+    if(badgeEl) badgeEl.textContent = '—';
+  }
+
+  updateFlags(s);
+}
+
+// ════════════════════════════════════════════════════════
+//  AUTO-ZERO
+// ════════════════════════════════════════════════════════
+function checkAutoZero(s) {
+  const gateTripped = AZ_GATES.some(g => (s[g.id]||'Yes')==='No');
+  const itemTripped = AZ_ITEMS.some(it => (s[it.letter]||'No')==='Yes');
+  return gateTripped || itemTripped;
+}
+
+function updateAZ() {
+  const s = getState();
+  const triggered = checkAutoZero(s);
+  const el = document.getElementById('azResult');
+  if(triggered) {
+    el.className = 'az-result triggered';
+    el.textContent = '⚠ AUTO-ZERO TRIGGERED — Weighted Quality Score is forced to 0%. Category scores are preserved for coaching.';
+  } else {
+    el.className = 'az-result ok';
+    el.textContent = '✓ No Auto-Zero condition triggered — Quality Score is valid.';
+  }
+  updateScores();
+}
+
+// ════════════════════════════════════════════════════════
+//  COACHING FLAGS
+// ════════════════════════════════════════════════════════
+function updateFlags(s) {
+  let flagCount = 0;
+  // supplement s with disconnect info
+  s.disconnect = document.querySelector('input[name="disconnect"]:checked')?.value || 'No';
+  s.followupAction = document.getElementById('f_followupAction')?.value || '';
+
+  COACHING_FLAGS.forEach(f => {
+    const fired = f.trigger(s);
+    const el = document.getElementById(`flagstatus_${f.id}`);
+    if(el) {
+      el.innerHTML = fired
+        ? '<span class="flag-on">⚑ Triggered</span>'
+        : '<span class="flag-off">✓ Clear</span>';
+    }
+    if(fired) flagCount++;
+  });
+  const badge = document.getElementById('flagsBadge');
+  if(badge) badge.textContent = flagCount > 0 ? `${flagCount} flag${flagCount>1?'s':''} triggered` : 'No flags triggered';
+}
+
+// ════════════════════════════════════════════════════════
+//  SAVE / LOAD
+// ════════════════════════════════════════════════════════
+let autoSaveTimer = null;
+function autoSave() {
+  clearTimeout(autoSaveTimer);
+  autoSaveTimer = setTimeout(saveToLocal, 1500);
+}
+
+function saveToLocal() {
+  try {
+    const s = getState();
+    const caseId = s.caseId || 'unsaved';
+    localStorage.setItem(`qa_form_${caseId}`, JSON.stringify(s));
+    localStorage.setItem('qa_form_last_key', `qa_form_${caseId}`);
+    const el = document.getElementById('saveStatus');
+    if(el) { el.textContent = `Saved — ${new Date().toLocaleTimeString()}`; setTimeout(()=>el.textContent='',4000); }
+  } catch(e) { console.error('Save failed', e); }
+}
+
+function loadFromLocal() {
+  const key = localStorage.getItem('qa_form_last_key');
+  if(!key) { alert('No saved form found.'); return; }
+  const raw = localStorage.getItem(key);
+  if(!raw) { alert('No saved data found.'); return; }
+  try { applyState(JSON.parse(raw)); } catch(e) { alert('Failed to load saved form.'); }
+}
+
+function downloadJSON() {
+  const s = getState();
+  const blob = new Blob([JSON.stringify(s, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `QA_${s.caseId||'form'}_${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+}
+
+function importJSON() { document.getElementById('importFile').click(); }
+function handleImport(e) {
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => { try { applyState(JSON.parse(ev.target.result)); } catch(x) { alert('Invalid JSON file.'); } };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+function clearForm() {
+  if(!confirm('Clear all form data? This cannot be undone.')) return;
+  CATS.forEach(c => {
+    c.inds.forEach((_,i) => {
+      const r=document.getElementById(`${c.id}_r${i}`); if(r){r.value='';r.className='asmnt';}
+      const ev=document.getElementById(`${c.id}_e${i}`); if(ev) ev.value='';
+    });
+    const ov=document.getElementById(`${c.id}_override`); if(ov) ov.value='';
+    const or=document.getElementById(`${c.id}_overrideReason`); if(or) or.value='';
+    const cm=document.getElementById(`${c.id}_comments`); if(cm) cm.value='';
+  });
+  ['agentName','caseId','agentLevel','evaluator','product','channel','warranty','interactionDate','reviewDate',
+   'caseType','duration','touchNum','priorTouches','csat','fcr','totalTime','sla','caseSummary','inheritedContext',
+   'outcomeClass','primaryOutcome','outcomeJustification','followupAction',
+   'q1','well1','well2','well3','improve1','improve2','improve3','coachingRec','focus1','focus2','focus3',
+   'orgInsights','journeyNotes','finalAssessment','esf_outcome','esf_l1','esf_l2','esf_l3'
+  ].forEach(k => { const el=document.getElementById('f_'+k); if(el) el.value=''; });
+  document.querySelector('input[name="disconnect"][value="No"]').checked = true;
+  AZ_GATES.forEach(g => document.querySelector(`input[name="${g.id}"][value="Yes"]`).checked = true);
+  AZ_ITEMS.forEach(it => document.querySelector(`input[name="az_${it.letter}"][value="No"]`).checked = true);
+  updateScores();
+  updateAZ();
+  document.getElementById('f_reviewDate').value = new Date().toISOString().slice(0,10);
+}
+
+function applyState(s) {
+  CATS.forEach(c => {
+    (s.catRatings?.[c.id]||[]).forEach((r,i) => {
+      const el = document.getElementById(`${c.id}_r${i}`);
+      if(el) { el.value=r; el.className='asmnt '+assessClass(r); }
+    });
+    (s.catEvidence?.[c.id]||[]).forEach((r,i) => {
+      const el = document.getElementById(`${c.id}_e${i}`); if(el) el.value=r;
+    });
+    const ov=document.getElementById(`${c.id}_override`); if(ov) ov.value=s.catOverride?.[c.id]||'';
+    const or=document.getElementById(`${c.id}_overrideReason`); if(or) or.value=s.catOverrideReason?.[c.id]||'';
+    const cm=document.getElementById(`${c.id}_comments`); if(cm) cm.value=s.catComments?.[c.id]||'';
+  });
+  ['agentName','caseId','agentLevel','evaluator','product','channel','warranty','interactionDate','reviewDate',
+   'caseType','duration','touchNum','priorTouches','csat','fcr','totalTime','sla','caseSummary','inheritedContext',
+   'outcomeClass','primaryOutcome','outcomeJustification','followupAction',
+   'q1','well1','well2','well3','improve1','improve2','improve3','coachingRec','focus1','focus2','focus3',
+   'orgInsights','journeyNotes','finalAssessment','esf_outcome','esf_l1','esf_l2','esf_l3'
+  ].forEach(k => { const el=document.getElementById('f_'+k); if(el && s[k]!==undefined) el.value=s[k]; });
+  if(s.disconnect) { const r=document.querySelector(`input[name="disconnect"][value="${s.disconnect}"]`); if(r) r.checked=true; }
+  AZ_GATES.forEach(g => { const v=s[g.id]||'Yes'; const r=document.querySelector(`input[name="${g.id}"][value="${v}"]`); if(r) r.checked=true; });
+  AZ_ITEMS.forEach(it => { const v=s[it.letter]||'No'; const r=document.querySelector(`input[name="az_${it.letter}"][value="${v}"]`); if(r) r.checked=true; });
+  updateScores();
+  updateAZ();
+}
+
+// ════════════════════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  renderSummary();
+  renderCategories();
+  renderAutoZero();
+  renderFlags();
+  document.getElementById('f_reviewDate').value = new Date().toISOString().slice(0,10);
+  updateAZ();
+  updateScores();
+});
+</script>
+</body>
+</html>
