@@ -610,9 +610,8 @@ const CATS = [
   {id:'cat2',n:'2',name:'Technical Accuracy',weight:20,
    obj:'Evaluate the quality of troubleshooting and technical guidance.',
    inds:[
-    {t:'Correctly identified the symptoms and asked relevant diagnostic questions',wt:3},
+    {t:'Correctly identified the symptoms, asked relevant diagnostic questions, and followed a logical troubleshooting process',wt:3},
     {t:'Identified the root cause (or likely cause) when possible',wt:3},
-    {t:'Followed a logical troubleshooting process',wt:2},
     {t:'Available tools were used efficiently and appropriately',wt:1},
     {t:'Gave technically accurate information; no unsupported conclusions',wt:2},
    ],warn:'⚠ Deduct for: incorrect technical information; skipped critical troubleshooting; misdiagnosis; unnecessary actions recommended; ISP or customer blamed without evidence; repeating basic steps the customer already completed.'},
@@ -620,11 +619,9 @@ const CATS = [
    obj:'Evaluate how effectively the agent managed the interaction.',
    inds:[
     {t:'Expectations were set clearly from the start',wt:1},
-    {t:"Agent maintained call control and troubleshooting flow",wt:3},
-    {t:"Used language appropriate to the customer's level and confirmed understanding throughout",wt:2},
-    {t:'Actively listened and showed comprehension throughout the interaction/s',wt:3},
+    {t:'Maintained call control and troubleshooting flow, including through difficult moments',wt:3},
+    {t:"Actively listened, used language suited to the customer's level, and confirmed understanding throughout",wt:3},
     {t:'Managed time well, with clear transitions between steps',wt:1},
-    {t:'Handled difficult moments when needed to maintain call control',wt:1},
     {t:"Adjusted communication for the customer's accessibility needs (hearing, vision, language barrier, age, cognitive)",wt:1},
    ],warn:'⚠ High performance: customer always knows what is happening and the agent drives the call confidently. One instruction at a time for customers who need it.'},
   {id:'cat4',n:'4',name:'Customer Ownership',weight:15,
@@ -658,8 +655,7 @@ const CATS = [
    obj:'Ensure future agents can quickly understand the case. Purpose is continuity, not compliance.',
    inds:[
     {t:'Recorded customer issue summary',wt:3},
-    {t:'Documented troubleshooting steps',wt:3},
-    {t:'Noted key findings',wt:3},
+    {t:'Documented troubleshooting steps and key findings',wt:3},
     {t:'Captured agent reasoning — escalation justification, offline recommendations provided by colleagues and other support POCs, and any guidance that informed the action taken',wt:3},
     {t:'Documented next steps and follow-ups',wt:2},
     {t:'Updated ticket status accurately',wt:1},
@@ -674,7 +670,7 @@ const COACHING_FLAGS=[
   {cond:'Escalated without completing reasonable troubleshooting',trigger:s=>indMissed('cat5',0,s),action:'Review L1 steps completed before escalation; identify gaps and add to troubleshooting playbook'},
   {cond:'Escalation criteria not met / complaint or legal-risk not escalated',trigger:s=>indMissed('cat5',1,s),action:'Review whether a valid escalation trigger existed; coach on recognising escalation criteria'},
   {cond:'Professionalism concern',trigger:s=>indMissed('cat6',1,s),action:'Mandatory review; assess tone, conduct, and whether a policy violation occurred'},
-  {cond:'Ticket status inaccurate / premature closure',trigger:s=>indMissed('cat7',5,s),action:'Review ticket state at close; verify status accurately reflected the case outcome'},
+  {cond:'Ticket status inaccurate / premature closure',trigger:s=>indMissed('cat7',4,s),action:'Review ticket state at close; verify status accurately reflected the case outcome'},
 ];
 
 const AZ_GATES=[
