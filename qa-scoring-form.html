@@ -600,77 +600,61 @@ const CATS = [
   {id:'cat1',n:'1',name:'Resolution / Progress Toward Resolution',weight:30,
    obj:'Determine whether the interaction moved the customer meaningfully closer to resolution.',
    inds:[
-    {t:'Resolved the issue or achieved the best possible outcome (RMA, valid escalation, limitation explained, education)',wt:3},
-    {t:'Completed reasonable troubleshooting before reaching a conclusion',wt:2},
-    {t:'Resolution path was appropriate for the situation and warranty status',wt:1},
-    {t:'Customer was moved meaningfully closer to a solution',wt:2},
-    {t:'Troubleshooting was conducted before any self-help content or KB articles were shared — generic self-help was not used as a substitute for investigation',wt:3},
-    {t:'For out-of-warranty products: provided best-effort troubleshooting, explained product limitations clearly, and did not use warranty status as a reason to stop helping — mark N.A. if product is in warranty',wt:2},
+    {t:"Resolved the issue or achieved the best available outcome for the customer's situation (resolution, RMA, valid escalation, limitation explained, or customer education)",wt:3},
+    {t:"Conducted reasonable troubleshooting that meaningfully advanced the customer's path toward resolution before concluding the interaction or relying on self-help / KB resources",wt:3},
+    {t:"Selected a resolution path appropriate to the customer's situation, product status, and available support options — including best-effort troubleshooting for out-of-warranty products rather than using warranty status as a reason to stop helping",wt:2},
    ],warn:"⚠ Does NOT count: customer simply ends call; generic KB sent without troubleshooting; warranty used as reason to stop helping; escalation as shortcut; unsupported ISP blame; 'monitor & call back' with no plan; ownership transferred without expectations or documentation."},
   {id:'cat2',n:'2',name:'Technical Accuracy',weight:20,
    obj:'Evaluate the quality of troubleshooting and technical guidance.',
    inds:[
-    {t:'Correctly identified the symptoms, asked relevant diagnostic questions, and followed a logical troubleshooting process',wt:3},
-    {t:'Identified the root cause (or likely cause) when possible',wt:3},
-    {t:'Available tools were used efficiently and appropriately',wt:1},
-    {t:'Gave technically accurate information; no unsupported conclusions',wt:2},
+    {t:"Applied a logical diagnostic process — identified the symptoms, asked relevant diagnostic questions, and determined the root cause (or most likely cause) when possible",wt:3},
+    {t:"Used available tools, resources, and evidence effectively to support troubleshooting and decision-making",wt:2},
+    {t:"Provided technically accurate information, recommendations, and conclusions supported by available evidence",wt:3},
    ],warn:'⚠ Deduct for: incorrect technical information; skipped critical troubleshooting; misdiagnosis; unnecessary actions recommended; ISP or customer blamed without evidence; repeating basic steps the customer already completed.'},
   {id:'cat3',n:'3',name:'Communication & Call Control',weight:15,
    obj:'Evaluate how effectively the agent managed the interaction.',
    inds:[
-    {t:'Expectations were set clearly from the start',wt:1},
-    {t:'Maintained call control and troubleshooting flow, including through difficult moments',wt:3},
-    {t:"Actively listened, used language suited to the customer's level, and confirmed understanding throughout",wt:3},
-    {t:'Managed time well, with clear transitions between steps',wt:1},
-    {t:"Adjusted communication for the customer's accessibility needs (hearing, vision, language barrier, age, cognitive)",wt:1},
+    {t:"Effectively guided the interaction — set clear expectations, maintained call control and troubleshooting flow, and managed time and transitions, including through difficult moments",wt:3},
+    {t:"Communicated appropriately to the customer's knowledge level, communication style, and accessibility needs (hearing, vision, language, age, cognitive), maintaining mutual understanding throughout",wt:3},
    ],warn:'⚠ High performance: customer always knows what is happening and the agent drives the call confidently. One instruction at a time for customers who need it.'},
   {id:'cat4',n:'4',name:'Customer Ownership',weight:15,
    obj:'Measure the degree to which the agent accepted responsibility for moving the customer forward.',
    inds:[
-    {t:"Took accountability for the customer's outcome and avoided unnecessary transfers",wt:3},
-    {t:'Followed through on all commitments made during the interaction',wt:2},
-    {t:'Clearly set customer expectations for next steps and realistic timelines',wt:2},
-    {t:'Completed required disconnect follow-up and met callback commitments within the agreed window',wt:1},
-    {t:'Recognized and acknowledged prior contact history; did not treat a repeat contact as a new case without reviewing previous interactions — mark N.A. if this is a confirmed first contact',wt:2},
-    {t:'If the case was handed off or escalated, the receiving agent was given sufficient context to continue without requiring the customer to repeat themselves — mark N.A. if no handoff occurred on this touch',wt:2},
+    {t:"Demonstrated ownership of the customer's outcome — took appropriate responsibility, avoided unnecessary transfers, and followed through on commitments",wt:3},
+    {t:"Established clear next steps and realistic timelines, and completed required follow-up actions — including disconnect and callback commitments within the agreed window",wt:2},
+    {t:"Maintained case continuity — used prior contact history and provided sufficient context during handoffs, escalations, or follow-ups so the customer did not have to repeat themselves — mark N.A. if confirmed first contact with no handoff",wt:2},
    ],warn:'⚠ Automatic deductions: no documented follow-up after disconnect; unclear next steps; passing responsibility without context; failure to complete promised actions; missed or late callbacks without proactive renegotiation.'},
   {id:'cat5',n:'5',name:'Escalation Judgment',weight:10,
    obj:'Determine whether escalation decisions were appropriate — including UPWARD escalations the customer requested (management, complaint, legal). Mark all N.A. if no escalation was involved and none was warranted.',
    inds:[
-    {t:'Completed reasonable troubleshooting before escalating',wt:3},
-    {t:'Escalation was triggered by a recognized condition: unresolved after reasonable L1 troubleshooting, customer complaint or management request, ISP/partner-supported product still unresolved, or agent stuck after documented effort — not used solely to transfer a difficult call or avoid ownership',wt:2},
-    {t:'Provided complete escalation details using the correct escalation path',wt:3},
-    {t:'Clearly explained why escalation was necessary and what would happen next',wt:1},
+    {t:"Made an appropriate escalation decision (including the decision not to escalate) based on troubleshooting performed and recognized escalation criteria — including a customer complaint, management request, or legal-risk trigger — mark N.A. if no escalation was involved and none was warranted",wt:3},
+    {t:"Executed the escalation effectively — used the correct path, provided complete details and context, and explained the reason and next steps to the customer — mark N.A. if no escalation occurred",wt:2},
    ],warn:"⚠ Low score: premature, avoidable, poorly documented, used as a substitute for troubleshooting — or a warranted escalation (incl. a customer's management request) that was NOT made."},
   {id:'cat6',n:'6',name:'Customer Experience',weight:5,
    obj:'Measure the overall customer experience delivered during the interaction.',
    inds:[
-    {t:'Demonstrated empathy including for repeat-contact fatigue',wt:2},
-    {t:'Stayed professional throughout and maintained patience, even under pressure',wt:3},
-    {t:"Agent matched the customer's tone, pace, level, and energy",wt:1},
-    {t:'Minimized customer effort',wt:2},
-    {t:'Maintained customer understanding and engagement',wt:2},
+    {t:"Demonstrated empathy, professionalism, and patience throughout — including for repeat-contact fatigue and under pressure",wt:3},
+    {t:"Adapted to the customer's tone, pace, and emotional state and maintained positive engagement and understanding",wt:2},
+    {t:"Reduced customer effort — avoided unnecessary repetition, complexity, delays, or obstacles",wt:2},
    ],warn:'⚠ Negative indicators: dismissive responses; robotic interactions; frustration escalation caused by agent behavior; marathon sessions pushed onto vulnerable customers without offering to pause and resume.'},
   {id:'cat7',n:'7',name:'Documentation & Notes',weight:5,
    obj:'Ensure future agents can quickly understand the case. Purpose is continuity, not compliance.',
    inds:[
-    {t:'Recorded customer issue summary',wt:3},
-    {t:'Documented troubleshooting steps and key findings',wt:3},
-    {t:'Captured agent reasoning — escalation justification, offline recommendations provided by colleagues and other support POCs, and any guidance that informed the action taken',wt:3},
-    {t:'Documented next steps and follow-ups',wt:2},
-    {t:'Updated ticket status accurately',wt:1},
+    {t:"Documented the customer issue, troubleshooting performed, and key findings sufficiently to understand the case history",wt:3},
+    {t:"Captured the reasoning behind key decisions, recommendations, escalations, and actions — including colleague / SME input when no private note applies",wt:2},
+    {t:"Recorded clear next steps, follow-up requirements, and an accurate current case status",wt:2},
    ],warn:'⚠ Documentation supports outcomes but should not outweigh troubleshooting quality, communication, or ownership. Notes must carry the FULL history — including pre-ticket contacts — so no agent treats a long-running case as new.'},
 ];
 
 const COACHING_FLAGS=[
-  {cond:'Technical accuracy failure',trigger:s=>catHasMissed('cat2',s),action:'Review for incorrect guidance, product misrepresentation, or unsupported root-cause conclusions'},
-  {cond:'No follow-up after disconnected call',trigger:s=>s.disconnect==='Yes'&&s.followupAction==='No follow-up documented',action:'Mandatory callback attempt required; document outcome in case notes'},
-  {cond:'Commitments not fulfilled / clear path forward missing',trigger:s=>indMissed('cat4',1,s),action:'Review what was promised; confirm the customer was left with actionable next steps'},
-  {cond:'Customer abandoned without a path forward',trigger:s=>indMissed('cat1',0,s)&&indMissed('cat1',3,s),action:'Review whether the customer had any defined next step at close; address in coaching session'},
-  {cond:'Escalated without completing reasonable troubleshooting',trigger:s=>indMissed('cat5',0,s),action:'Review L1 steps completed before escalation; identify gaps and add to troubleshooting playbook'},
-  {cond:'Escalation criteria not met / complaint or legal-risk not escalated',trigger:s=>indMissed('cat5',1,s),action:'Review whether a valid escalation trigger existed; coach on recognising escalation criteria'},
-  {cond:'Professionalism concern',trigger:s=>indMissed('cat6',1,s),action:'Mandatory review; assess tone, conduct, and whether a policy violation occurred'},
-  {cond:'Ticket status inaccurate / premature closure',trigger:s=>indMissed('cat7',4,s),action:'Review ticket state at close; verify status accurately reflected the case outcome'},
+  {cond:'Technical accuracy failure',trigger:s=>indPM('cat2',2,s),action:'Review for incorrect guidance, product misrepresentation, or unsupported conclusions'},
+  {cond:'Missed follow-up / callback commitment',trigger:s=>indPM('cat4',1,s),action:'Mandatory callback/follow-up required; document the attempt and outcome in case notes'},
+  {cond:'Commitments not honored / ownership gap',trigger:s=>indPM('cat4',0,s),action:'Review what was promised; confirm the customer was left with actionable next steps'},
+  {cond:'Customer left without meaningful progress or a path forward',trigger:s=>indPM('cat1',1,s),action:'Review whether the customer was advanced toward resolution and had a defined next step at close'},
+  {cond:'Escalation decision inappropriate (premature, or warranted escalation not made)',trigger:s=>indPM('cat5',0,s),action:'Review troubleshooting completed and escalation triggers — incl. complaint / management / legal; coach on escalation criteria'},
+  {cond:'Escalation poorly executed (path, handoff detail, or customer not informed)',trigger:s=>indPM('cat5',1,s),action:'Review the escalation path, completeness of the handoff, and whether the customer was told what happens next'},
+  {cond:'Professionalism concern',trigger:s=>indPM('cat6',0,s),action:'Mandatory review; assess tone, conduct, and whether a policy violation occurred'},
+  {cond:'Ticket status inaccurate / premature closure',trigger:s=>indPM('cat7',2,s),action:'Review ticket state at close; verify status accurately reflected the case outcome'},
 ];
 
 const AZ_GATES=[
@@ -755,6 +739,7 @@ function totalBand(pct){
 }
 function catHasMissed(catId,s){return(s.catRatings[catId]||[]).some(r=>r==='Missed');}
 function indMissed(catId,idx,s){return(s.catRatings[catId]||[])[idx]==='Missed';}
+function indPM(catId,idx,s){const r=(s.catRatings[catId]||[])[idx];return r==='Partial'||r==='Missed';}
 function assessClass(v){if(v==='Met')return'v-met';if(v==='Partial')return'v-partial';if(v==='Missed')return'v-missed';if(v==='N.A.')return'v-na';return'';}
 function contrType(resScore){
   if(resScore===null||resScore===undefined)return null;
