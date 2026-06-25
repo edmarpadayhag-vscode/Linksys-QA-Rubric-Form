@@ -441,6 +441,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;f
   <button class="btn btn-danger" onclick="clearTracker()">✕ Clear Tracker</button>
 </div>
 
+<div style="background:var(--warn-bg);border-left:3px solid var(--warn-border);padding:8px 14px;font-size:12px;color:#78350f;margin-bottom:14px;border-radius:0 4px 4px 0">The Case Tracker is for <strong>multi-touch cases only</strong> — group a case by giving every touch the same Case ID. For single-call evaluations, use the <strong>Scoring Form</strong> tab only; no Case Tracker entry is needed.</div>
+
 <!-- Touch Log -->
 <div class="card">
   <div class="sec-hdr"><div class="sec-num">A</div><div class="sec-title">Touch Log — One Row Per Interaction</div><div class="sec-badge" id="touchCount">0 touches</div></div>
@@ -474,7 +476,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;f
     </table>
   </div>
   <div class="tracker-footer">
-    <span style="font-size:12px;color:var(--muted)">Res=Resolution, Tech=Technical Accuracy, Comm=Communication, Own=Ownership, Esc=Escalation, CX=Customer Experience, Doc=Documentation, HQ=Handoff Quality, CF=Critical Failure</span>
+    <span style="font-size:12px;color:var(--muted)">Res=Resolution, Tech=Technical Accuracy, Comm=Communication, Own=Ownership, Esc=Escalation, CX=Customer Experience, Doc=Documentation, HQ=Handoff Quality, CF=Critical Failure<br><strong>Handoff Quality:</strong> 5 Seamless · 4 Strong (minor gap, recovered) · 3 Adequate (some re-gathering) · 2 Weak (rework from thin notes) · 1 Poor (next agent restarts) · 0 Broken (no usable handoff) · blank = no handoff (e.g. final touch)</span>
   </div>
 </div>
 
@@ -602,7 +604,7 @@ const CATS = [
     {t:'Completed reasonable troubleshooting before reaching a conclusion',wt:2},
     {t:'Resolution path was appropriate for the situation and warranty status',wt:1},
     {t:'Customer was moved meaningfully closer to a solution',wt:2},
-    {t:'Troubleshooting was conducted before any self-help content or KB articles were shared — generic self-help was not used as a substitute for investigation',wt:2},
+    {t:'Troubleshooting was conducted before any self-help content or KB articles were shared — generic self-help was not used as a substitute for investigation',wt:3},
     {t:'For out-of-warranty products: provided best-effort troubleshooting, explained product limitations clearly, and did not use warranty status as a reason to stop helping — mark N.A. if product is in warranty',wt:2},
    ],warn:"⚠ Does NOT count: customer simply ends call; generic KB sent without troubleshooting; warranty used as reason to stop helping; escalation as shortcut; unsupported ISP blame; 'monitor & call back' with no plan; ownership transferred without expectations or documentation."},
   {id:'cat2',n:'2',name:'Technical Accuracy',weight:20,
@@ -610,7 +612,7 @@ const CATS = [
    inds:[
     {t:'Correctly identified the symptoms and asked relevant diagnostic questions',wt:3},
     {t:'Identified the root cause (or likely cause) when possible',wt:3},
-    {t:'Followed a logical troubleshooting process',wt:1},
+    {t:'Followed a logical troubleshooting process',wt:2},
     {t:'Available tools were used efficiently and appropriately',wt:1},
     {t:'Gave technically accurate information; no unsupported conclusions',wt:2},
    ],warn:'⚠ Deduct for: incorrect technical information; skipped critical troubleshooting; misdiagnosis; unnecessary actions recommended; ISP or customer blamed without evidence; repeating basic steps the customer already completed.'},
@@ -649,7 +651,7 @@ const CATS = [
     {t:'Demonstrated empathy including for repeat-contact fatigue',wt:2},
     {t:'Stayed professional throughout and maintained patience, even under pressure',wt:3},
     {t:"Agent matched the customer's tone, pace, level, and energy",wt:1},
-    {t:'Minimized customer effort',wt:1},
+    {t:'Minimized customer effort',wt:2},
     {t:'Maintained customer understanding and engagement',wt:2},
    ],warn:'⚠ Negative indicators: dismissive responses; robotic interactions; frustration escalation caused by agent behavior; marathon sessions pushed onto vulnerable customers without offering to pause and resume.'},
   {id:'cat7',n:'7',name:'Documentation & Notes',weight:5,
@@ -868,7 +870,7 @@ function renderCategories(){
 function renderSummary(){
   document.getElementById('summaryBody').innerHTML=CATS.map(c=>`
     <tr>
-      <td>${c.name}</td><td class="center">${c.weight}%</td>
+      <td>${c.name}</td><td class="center" id="sum_wt_${c.id}">${c.weight}%</td>
       <td class="center" id="sum_score_${c.id}">—</td>
       <td class="center" id="sum_wpct_${c.id}">—</td>
       <td class="center" id="sum_band_${c.id}">—</td>
@@ -900,25 +902,39 @@ function onAssessChange(catId,idx){
 
 function updateScores(){
   const s=getFormState();
-  let totalW=0,anyScore=false;
   const azTriggered=checkAutoZero(s);
-  CATS.forEach(c=>{
+  // Pass 1 — final score per category + active weight (N.A./unscored categories drop out)
+  const finals=CATS.map(c=>{
     const ratings=s.catRatings[c.id]||[];
     const weights=c.inds.map(i=>i.wt);
     const auto=calcAutoScore(c.id,ratings,weights);
     const final=getFinalScore(c.id,auto,s.catOverride[c.id]);
     const autoEl=document.getElementById(`${c.id}_auto`);if(autoEl)autoEl.textContent=auto!==null?auto.toFixed(1):'—';
+    return final;
+  });
+  let activeWeight=0;
+  CATS.forEach((c,i)=>{if(finals[i]!==null&&!isNaN(finals[i]))activeWeight+=c.weight;});
+  // Pass 2 — render rows with redistributed weights so the total always reaches 100% of applicable categories
+  let totalPct=0,anyScore=false;
+  CATS.forEach((c,i)=>{
+    const final=finals[i];
+    const wtEl=document.getElementById(`sum_wt_${c.id}`);
     const sEl=document.getElementById(`sum_score_${c.id}`);
     const wEl=document.getElementById(`sum_wpct_${c.id}`);
     const bEl=document.getElementById(`sum_band_${c.id}`);
     if(final!==null&&!isNaN(final)){
-      const wp=(final/5)*c.weight;
+      const renormW=activeWeight>0?c.weight/activeWeight*100:0;
+      const wp=(final/5)*renormW;
       const bd=scoreBand(final);
+      if(wtEl){wtEl.textContent=renormW.toFixed(1)+'%';wtEl.style.color='';}
       if(sEl)sEl.textContent=final.toFixed(1);
       if(wEl)wEl.textContent=wp.toFixed(1)+'%';
       if(bEl)bEl.innerHTML=`<span class="band ${bd.cls}">${bd.label}</span>`;
-      totalW+=wp;anyScore=true;
-    }else{if(sEl)sEl.textContent='—';if(wEl)wEl.textContent='—';if(bEl)bEl.innerHTML='<span class="band band-na">—</span>';}
+      totalPct+=wp;anyScore=true;
+    }else{
+      if(wtEl){wtEl.textContent=c.weight+'%';wtEl.style.color='var(--muted)';}
+      if(sEl)sEl.textContent='—';if(wEl)wEl.textContent='—';if(bEl)bEl.innerHTML='<span class="band band-na">—</span>';
+    }
   });
   const pEl=document.getElementById('totalPct');
   const tbEl=document.getElementById('totalBand');
@@ -926,8 +942,8 @@ function updateScores(){
   if(anyScore&&azTriggered){
     if(pEl)pEl.textContent='0% (AUTO-ZERO)';if(tbEl)tbEl.innerHTML='<span class="band band-az">AUTO-ZERO</span>';if(badgeEl)badgeEl.textContent='AUTO-ZERO';
   }else if(anyScore){
-    const tb=totalBand(totalW);
-    if(pEl)pEl.textContent=totalW.toFixed(1)+'%';if(tbEl)tbEl.innerHTML=`<span class="band ${tb.cls}">${tb.label}</span>`;if(badgeEl)badgeEl.textContent=totalW.toFixed(1)+'%';
+    const tb=totalBand(totalPct);
+    if(pEl)pEl.textContent=totalPct.toFixed(1)+'%';if(tbEl)tbEl.innerHTML=`<span class="band ${tb.cls}">${tb.label}</span>`;if(badgeEl)badgeEl.textContent=totalPct.toFixed(1)+'%';
   }else{if(pEl)pEl.textContent='—';if(tbEl)tbEl.innerHTML='—';if(badgeEl)badgeEl.textContent='—';}
   updateFlags(s);
 }
@@ -1073,7 +1089,7 @@ function renderTracker(){
       <td class="tr-auto" id="tr_wpct_${row.id}">${wpct!==null?wpct.toFixed(1)+'%':'—'}</td>
       <td class="tr-auto" id="tr_band_${row.id}"><span class="band ${bd.cls}" style="font-size:10.5px">${bd.label}</span></td>
       <td class="tr-auto" id="tr_contr_${row.id}">${ct?`<span class="contr-badge ${contrClass(ct)}">${ct}</span>`:'—'}</td>
-      <td><input class="tr-inp tr-hq" type="number" min="0" max="5" step="0.5" value="${row.handoffQuality??''}" placeholder="—" oninput="updateTrackerRow('${row.id}','handoffQuality',this.value)"></td>
+      <td><select class="tr-inp tr-hq" title="Handoff Quality — 5 Seamless · 4 Strong (minor gap) · 3 Adequate (some re-gathering) · 2 Weak (rework from thin notes) · 1 Poor (next agent restarts) · 0 Broken (no usable handoff) · blank = no handoff (e.g. final touch)" onchange="updateTrackerRow('${row.id}','handoffQuality',this.value)">${['','5','4','3','2','1','0'].map(v=>`<option value="${v}" ${String(row.handoffQuality??'')===v?'selected':''}>${v===''?'—':v}</option>`).join('')}</select></td>
       <td><input class="tr-inp" value="${esc(row.notes||'')}" placeholder="Notes…" oninput="updateTrackerRow('${row.id}','notes',this.value)"></td>
       <td class="center" style="font-size:12px">${row.criticalFailure==='Yes'?'<span style="color:var(--red);font-weight:700">YES</span>':'<span style="color:#aaa">—</span>'}</td>
     </tr>`;}).join('');
@@ -1142,21 +1158,26 @@ function computeJourneyScore(jrny){
     teamScore=0.50*exec+0.30*(outcome/5*100)+0.20*(continuity/5*100);
     teamScore=Math.round(teamScore*10)/10;
   }
-  const execDisplay=exec;
-  return{teamScore,exec:execDisplay,touches:touches.length};
+  // Advisory suggestions (manual entry stays authoritative)
+  const lastWp=touches.length?touches[touches.length-1].weightedPct:null;
+  const suggestedOutcome=(lastWp!==null&&!isNaN(lastWp))?Math.round(lastWp/20):null; // weighted% ÷100 ×5
+  const hqVals=touches.map(r=>r.handoffQuality).filter(v=>v!==''&&v!==null&&v!==undefined&&!isNaN(parseFloat(v))).map(v=>parseFloat(v));
+  const suggestedContinuity=hqVals.length?Math.round(hqVals.reduce((a,b)=>a+b,0)/hqVals.length):null;
+  return{teamScore,exec,touches:touches.length,suggestedOutcome,suggestedContinuity};
 }
 function renderJourneys(){
   const tbody=document.getElementById('journeyBody');
   tbody.innerHTML=STATE.journeys.map(jrny=>{
-    const {teamScore,exec,touches}=computeJourneyScore(jrny);
+    const {teamScore,exec,touches,suggestedOutcome,suggestedContinuity}=computeJourneyScore(jrny);
     const bd=totalBand(teamScore);
+    const hint=v=>v!==null&&v!==undefined?`<div style="font-size:10px;color:#999;text-align:center;margin-top:2px">sugg ${v}</div>`:'';
     return`<tr>
       <td><button class="del-btn" onclick="deleteJourneyRow('${jrny.id}')" title="Delete">✕</button></td>
       <td><input class="jrny-inp" value="${esc(jrny.caseId||'')}" placeholder="Case ID" oninput="updateJourneyRow('${jrny.id}','caseId',this.value)"></td>
       <td class="center" id="jrny_tc_${jrny.id}">${touches}</td>
       <td class="jrny-auto" id="jrny_av_${jrny.id}">${exec!==null?exec.toFixed(1)+'%':'—'}</td>
-      <td><input class="jrny-inp jrny-score" type="number" min="0" max="5" step="0.5" value="${jrny.outcome||''}" placeholder="0–5" oninput="updateJourneyRow('${jrny.id}','outcome',this.value)"></td>
-      <td><input class="jrny-inp jrny-score" type="number" min="0" max="5" step="0.5" value="${jrny.continuity||''}" placeholder="0–5" oninput="updateJourneyRow('${jrny.id}','continuity',this.value)"></td>
+      <td><input class="jrny-inp jrny-score" type="number" min="0" max="5" step="0.5" value="${jrny.outcome||''}" placeholder="0–5" oninput="updateJourneyRow('${jrny.id}','outcome',this.value)">${hint(suggestedOutcome)}</td>
+      <td><input class="jrny-inp jrny-score" type="number" min="0" max="5" step="0.5" value="${jrny.continuity||''}" placeholder="0–5" oninput="updateJourneyRow('${jrny.id}','continuity',this.value)">${hint(suggestedContinuity)}</td>
       <td class="jrny-auto" id="jrny_ts_${jrny.id}">${teamScore!==null?teamScore.toFixed(1)+'%':'—'}</td>
       <td class="center" id="jrny_bd_${jrny.id}">${teamScore!==null?`<span class="band ${bd.cls}" style="font-size:11px">${bd.label}</span>`:'—'}</td>
       <td><input class="jrny-inp" value="${esc(jrny.notes||'')}" placeholder="Journey notes…" oninput="updateJourneyRow('${jrny.id}','notes',this.value)"></td>
