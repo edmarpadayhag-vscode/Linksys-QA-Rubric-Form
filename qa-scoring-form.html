@@ -54,7 +54,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;f
 /* ── Card ── */
 .card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden;box-shadow:var(--shadow);}
 .sec-hdr{background:var(--sec-bg);border-bottom:1px solid var(--border);padding:9px 16px;display:flex;align-items:center;gap:10px;}
-.sec-num{background:var(--primary);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.sec-num{background:var(--primary);color:#fff;border-radius:11px;min-width:22px;height:22px;padding:0 6px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
 .sec-title{font-weight:700;font-size:12.5px;text-transform:uppercase;letter-spacing:.5px;flex:1;}
 .sec-badge{background:var(--primary-light);color:var(--primary);border-radius:12px;padding:2px 10px;font-size:11.5px;font-weight:700;}
 .sec-body{padding:14px 16px;}
@@ -293,7 +293,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;f
 
 <!-- §1 Case Information -->
 <div class="card">
-  <div class="sec-hdr"><div class="sec-num">1</div><div class="sec-title">Case Information</div></div>
+  <div class="sec-hdr"><div class="sec-num">I</div><div class="sec-title">Case Information</div></div>
   <div class="sec-body">
     <div class="info-grid">
       <div class="info-field"><label>Agent Name</label><input id="f_agentName" placeholder="Full name" oninput="autoSave()"></div>
@@ -321,7 +321,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;f
 
 <!-- §2 Score Summary -->
 <div class="card">
-  <div class="sec-hdr"><div class="sec-num">2</div><div class="sec-title">Score Summary</div><div class="sec-badge" id="summaryTotalBadge">—</div></div>
+  <div class="sec-hdr"><div class="sec-num">II</div><div class="sec-title">Score Summary</div><div class="sec-badge" id="summaryTotalBadge">—</div></div>
   <div style="padding:0">
     <table class="score-table">
       <thead><tr><th>Category</th><th class="center" style="width:80px">Weight</th><th class="center" style="width:90px">Score (0–5)</th><th class="center" style="width:100px">Weighted %</th><th class="center" style="width:140px">Band</th></tr></thead>
@@ -331,12 +331,44 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;f
   </div>
 </div>
 
-<!-- §3 Category Assessments -->
+<!-- III Category Assessments -->
+<div class="card" style="margin-bottom:14px">
+  <div class="sec-hdr"><div class="sec-num">III</div><div class="sec-title">Category Assessments</div></div>
+</div>
+
+<!-- Scoring Guidance (Evaluator Principles & Boundary Definitions) -->
+<details class="card" style="margin-bottom:14px">
+  <summary class="sec-hdr" style="cursor:pointer;list-style:none">
+    <div class="sec-num">★</div>
+    <div class="sec-title">Scoring Guidance — Evaluator Principles &amp; Boundary Definitions</div>
+    <span style="margin-left:auto;font-size:12px;color:var(--muted)">click to expand</span>
+  </summary>
+  <div class="sec-body">
+    <h4 style="margin:4px 0 6px;font-size:13px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted)">Principles for Evaluators</h4>
+    <ul style="margin:0 0 14px;padding-left:18px;font-size:13px;line-height:1.55">
+      <li>Evaluate on the information the agent had <strong>at the time</strong> — avoid hindsight bias; a reasonable decision is not a failure just because later information proved it wrong.</li>
+      <li>Score the <strong>behavior, not the outcome alone</strong>. An unresolved case can score well; a resolved case can still show coaching gaps.</li>
+      <li>Mark <strong>N.A.</strong> only where the indicator genuinely does not apply — N.A. weight is redistributed, never counted as a failure.</li>
+      <li>Judge <em>reasonable</em>, <em>best effort</em>, <em>meaningfully advanced</em>, and <em>enough troubleshooting</em> against what a competent agent could do for that product, issue &amp; customer.</li>
+    </ul>
+    <h4 style="margin:4px 0 6px;font-size:13px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted)">Boundary Definitions (apply to the subjective terms)</h4>
+    <ul style="margin:0 0 8px;padding-left:18px;font-size:13px;line-height:1.55">
+      <li><strong>Reasonable troubleshooting</strong> — the standard, logically sequenced steps for that product and symptom, before any conclusion or KB link.</li>
+      <li><strong>Meaningfully advanced</strong> — eliminates possible causes, gathers evidence, narrows the problem scope, or identifies the next valid action (not merely time spent).</li>
+      <li><strong>Best effort (OOW)</strong> — troubleshoot as far as the product / issue allows, explain limitations, leave the customer something useful. Warranty sets the ceiling, not the effort — do not offer paid connect in place of help.</li>
+      <li><strong>Enough troubleshooting before escalation</strong> — the standard L1 steps for the issue type completed and documented (a judgment, not a timer).</li>
+      <li><strong>Necessary troubleshooting is NOT "customer effort"</strong> — effort-reduction removes avoidable friction; it never means skipping diagnostic steps the issue genuinely requires.</li>
+    </ul>
+    <p style="margin:8px 0 0;font-size:12px;color:var(--muted)">Full rationale and worked Met / Partial / Missed examples: see the <strong>Indicator Guide</strong>, <strong>Scoring Guide</strong>, and <strong>QA Cheat Sheet</strong> in the workbook.</p>
+  </div>
+</details>
+
+<!-- III Category Assessments — category cards render here -->
 <div id="catSections"></div>
 
 <!-- §4 Resolution Outcome -->
 <div class="card">
-  <div class="sec-hdr"><div class="sec-num">4</div><div class="sec-title">Resolution Outcome</div></div>
+  <div class="sec-hdr"><div class="sec-num">IV</div><div class="sec-title">Resolution Outcome</div></div>
   <div class="sec-body">
     <div class="outcome-grid">
       <div class="info-field"><label>Outcome Classification</label><select id="f_outcomeClass" onchange="autoSave()"><option value="">— Select —</option><option>Successful Resolution</option><option>Partial Resolution</option><option>Appropriate Escalation</option><option>Ownership Gap</option><option>Unresolved</option></select></div>
@@ -348,7 +380,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;f
 
 <!-- §5 Disconnected Call -->
 <div class="card">
-  <div class="sec-hdr"><div class="sec-num">5</div><div class="sec-title">Disconnected Call Follow-Up</div></div>
+  <div class="sec-hdr"><div class="sec-num">V</div><div class="sec-title">Disconnected Call Follow-Up</div></div>
   <div class="sec-body">
     <div class="info-grid">
       <div class="info-field"><label>Did the interaction disconnect?</label><div class="dc-row" style="margin-top:4px"><label><input type="radio" name="disconnect" value="No" onchange="autoSave()" checked> No</label><label><input type="radio" name="disconnect" value="Yes" onchange="autoSave()"> Yes</label></div></div>
@@ -359,7 +391,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;f
 
 <!-- §6 Coaching Flags -->
 <div class="card">
-  <div class="sec-hdr"><div class="sec-num">6</div><div class="sec-title">Coaching Flags</div><div class="sec-badge" id="flagsBadge">Auto-populated</div></div>
+  <div class="sec-hdr"><div class="sec-num">VI</div><div class="sec-title">Coaching Flags</div><div class="sec-badge" id="flagsBadge">Auto-populated</div></div>
   <div style="overflow:hidden">
     <table class="flags-table">
       <thead><tr><th style="width:35%">Flag Condition</th><th style="width:90px">Status</th><th>Coaching Focus / Required Action</th></tr></thead>
@@ -371,7 +403,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;f
 
 <!-- §7 Auto-Zero -->
 <div class="card">
-  <div class="sec-hdr"><div class="sec-num">7</div><div class="sec-title">Auto-Zero</div></div>
+  <div class="sec-hdr"><div class="sec-num">VII</div><div class="sec-title">Auto-Zero</div></div>
   <div class="sec-body">
     <p style="font-size:12px;color:var(--muted);margin-bottom:10px">A Compliance Gate marked <strong>No</strong>, or any A–K item marked <strong>Yes</strong>, forces the Weighted Quality Score to <strong>0%</strong>. Category scores remain for coaching.</p>
     <div class="az-section-title">Compliance Gates — mark Yes if adhered to</div>
@@ -384,7 +416,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;f
 
 <!-- §8 Coaching & Feedback -->
 <div class="card">
-  <div class="sec-hdr"><div class="sec-num">8</div><div class="sec-title">Coaching &amp; Feedback</div></div>
+  <div class="sec-hdr"><div class="sec-num">VIII</div><div class="sec-title">Coaching &amp; Feedback</div></div>
   <div class="sec-body">
     <div class="qa-question">Q1 · Did we help the customer as effectively as we reasonably could?</div>
     <textarea class="textarea-lg" id="f_q1" oninput="autoSave()"></textarea>
@@ -601,9 +633,9 @@ const CATS = [
    obj:'Determine whether the interaction moved the customer meaningfully closer to resolution.',
    inds:[
     {t:"Resolved the issue or achieved the best available outcome for the customer's situation (resolution, RMA, valid escalation, limitation explained, or customer education)",wt:3},
-    {t:"Conducted reasonable troubleshooting that meaningfully advanced the customer's path toward resolution before concluding the interaction or relying on self-help / KB resources",wt:3},
-    {t:"Selected a resolution path appropriate to the customer's situation, product status, and available support options — including best-effort troubleshooting for out-of-warranty products rather than using warranty status as a reason to stop helping",wt:2},
-   ],warn:"⚠ Does NOT count: customer simply ends call; generic KB sent without troubleshooting; warranty used as reason to stop helping; escalation as shortcut; unsupported ISP blame; 'monitor & call back' with no plan; ownership transferred without expectations or documentation."},
+    {t:"Conducted reasonable troubleshooting that meaningfully advanced the customer's path toward resolution before concluding the interaction or relying on self-help / KB resources",wt:3,tip:"'Meaningfully advanced' = eliminates possible causes, gathers evidence, narrows the problem scope, or identifies the next valid action — not merely time spent."},
+    {t:"Selected a resolution path appropriate to the customer's situation, product status, and available support options — including best-effort troubleshooting for out-of-warranty products rather than using warranty status as a reason to stop helping",wt:2,tip:"Best effort (OOW): troubleshoot as far as the product / issue allows; warranty sets the ceiling, not the effort — do not offer paid connect in place of help."},
+   ],warn:"⚠ Does NOT count: customer simply ends call; generic KB sent without troubleshooting; warranty used as reason to stop helping; escalation as shortcut; unsupported ISP blame; 'monitor & call back' with no plan; ownership transferred without expectations or documentation; offering paid connect/support to an OOW customer in place of help."},
   {id:'cat2',n:'2',name:'Technical Accuracy',weight:20,
    obj:'Evaluate the quality of troubleshooting and technical guidance.',
    inds:[
@@ -627,7 +659,7 @@ const CATS = [
   {id:'cat5',n:'5',name:'Escalation Judgment',weight:10,
    obj:'Determine whether escalation decisions were appropriate — including UPWARD escalations the customer requested (management, complaint, legal). Mark all N.A. if no escalation was involved and none was warranted.',
    inds:[
-    {t:"Made an appropriate escalation decision (including the decision not to escalate) based on troubleshooting performed and recognized escalation criteria — including a customer complaint, management request, or legal-risk trigger — mark N.A. if no escalation was involved and none was warranted",wt:3},
+    {t:"Made an appropriate escalation decision (including the decision not to escalate) based on troubleshooting performed and recognized escalation criteria — including a customer complaint, management request, or legal-risk trigger — mark N.A. if no escalation was involved and none was warranted",wt:3,tip:"'Enough troubleshooting before escalation' = the standard L1 steps for the issue type completed and documented (a judgment about work done, not a timer)."},
     {t:"Executed the escalation effectively — used the correct path, provided complete details and context, and explained the reason and next steps to the customer — mark N.A. if no escalation occurred",wt:2},
    ],warn:"⚠ Low score: premature, avoidable, poorly documented, used as a substitute for troubleshooting — or a warranted escalation (incl. a customer's management request) that was NOT made."},
   {id:'cat6',n:'6',name:'Customer Experience',weight:5,
@@ -635,8 +667,8 @@ const CATS = [
    inds:[
     {t:"Demonstrated empathy, professionalism, and patience throughout — including for repeat-contact fatigue and under pressure",wt:3},
     {t:"Adapted to the customer's tone, pace, and emotional state and maintained positive engagement and understanding",wt:2},
-    {t:"Reduced customer effort — avoided unnecessary repetition, complexity, delays, or obstacles",wt:2},
-   ],warn:'⚠ Negative indicators: dismissive responses; robotic interactions; frustration escalation caused by agent behavior; marathon sessions pushed onto vulnerable customers without offering to pause and resume.'},
+    {t:"Reduced customer effort — avoided unnecessary repetition, complexity, delays, or obstacles",wt:2,tip:"Necessary troubleshooting and required verification are NOT 'customer effort' — reduce avoidable friction, never skip diagnostic steps the issue genuinely requires."},
+   ],warn:'⚠ Negative indicators: dismissive responses; robotic interactions; frustration escalation caused by agent behavior; marathon sessions pushed onto vulnerable customers without offering to pause and resume; unnecessary or unexplained holds.'},
   {id:'cat7',n:'7',name:'Documentation & Notes',weight:5,
    obj:'Ensure future agents can quickly understand the case. Purpose is continuity, not compliance.',
    inds:[
@@ -822,7 +854,7 @@ function renderCategories(){
         <thead><tr><th>Behavioral Indicator</th><th class="col-assess">Assessment</th><th class="col-evidence">Evidence / Observation</th></tr></thead>
         <tbody>${cat.inds.map((ind,i)=>`
           <tr>
-            <td>${ind.t}</td>
+            <td>${ind.t}${ind.tip?` <span class="tip-i" style="cursor:help;color:#1F4E79;font-weight:700" title="${ind.tip}">ⓘ</span>`:''}</td>
             <td><select class="asmnt" id="${cat.id}_r${i}" onchange="onAssessChange('${cat.id}',${i})">
               <option value="">— Select —</option><option>Met</option><option>Partial</option><option>Missed</option><option>N.A.</option>
             </select></td>
