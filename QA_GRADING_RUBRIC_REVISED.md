@@ -7,7 +7,7 @@
 
 ## How the Scoring System Works
 
-Each interaction is evaluated across **seven weighted categories**. Every category receives a score from **0 to 5**, and an overall **weighted percentage** is derived from the category scores and weights.
+Each interaction is evaluated across **six weighted categories**. Every category receives a score from **0 to 5**, and an overall **weighted percentage** is derived from the category scores and weights.
 
 Within each category, the evaluator rates a small set of **behavioral indicators** as **Met / Partially Met / Not Met / Not Applicable**, based solely on the evidence in the case. Those indicator ratings produce the category's 0–5 score; the category scores produce the overall result.
 
@@ -17,7 +17,7 @@ Every evaluation answers three questions: *Did we help the customer as effective
 
 ---
 
-## The Seven Scoring Categories
+## The Six Scoring Categories
 
 | # | Category | Weight | What It Measures |
 |---|----------|--------|------------------|
@@ -26,8 +26,7 @@ Every evaluation answers three questions: *Did we help the customer as effective
 | 3 | **Communication & Call Control** | 15% | Did the agent guide the interaction clearly and adapt to the customer? |
 | 4 | **Customer Ownership** | 15% | Did the agent take responsibility for the outcome and continuity of the case? |
 | 5 | **Escalation Judgment** | 10% | Were escalation decisions — including *not* escalating — appropriate and well-executed? |
-| 6 | **Customer Experience** | 5% | Was the human quality of the interaction good — empathy, professionalism, low effort? |
-| 7 | **Documentation & Notes** | 5% | Is the case record complete enough for the next agent? (Continuity, not compliance.) |
+| 6 | **Customer Experience** | 10% | Was the human quality of the interaction good — empathy, professionalism, low effort? |
 
 ---
 
@@ -53,7 +52,7 @@ Each behavioral indicator carries a weight — **Primary (3)**, **Core (2)**, or
 - **Met** counts as full credit (5), **Partially Met** as half (2.5), **Not Met** as zero.
 - **Within a category**, a **Not Applicable** indicator is excluded and its weight is redistributed across that category's remaining indicators.
 - The **category score (0–5)** is the weighted blend of its scored indicators' credit.
-- The **overall score** is the weighted sum of category scores (Resolution 30% … Documentation 5%), expressed as a percentage.
+- The **overall score** is the weighted sum of category scores (Resolution 30% … Customer Experience 10%), expressed as a percentage.
 
 ### When a Whole Category Is Not Applicable (weight redistribution)
 
@@ -66,7 +65,7 @@ Overall % = [ Σ over scored categories of (category_score ÷ 5 × weight) ]
 
 Dividing by the sum of the *scored* category weights performs the redistribution automatically.
 
-**Most common case — Escalation Judgment (10%).** When no escalation was involved and none was warranted, both E1 and E2 are Not Applicable, so the whole 10% category drops out and its weight spreads proportionally across the other six. Each effective weight becomes its base weight ÷ 0.90:
+**Most common case — Escalation Judgment (10%).** When no escalation was involved and none was warranted, both E1 and E2 are Not Applicable, so the whole 10% category drops out and its weight spreads proportionally across the other five. Each effective weight becomes its base weight ÷ 0.90:
 
 | Category | Base weight | Effective weight when Escalation = N/A |
 |----------|-------------|----------------------------------------|
@@ -74,17 +73,16 @@ Dividing by the sum of the *scored* category weights performs the redistribution
 | Technical Accuracy | 20% | 22.2% |
 | Communication & Call Control | 15% | 16.7% |
 | Customer Ownership | 15% | 16.7% |
-| Customer Experience | 5% | 5.6% |
-| Documentation & Notes | 5% | 5.6% |
+| Customer Experience | 10% | 11.1% |
 | **Total** | **90%** | **100%** |
 
-(Effective weights are shown to one decimal; the underlying calculation is exact and totals 100%.) The same redistribution applies to any category that is fully Not Applicable — for example, Documentation when no case record was available to assess.
+(Effective weights are shown to one decimal; the underlying calculation is exact and totals 100%.) The same redistribution applies to any category that is fully Not Applicable.
 
 **Result bands:** ≥ 85% = *Meets / Exceeds* · 70–84% = *Developing* · < 70% = *Needs Improvement*.
 
 **Auto-zero:** any auto-zero trigger (see *Auto-Zero & Critical Failures*) forces the overall score to **0%**; category scores still display, for coaching.
 
-**Evidence discipline for the AI:** rate only from what the case shows; cite a short quote or observation for each rating; judge decisions on the information available at the time (no hindsight); and when the source needed to judge an indicator was **not provided** (e.g., ticket notes for Documentation), mark it **Not Applicable — insufficient evidence** rather than Not Met.
+**Evidence discipline for the AI:** rate only from what the case shows; cite a short quote or observation for each rating; judge decisions on the information available at the time (no hindsight); and when the source needed to judge an indicator was **not provided** (e.g., escalation execution that lives only in CRM notes), mark it **Not Applicable — insufficient evidence** rather than Not Met.
 
 ---
 
@@ -218,7 +216,7 @@ Each category below states its **purpose**, its **behavioral indicators** (with 
 
 ---
 
-### 6 · Customer Experience — 5%
+### 6 · Customer Experience — 10%
 
 *Was the human quality of the interaction good?*
 
@@ -245,34 +243,6 @@ Each category below states its **purpose**, its **behavioral indicators** (with 
 
 ---
 
-### 7 · Documentation & Notes — 5%
-
-*Is the case record complete enough for the next agent? Purpose is continuity, not compliance.*
-
-> **Source dependency:** this category is judged from the **case record (ticket notes/status)**, not the call audio. If notes are not provided to the evaluator, rate D1–D3 **Not Applicable — insufficient evidence**.
-
-**D1. Documented the customer issue, troubleshooting performed, and key findings** sufficiently to understand the case history. *(Primary)*
-- **Met:** Notes clearly describe what the customer reported (symptom, affected devices, scope, onset, prior attempts) **and** the troubleshooting steps with the key findings they produced — specific values, states, discoveries — so the next agent can act without redoing the work.
-- **Partially Met:** Issue or steps present but incomplete — a vague summary, missing key steps, or findings described only in general terms.
-- **Not Met:** No issue summary or no troubleshooting record despite a full session — the next agent would have to start over.
-- **Not Applicable:** When the contact was purely informational with no issue or troubleshooting to record.
-
-**D2. Captured the reasoning behind decisions, recommendations, escalations, and actions** — including colleague / SME input when no private note applies. *(Core)*
-- **Met:** Notes explain key decisions — why a path or closure was chosen, what criterion an escalation met, and any colleague/SME consultation that shaped the approach (captured in the case notes when no private note applies).
-- **Partially Met:** Some reasoning captured but key decisions lack explanation — an escalation with no documented rationale, or colleague input followed but not attributed.
-- **Not Met:** Notes contain only actions with no reasoning — a case closed RESOLVED or escalated with no explanation of why; the decision-making cannot be reconstructed.
-- **Not Applicable:** A straightforward interaction with no escalation, no consultation, and no ambiguous decisions requiring explanation.
-
-**D3. Recorded clear next steps, follow-up requirements, and an accurate current case status.** *(Core)*
-- **Met:** Notes specify what happens next (owner, action, timeline, conditions) with callback details where applicable, and the ticket status truthfully reflects the case at close — Resolved only when confirmed resolved, otherwise Escalated/Callback/Pending — with a closure reason.
-- **Partially Met:** Next steps in general terms (no owner/timeline), or status mostly accurate but the closure reason missing or applied late.
-- **Not Met:** No next steps documented, or the status misrepresents the case — marked RESOLVED when escalated or unresolved (premature closure), misleading the next person.
-- **Not Applicable:** Only when not observable (insufficient evidence); status must always reflect reality.
-
-**What to watch:** The most harmful documentation failure is **premature closure** — marking a case RESOLVED when it is known to be unresolved. Notes must carry the full history, including pre-ticket contacts, so no agent treats a long-running case as new.
-
----
-
 ## Cross-Cutting Guidance
 
 ### Paid Support & Warranty
@@ -292,7 +262,7 @@ Paid support can be appropriate but must not replace basic triage. **Penalize** 
 Agents are primarily Filipino (Visayan/Cebuano accents); the transcription (ASR) may mishear specific terms. **Grade whether the customer's comprehension was adequate for the interaction to proceed — not whether the transcript matches Standard American English.** Do **not** penalize: TH→D/T (`de`, `dat`, `dis`), P/F switching (`prom`, `pirst`), B/V switching (`berify`, `bery`), number homophones (`fifty` may mean `fifteen`; Linksys paid support is $15, not $50), or pronoun-gender mixing. Accent becomes a Communication signal **only if** the customer asks for the same instruction to be repeated **≥ 2 times on the same step** *and* context indicates accent (not instruction complexity) was the cause.
 
 ### Payment / PCI / Recording
-Flag for human/compliance review when payment data or redaction markers appear. **Do not** penalize solely because card data or a redaction marker is present. **Penalize** Documentation/Communication when payment terms, fees, or paid-support expectations are unclear. Severe mishandling — reading back a full card number, CVV, or expiry, or a coercive/confusing payment flow — is a **PCI auto-zero** condition.
+Flag for human/compliance review when payment data or redaction markers appear. **Do not** penalize solely because card data or a redaction marker is present. **Penalize** Communication when payment terms, fees, or paid-support expectations are unclear. Severe mishandling — reading back a full card number, CVV, or expiry, or a coercive/confusing payment flow — is a **PCI auto-zero** condition.
 
 ---
 
@@ -302,7 +272,7 @@ Some conditions override the weighted score or force review regardless of it. De
 
 **Auto-zero (forces the overall score to 0%):** any compliance gate failed — **Callback Hours**, **PCI & Information Security**, or **Sales** — or any of the A–K critical items present: **A** Call/Session Abandonment · **B** Avoidance/Evasion · **C** Discourtesy · **D** Escalation abuse · **E** Failure to ask for the email address · **F** Fraud · **G** Hard-selling · **H** Line Release · **I** Non-Adherence to Callback Hours · **J** Non-Adherence to PCI/Info-Sec · **K** Non-First Call Resolution. Category scores still display, for coaching. Where a gate depends on data beyond the transcript and cannot be confirmed, do not auto-zero — flag for human review instead.
 
-**Coaching flags (raised when an indicator is Partially Met or Not Met):** Technical accuracy (T3) · Missed follow-up/callback (O2) · Commitments not honored (O1) · Customer left without a path forward (R2) · Escalation decision inappropriate (E1) · Escalation poorly executed (E2) · Professionalism concern (X1) · Ticket status inaccurate / premature closure (D3).
+**Coaching flags (raised when an indicator is Partially Met or Not Met):** Technical accuracy (T3) · Missed follow-up/callback (O2) · Commitments not honored (O1) · Customer left without a path forward (R2) · Escalation decision inappropriate (E1) · Escalation poorly executed (E2) · Professionalism concern (X1).
 
 **Critical-failure conditions (force review regardless of score):** harmful or materially incorrect troubleshooting; misrepresented product capability; an unsupported root-cause claim presented as fact; no follow-up after a disconnect; a promised action not completed; the customer abandoned without a path forward; escalation without reasonable troubleshooting or to avoid ownership; rude/dismissive conduct; or a policy violation.
 
@@ -344,7 +314,7 @@ Independently of the weighted score, classify the interaction (first match wins)
 
 For each case, the AI should produce, in a consistent and parseable form:
 
-1. **Per indicator** (all 19: R1–R3, T1–T3, C1–C2, O1–O3, E1–E2, X1–X3, D1–D3) — the rating (`Met` / `Partially Met` / `Not Met` / `Not Applicable`), a short **evidence quote or observation**, and a **confidence** (0–1). For `Not Applicable`, note whether it is *not applicable to this case* or *insufficient evidence*.
+1. **Per indicator** (all 16: R1–R3, T1–T3, C1–C2, O1–O3, E1–E2, X1–X3) — the rating (`Met` / `Partially Met` / `Not Met` / `Not Applicable`), a short **evidence quote or observation**, and a **confidence** (0–1). For `Not Applicable`, note whether it is *not applicable to this case* or *insufficient evidence*.
 2. **Per category** — the derived 0–5 score.
 3. **Overall** — the weighted percentage, the result band, any auto-zero triggers, the coaching flags, the resolution-outcome classification, and any critical failures.
 4. **A 2–4 sentence summary** citing the decisive evidence.
@@ -357,8 +327,8 @@ The category scores, overall percentage, coaching flags, and outcome are **deriv
 
 The QA team owns the business rubric. You can update the behavioral expectations and **Met / Partially Met / Not Met / Not Applicable** criteria for any indicator, the calibration guidance, the cross-cutting themes, the 5-press exception list, and the accent patterns.
 
-**Keep this document and the QA Scoring Form Template in lockstep.** The seven categories, their weights, and the nineteen behavioral indicators are the shared structure; if one changes, change both. Indicator labels (R1 … D3) are stable references used to keep the two aligned — do not renumber them.
+**Keep this document and the QA Scoring Form Template in lockstep.** The six categories, their weights, and the sixteen behavioral indicators are the shared structure; if one changes, change both. Indicator labels (R1 … X3) are stable references used to keep the two aligned — do not renumber them.
 
 ---
 
-*Revised 2026-06-29 to synchronize with the QA Scoring Form Template (7 weighted categories · 0–5 scale · 19 behavioral indicators · auto-zero · coaching flags), retaining the readable structure of the original rubric while optimizing the evaluation criteria for consistent AI-based scoring.*
+*Revised 2026-06-30: consolidated to six weighted categories — Documentation & Notes removed and its 5% weight reassigned to Customer Experience (now 10%) · 0–5 scale · 16 behavioral indicators · auto-zero · coaching flags. Retains the readable structure of the original rubric while optimizing the evaluation criteria for consistent AI-based scoring.*
