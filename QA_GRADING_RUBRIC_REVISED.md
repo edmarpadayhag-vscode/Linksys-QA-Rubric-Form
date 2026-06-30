@@ -1,7 +1,7 @@
 # Linksys Technical Support — QA Grading Rubric (Revised)
 
 **Audience:** Operations, Quality Assurance, Training
-**Purpose:** This document explains how agent interactions are scored, **aligned to the QA Scoring Form Template** (the "Scoring Sheet"). It keeps the readable structure of the original rubric but replaces the five legacy dimensions with the **seven categories** of the Scoring Sheet, and it is written so an **AI evaluator** can rate each behavioral indicator consistently from the case evidence.
+**Purpose:** This document explains how agent interactions are scored and how to update the rubric when scoring guidance changes.
 
 ---
 
@@ -51,9 +51,34 @@ Every evaluation answers three questions: *Did we help the customer as effective
 Each behavioral indicator carries a weight — **Primary (3)**, **Core (2)**, or **Supporting (1)** — reflecting how much it drives the category.
 
 - **Met** counts as full credit (5), **Partially Met** as half (2.5), **Not Met** as zero.
-- **Not Applicable** indicators are excluded, and their weight is redistributed across the rest.
-- The **category score (0–5)** is the weighted blend of its indicators' credit.
+- **Within a category**, a **Not Applicable** indicator is excluded and its weight is redistributed across that category's remaining indicators.
+- The **category score (0–5)** is the weighted blend of its scored indicators' credit.
 - The **overall score** is the weighted sum of category scores (Resolution 30% … Documentation 5%), expressed as a percentage.
+
+### When a Whole Category Is Not Applicable (weight redistribution)
+
+If **every** indicator in a category is Not Applicable, the **entire category is excluded** and its weight is **redistributed proportionally across the remaining categories**, so the weights still total 100% and the final score stays fair and accurate. Compute the overall score over the **scored** categories only:
+
+```
+Overall % = [ Σ over scored categories of (category_score ÷ 5 × weight) ]
+            ÷ [ Σ over scored categories of weight ]  × 100
+```
+
+Dividing by the sum of the *scored* category weights performs the redistribution automatically.
+
+**Most common case — Escalation Judgment (10%).** When no escalation was involved and none was warranted, both E1 and E2 are Not Applicable, so the whole 10% category drops out and its weight spreads proportionally across the other six. Each effective weight becomes its base weight ÷ 0.90:
+
+| Category | Base weight | Effective weight when Escalation = N/A |
+|----------|-------------|----------------------------------------|
+| Resolution / Progress | 30% | 33.3% |
+| Technical Accuracy | 20% | 22.2% |
+| Communication & Call Control | 15% | 16.7% |
+| Customer Ownership | 15% | 16.7% |
+| Customer Experience | 5% | 5.6% |
+| Documentation & Notes | 5% | 5.6% |
+| **Total** | **90%** | **100%** |
+
+(Effective weights are shown to one decimal; the underlying calculation is exact and totals 100%.) The same redistribution applies to any category that is fully Not Applicable — for example, Documentation when no case record was available to assess.
 
 **Result bands:** ≥ 85% = *Meets / Exceeds* · 70–84% = *Developing* · < 70% = *Needs Improvement*.
 
@@ -188,6 +213,8 @@ Each category below states its **purpose**, its **behavioral indicators** (with 
 - **Not Applicable:** When no escalation occurred on this touch. *(If escalation execution lives only in CRM/notes that were not provided, mark Not Applicable — insufficient evidence.)*
 
 **What to watch:** A low score is for premature, avoidable, or poorly documented escalations, escalation used to avoid ownership, or a warranted escalation (including a customer's management request) that was **not** made.
+
+> **When the whole category is Not Applicable:** if no escalation was involved and none was warranted, **both E1 and E2 are Not Applicable**, so Escalation Judgment is excluded entirely and its **10% weight is redistributed proportionally across the remaining six categories** (each effective weight = base ÷ 0.90), keeping the overall score at 100%. See *When a Whole Category Is Not Applicable*. Note this is different from a missed escalation: if a warranted escalation was **not** made, E1 is **Not Met** (scored), not Not Applicable.
 
 ---
 
