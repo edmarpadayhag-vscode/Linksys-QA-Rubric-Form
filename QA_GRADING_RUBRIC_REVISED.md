@@ -261,8 +261,8 @@ Paid support can be appropriate but must not replace basic triage. **Penalize** 
 ### Accent & ASR Normalization
 Agents are primarily Filipino (Visayan/Cebuano accents); the transcription (ASR) may mishear specific terms. **Grade whether the customer's comprehension was adequate for the interaction to proceed — not whether the transcript matches Standard American English.** Do **not** penalize: TH→D/T (`de`, `dat`, `dis`), P/F switching (`prom`, `pirst`), B/V switching (`berify`, `bery`), number homophones (`fifty` may mean `fifteen`; Linksys paid support is $15, not $50), or pronoun-gender mixing. Accent becomes a Communication signal **only if** the customer asks for the same instruction to be repeated **≥ 2 times on the same step** *and* context indicates accent (not instruction complexity) was the cause.
 
-### Payment / PCI / Recording
-Flag for human/compliance review when payment data or redaction markers appear. **Do not** penalize solely because card data or a redaction marker is present. **Penalize** Communication when payment terms, fees, or paid-support expectations are unclear. Severe mishandling — reading back a full card number, CVV, or expiry, or a coercive/confusing payment flow — is a **PCI auto-zero** condition.
+### Payment Terms
+**Penalize** Communication when payment terms, fees, or paid-support expectations are left unclear to the customer. A coercive or confusing paid-support push is a *Hard-selling* concern (see *Paid Support & Warranty*).
 
 ---
 
@@ -270,7 +270,7 @@ Flag for human/compliance review when payment data or redaction markers appear. 
 
 Some conditions override the weighted score or force review regardless of it. Default every gate to *not triggered* and set it only on **positive evidence**.
 
-**Auto-zero (forces the overall score to 0%):** any compliance gate failed — **Callback Hours**, **PCI & Information Security**, or **Sales** — or any of the A–K critical items present: **A** Call/Session Abandonment · **B** Avoidance/Evasion · **C** Discourtesy · **D** Escalation abuse · **E** Failure to ask for the email address · **F** Fraud · **G** Hard-selling · **H** Line Release · **I** Non-Adherence to Callback Hours · **J** Non-Adherence to PCI/Info-Sec · **K** Non-First Call Resolution. Category scores still display, for coaching. Where a gate depends on data beyond the transcript and cannot be confirmed, do not auto-zero — flag for human review instead.
+**Auto-zero (forces the overall score to 0%):** any compliance gate failed — **Callback Hours** or **Sales** — or any of the A–J critical items present: **A** Call/Session Abandonment · **B** Avoidance/Evasion · **C** Discourtesy · **D** Escalation abuse · **E** Failure to ask for the email address · **F** Fraud · **G** Hard-selling · **H** Line Release · **I** Non-Adherence to Callback Hours · **J** Non-First Call Resolution. Category scores still display, for coaching. Where a gate depends on data beyond the transcript and cannot be confirmed, do not auto-zero — flag for human review instead.
 
 **Coaching flags (raised when an indicator is Partially Met or Not Met):** Technical accuracy (T3) · Missed follow-up/callback (O2) · Commitments not honored (O1) · Customer left without a path forward (R2) · Escalation decision inappropriate (E1) · Escalation poorly executed (E2) · Professionalism concern (X1).
 
