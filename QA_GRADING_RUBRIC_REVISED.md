@@ -111,8 +111,8 @@ Each category below states its **purpose**, its **behavioral indicators** (with 
 
 **R3. Selected an appropriate resolution path** for the customer's situation, product status, and support options — including best-effort out-of-warranty troubleshooting rather than using warranty as a reason to stop helping. *(Core)*
 - **Met:** Agent determined warranty/product status correctly and matched the path to the situation: in-warranty hardware fault → RMA; software/config → troubleshooting; known limitation → education; out-of-warranty → best-effort troubleshooting with limitations explained rather than dismissal.
-- **Partially Met:** Path mostly right but one element misaligned — offered paid support while in warranty, or gave an out-of-warranty customer only a partial best-effort attempt before redirecting.
-- **Not Met:** Wrong path — RMA for a clearly out-of-warranty product without an exception, an in-warranty hardware fault closed without replacement, an out-of-warranty customer dismissed with "out of warranty, can't help" and no troubleshooting, or paid connect/support offered in place of best-effort help.
+- **Partially Met:** Path mostly right but one element misaligned — for example, an out-of-warranty customer given only a partial best-effort attempt before redirecting.
+- **Not Met:** Wrong path — RMA for a clearly out-of-warranty product without an exception, an in-warranty hardware fault closed without replacement, or an out-of-warranty customer dismissed with "out of warranty, can't help" and given no troubleshooting or best-effort help.
 - **Not Applicable:** Only when warranty/product status was genuinely undeterminable despite a reasonable lookup, and that was documented.
 
 **What to watch:** Concrete next steps *raise* this category — a specific KB article, a promised email with steps, or a defined step for escalation/replacement/follow-up testing. Do not over-penalize an unresolved case that still followed sound process and left the customer a clear path.
@@ -129,11 +129,11 @@ Each category below states its **purpose**, its **behavioral indicators** (with 
 - **Not Met:** Troubleshot generically without understanding the symptom, asked few relevant questions, worked in no logical order, or stated an unsupported cause (ISP/customer blame) with no diagnostic to justify it.
 - **Not Applicable:** Customer immediately requested escalation and declined any diagnostic interaction.
 
-**T2. Used available tools, resources, and evidence effectively** to support troubleshooting and decision-making. *(Core)*
-- **Met:** Used relevant tools at the right point — remote session, admin dashboard, modem/WAN test, logs, prior case data, approved KB — and interpreted the results correctly. Drew on the correct source of truth rather than memory or guesswork.
-- **Partially Met:** Used some tools but missed relevant ones, used one at the wrong moment, or could not fully interpret the results.
-- **Not Met:** Did not use available tools the situation required, or relied on the customer's verbal description for something a tool could have confirmed directly.
-- **Not Applicable:** No tools were available or applicable — an offline issue prevented access, or the customer declined remote assistance.
+**T2. Used available tools, resources, and evidence appropriately for the scenario** — drawing on them when the issue called for verification and interpreting the results correctly. This indicator judges whether tool use was **appropriate and necessary**, not whether tools were used at all. *(Core)*
+- **Met:** Tool use fit what the scenario required. **Either** the agent used the relevant tools at the right point — remote session, admin dashboard, modem/WAN test, logs, prior case data, approved KB — and interpreted the results correctly; **or** the issue was genuinely resolvable without additional tools and the agent handled it correctly from a reliable source of truth rather than guesswork. Appropriate resolution without tools, where none were needed, is fully Met.
+- **Partially Met:** Tool use was mostly appropriate but incomplete — missed a tool the scenario needed, used one at the wrong moment, or could not fully interpret the results.
+- **Not Met:** Skipped a tool the scenario clearly required, or relied on the customer's verbal description for something a tool should have confirmed directly — and the gap affected accuracy or resolution.
+- **Not Applicable:** Tool use cannot be assessed for this interaction — access was impossible (offline issue, or the customer declined remote assistance), or the contact involved no troubleshooting to which tools would apply.
 
 **T3. Provided technically accurate information, recommendations, and conclusions supported by evidence.** *(Primary)*
 - **Met:** All technical guidance, specs, and instructions were factually correct and consistent with documentation, and conclusions were validated before being presented.
@@ -245,8 +245,17 @@ Each category below states its **purpose**, its **behavioral indicators** (with 
 
 ## Cross-Cutting Guidance
 
-### Paid Support & Warranty
-Paid support can be appropriate but must not replace basic triage. **Penalize** (Resolution/Escalation, and *Hard-selling* auto-zero in severe cases) when the agent pushes paid support before understanding the issue, repeats the offer after refusal without adding value, blocks safe basic guidance behind payment, or explains warranty/eligibility incorrectly. **Do not penalize** simply because a device is out of warranty or the call does not convert. For an out-of-warranty customer who declines paid support, handling is still good if the agent provides at least one practical self-help path: a specific article, an emailed set of steps, the official chatbot/self-service path, or safe basic guidance.
+### Warranty & Out-of-Warranty Handling
+Warranty status changes the resolution *path*, not whether the agent helps. Even for an out-of-warranty device, the agent is expected to **provide standard troubleshooting with a best-effort mindset** — engage, troubleshoot, communicate clearly, and leave the customer feeling we genuinely tried to help. Best-effort means:
+
+- **Make a real attempt** to understand and resolve the issue.
+- **Do not treat out-of-warranty status as a reason to dismiss the customer** or stop helping.
+- **Troubleshoot reasonably** for the product, issue type, device age, and available tools — e.g., setup assistance, Wi-Fi troubleshooting, node pairing, mesh-performance troubleshooting, firmware checks, factory-reset assistance.
+- **Explain the limits clearly** when device age, hardware condition, firmware limitations, or support-lifecycle status constrains what can be done.
+
+This standard covers **troubleshooting only**. It does **not** change warranty replacement, RMA, or hardware-replacement eligibility — those continue to follow the official Warranty Policy. The expectation is not *unlimited* support; it is genuine engagement and clear communication.
+
+**Scoring:** **Penalize** Resolution/Escalation when the agent stops helping because a device is out of warranty, withholds safe basic guidance, or explains warranty/eligibility incorrectly. **Do not penalize** simply because a device is out of warranty, or because a genuine best-effort attempt did not resolve the issue. Handling is strong when the agent troubleshoots first and adds a practical self-help path (a specific article, emailed steps, or the official chatbot/self-service path) as a complement to — not a substitute for — the investigation.
 
 ### Call Structure — What Good Interactions Usually Do
 | Area | Good practice | Categories affected |
@@ -259,10 +268,7 @@ Paid support can be appropriate but must not replace basic triage. **Penalize** 
 | Resolution / escalation | Explain the outcome; explain why escalation is needed; set next step and timeframe | Resolution, Escalation, Ownership |
 
 ### Accent & ASR Normalization
-Agents are primarily Filipino (Visayan/Cebuano accents); the transcription (ASR) may mishear specific terms. **Grade whether the customer's comprehension was adequate for the interaction to proceed — not whether the transcript matches Standard American English.** Do **not** penalize: TH→D/T (`de`, `dat`, `dis`), P/F switching (`prom`, `pirst`), B/V switching (`berify`, `bery`), number homophones (`fifty` may mean `fifteen`; Linksys paid support is $15, not $50), or pronoun-gender mixing. Accent becomes a Communication signal **only if** the customer asks for the same instruction to be repeated **≥ 2 times on the same step** *and* context indicates accent (not instruction complexity) was the cause.
-
-### Payment Terms
-**Penalize** Communication when payment terms, fees, or paid-support expectations are left unclear to the customer. A coercive or confusing paid-support push is a *Hard-selling* concern (see *Paid Support & Warranty*).
+Agents are primarily Filipino (Visayan/Cebuano accents); the transcription (ASR) may mishear specific terms. **Grade whether the customer's comprehension was adequate for the interaction to proceed — not whether the transcript matches Standard American English.** Do **not** penalize: TH→D/T (`de`, `dat`, `dis`), P/F switching (`prom`, `pirst`), B/V switching (`berify`, `bery`), number homophones (`fifty` may mean `fifteen`), or pronoun-gender mixing. Accent becomes a Communication signal **only if** the customer asks for the same instruction to be repeated **≥ 2 times on the same step** *and* context indicates accent (not instruction complexity) was the cause.
 
 ---
 
@@ -270,7 +276,7 @@ Agents are primarily Filipino (Visayan/Cebuano accents); the transcription (ASR)
 
 Some conditions override the weighted score or force review regardless of it. Default every gate to *not triggered* and set it only on **positive evidence**.
 
-**Auto-zero (forces the overall score to 0%):** any compliance gate failed — **Callback Hours** or **Sales** — or any of the A–J critical items present: **A** Call/Session Abandonment · **B** Avoidance/Evasion · **C** Discourtesy · **D** Escalation abuse · **E** Failure to ask for the email address · **F** Fraud · **G** Hard-selling · **H** Line Release · **I** Non-Adherence to Callback Hours · **J** Non-First Call Resolution. Category scores still display, for coaching. Where a gate depends on data beyond the transcript and cannot be confirmed, do not auto-zero — flag for human review instead.
+**Auto-zero (forces the overall score to 0%):** any of the A–F critical items present: **A** Call/Session Abandonment · **B** Avoidance/Evasion · **C** Discourtesy · **D** Fraud · **E** Line Release · **F** Non-Adherence to Callback Hours. Category scores still display, for coaching. Where a gate depends on data beyond the transcript and cannot be confirmed, do not auto-zero — flag for human review instead.
 
 **Coaching flags (raised when an indicator is Partially Met or Not Met):** Technical accuracy (T3) · Missed follow-up/callback (O2) · Commitments not honored (O1) · Customer left without a path forward (R2) · Escalation decision inappropriate (E1) · Escalation poorly executed (E2) · Professionalism concern (X1).
 
